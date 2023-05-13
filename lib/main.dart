@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prathibha_web/switcher/switcher_screen.dart';
 import 'package:prathibha_web/login/login_screen.dart';
 
 void main(List<String> args) {
@@ -18,8 +19,12 @@ class _PrathibhaWebApplicationState extends State<PrathibhaWebApplication> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/login',
-      routes: {"/login": (context) => const LoginScreen()},
+      title: "Prathibha",
+      initialRoute: '/',
+      routes: {
+        "/login": (context) => const LoginScreen(),
+        "/": (context) => const SwitcherScreen(),
+      },
       theme: ThemeData(
         fontFamily: "Poppins",
         elevatedButtonTheme: ElevatedButtonThemeData(
@@ -42,7 +47,6 @@ class _PrathibhaWebApplicationState extends State<PrathibhaWebApplication> {
           color: Color.fromRGBO(68, 97, 242, 1),
         ),
       ),
-      home: const LoginScreen(),
     );
   }
 }
