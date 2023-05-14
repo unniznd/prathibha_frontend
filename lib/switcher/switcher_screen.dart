@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:prathibha_web/dashboard/dashboard_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class SwitcherScreen extends StatefulWidget {
@@ -161,17 +162,9 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
               ],
             ),
           ),
-
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.all(16.0),
-              child: Center(
-                child: Text(
-                  'Content for Tab $_selectedIndex',
-                  style: const TextStyle(fontSize: 20.0),
-                ),
-              ),
-            ),
+          // center view
+          const Expanded(
+            child: DashboardScreen(),
           ),
           //add right side as profile view
           SingleChildScrollView(
