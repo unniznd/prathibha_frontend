@@ -431,6 +431,46 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                DataTable(
+                  columns: const [
+                    DataColumn(label: Text('Name')),
+                    DataColumn(label: Text('Age')),
+                    DataColumn(label: Text('Location')),
+                  ],
+                  rows: const [
+                    DataRow(
+                      cells: [
+                        DataCell(Text('John')),
+                        DataCell(Text('25')),
+                        DataCell(Text('New York')),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  width: 30,
+                ),
+                DataTable(
+                  columns: const [
+                    DataColumn(label: Text('Name')),
+                    DataColumn(label: Text('Age')),
+                    DataColumn(label: Text('Location')),
+                  ],
+                  rows: const [
+                    DataRow(
+                      cells: [
+                        DataCell(Text('John')),
+                        DataCell(Text('25')),
+                        DataCell(Text('New York')),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            )
           ],
         ),
       ),
