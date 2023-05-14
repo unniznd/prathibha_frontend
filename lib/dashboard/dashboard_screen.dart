@@ -5,6 +5,8 @@ import 'package:heroicons/heroicons.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
+import 'model/bar_char_model.dart';
+
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
 
@@ -26,7 +28,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List barChartModel = [
+    List barChartModelData = [
       BarChartModel(
         monthName: "Jan",
         income: 100000,
@@ -345,7 +347,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           reservedSize: 30,
                           getTitlesWidget: (value, meta) {
                             return Text(
-                              barChartModel[value.toInt()].monthName,
+                              barChartModelData[value.toInt()].monthName,
                               style: const TextStyle(
                                 color: Color.fromARGB(255, 0, 0, 0),
                               ),
@@ -364,19 +366,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                     ),
                     barGroups: List<BarChartGroupData>.generate(
-                      barChartModel.length,
+                      barChartModelData.length,
                       (index) => BarChartGroupData(
                         x: index,
                         barsSpace: 1,
                         barRods: [
                           BarChartRodData(
-                            toY: barChartModel[index].income.toDouble(),
+                            toY: barChartModelData[index].income.toDouble(),
                             color: const Color.fromARGB(255, 62, 62, 179),
                             width: 15,
                             borderRadius: const BorderRadius.all(Radius.zero),
                           ),
                           BarChartRodData(
-                            toY: barChartModel[index].expense.toDouble(),
+                            toY: barChartModelData[index].expense.toDouble(),
                             color: const Color.fromRGBO(22, 22, 63, 1),
                             width: 15,
                             borderRadius: const BorderRadius.all(Radius.zero),
@@ -434,15 +436,4 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
-}
-
-class BarChartModel {
-  final String monthName;
-  final int income, expense;
-
-  BarChartModel({
-    required this.monthName,
-    required this.income,
-    required this.expense,
-  });
 }
