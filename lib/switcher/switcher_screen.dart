@@ -4,9 +4,11 @@ import 'package:heroicons/heroicons.dart';
 import 'package:prathibha_web/attendance/attendance_screen.dart';
 import 'package:prathibha_web/dashboard/dashboard_screen.dart';
 import 'package:prathibha_web/finance/finance_screen.dart';
+import 'package:prathibha_web/switcher/bloc/add_event/add_event_event.dart';
 import 'package:prathibha_web/switcher/widget/add_event.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import 'bloc/add_event/add_event_bloc.dart';
 import 'bloc/left_tab_view/left_tab_view_bloc.dart';
 import 'bloc/left_tab_view/left_tab_view_event.dart';
 import 'bloc/left_tab_view/left_tab_view_state.dart';
@@ -42,6 +44,7 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
 
   final tabViewBloc = LeftTabViewBloc();
   final calendarDayBloc = CalendarDayBloc();
+  final addEventBloc = AddEventBloc();
 
   final dateController = TextEditingController();
 
@@ -340,9 +343,10 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                                 return;
                               }
                               addEvent(
-                                context,
-                                dateController,
-                                () async {
+                                context: context,
+                                dateController: dateController,
+                                addEventBloc: addEventBloc,
+                                onDatePickerTap: () async {
                                   DateTime? pickedDate = await showDatePicker(
                                     context: context,
                                     initialDate: state.selectedDay,
@@ -350,7 +354,8 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                                     lastDate: DateTime(2100),
                                   );
                                   if (pickedDate != null) {
-                                    print(pickedDate);
+                                    addEventBloc
+                                        .add(ChangeEventDate(pickedDate));
                                   }
                                 },
                               );

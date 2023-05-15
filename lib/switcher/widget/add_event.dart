@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
+// ignore: depend_on_referenced_packages
+import 'package:intl/intl.dart';
+
+import '../bloc/add_event/add_event_bloc.dart';
+import '../bloc/add_event/add_event_state.dart';
 
 void addEvent(
-  BuildContext context,
-  var dateController,
-  var onDatePickerTap,
-) {
+    {required BuildContext context,
+    required var dateController,
+    required var onDatePickerTap,
+    required var addEventBloc}) {
   showDialog(
     context: context,
     builder: (_) => AlertDialog(
@@ -49,27 +55,62 @@ void addEvent(
                 const SizedBox(
                   height: 15,
                 ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(15.0),
-                  child: GestureDetector(
-                    onTap: onDatePickerTap,
-                    child: TextFormField(
-                      controller: dateController,
-                      enabled: false,
-                      decoration: const InputDecoration(
-                          hintText: "Event Date",
-                          filled: true,
-                          fillColor: Color.fromRGBO(234, 240, 247, 1),
-                          border: InputBorder.none,
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
+                BlocBuilder<AddEventBloc, AddEventState>(
+                  bloc: addEventBloc,
+                  builder: (context, state) {
+                    if (state is AddEventDateChanged) {
+                      dateController.text = DateFormat('MMMM d, y').format(
+                        state.date,
+                      );
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(15.0),
+                        child: GestureDetector(
+                          onTap: onDatePickerTap,
+                          child: TextFormField(
+                            controller: dateController,
+                            enabled: false,
+                            decoration: const InputDecoration(
+                              hintText: "Event Date",
+                              filled: true,
+                              fillColor: Color.fromRGBO(234, 240, 247, 1),
+                              border: InputBorder.none,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.transparent),
+                              ),
+                              suffixIcon: Padding(
+                                padding: EdgeInsets.all(8),
+                                child: HeroIcon(HeroIcons.calendar),
+                              ),
+                            ),
                           ),
-                          suffixIcon: Padding(
-                            padding: EdgeInsets.all(8),
-                            child: HeroIcon(HeroIcons.calendar),
-                          )),
-                    ),
-                  ),
+                        ),
+                      );
+                    }
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(15.0),
+                      child: GestureDetector(
+                        onTap: onDatePickerTap,
+                        child: TextFormField(
+                          controller: dateController,
+                          enabled: false,
+                          decoration: const InputDecoration(
+                              hintText: "Event Date",
+                              filled: true,
+                              fillColor: Color.fromRGBO(234, 240, 247, 1),
+                              border: InputBorder.none,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.transparent),
+                              ),
+                              suffixIcon: Padding(
+                                padding: EdgeInsets.all(8),
+                                child: HeroIcon(HeroIcons.calendar),
+                              )),
+                        ),
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(
                   height: 15,
