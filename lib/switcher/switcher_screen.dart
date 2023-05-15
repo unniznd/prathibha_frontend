@@ -34,7 +34,6 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
   @override
   Widget build(BuildContext context) {
     double ratioWidth = 1440 / MediaQuery.of(context).size.width;
-    double ratioHeight = 855 / MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: Colors.white,

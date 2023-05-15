@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:prathibha_web/dashboard/model/bar_char_model.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 class IncomeExpenseGraph extends StatelessWidget {

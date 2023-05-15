@@ -1,5 +1,5 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
 
 // ignore: depend_on_referenced_packages
@@ -7,6 +7,9 @@ import 'package:intl/intl.dart';
 import 'package:prathibha_web/dashboard/widget/dashboard_summary_card.dart';
 import 'package:prathibha_web/dashboard/widget/income_expense_graph.dart';
 
+import 'bloc/drop_down_switch/drop_down_switch_bloc.dart';
+import 'bloc/drop_down_switch/drop_down_switch_event.dart';
+import 'bloc/drop_down_switch/drop_down_switch_state.dart';
 import 'model/bar_char_model.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -93,11 +96,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     ];
 
-    // print screen width and height
-
     double ratioWidth = 1440 / MediaQuery.of(context).size.width;
     double ratioHeight = 855 / MediaQuery.of(context).size.height;
 
+    final dropDownSwitchBloc = DropDownSwitchBloc();
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
@@ -128,39 +130,49 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         color: const Color.fromRGBO(234, 240, 247,
                             1) // Customize the border radius if needed
                         ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        value: selectedOption,
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            selectedOption = newValue;
-                          });
-                        },
-                        icon: const Padding(
-                          padding: EdgeInsets.only(right: 8.0),
-                          child: HeroIcon(HeroIcons.chevronDown),
-                        ),
-                        items: <String>[
-                          'All Branches',
-                          'Branch 1',
-                          'Branch 2',
-                          'Branch 3'
-                        ].map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Text(
-                                value,
-                                style: TextStyle(
-                                  fontSize: 16 / ratioWidth,
-                                  fontWeight: FontWeight.w500,
+                    child: BlocBuilder<DropDownSwitchBloc, DropDownSwitchState>(
+                      bloc: dropDownSwitchBloc,
+                      builder: (context, state) {
+                        if (state is DropDownSwitchedState) {
+                          selectedOption = state.newBranch;
+                        }
+                        return DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            value: selectedOption,
+                            onChanged: (String? newValue) {
+                              dropDownSwitchBloc.add(
+                                DropDownSwitchEventChange(
+                                  newBranch: newValue!,
                                 ),
-                              ),
+                              );
+                            },
+                            icon: const Padding(
+                              padding: EdgeInsets.only(right: 8.0),
+                              child: HeroIcon(HeroIcons.chevronDown),
                             ),
-                          );
-                        }).toList(),
-                      ),
+                            items: <String>[
+                              'All Branches',
+                              'Branch 1',
+                              'Branch 2',
+                              'Branch 3'
+                            ].map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: Text(
+                                    value,
+                                    style: TextStyle(
+                                      fontSize: 16 / ratioWidth,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        );
+                      },
                     ),
                   )
                 ],
