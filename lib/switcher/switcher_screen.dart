@@ -4,10 +4,16 @@ import 'package:heroicons/heroicons.dart';
 import 'package:prathibha_web/attendance/attendance_screen.dart';
 import 'package:prathibha_web/dashboard/dashboard_screen.dart';
 import 'package:prathibha_web/finance/finance_screen.dart';
+import 'package:prathibha_web/switcher/widget/add_event.dart';
 import 'package:table_calendar/table_calendar.dart';
+
 import 'bloc/left_tab_view/left_tab_view_bloc.dart';
 import 'bloc/left_tab_view/left_tab_view_event.dart';
 import 'bloc/left_tab_view/left_tab_view_state.dart';
+
+import 'bloc/calendar_day/calendar_day_bloc.dart';
+import 'bloc/calendar_day/calendar_day_event.dart';
+import 'bloc/calendar_day/calendar_day_state.dart';
 
 class SwitcherScreen extends StatefulWidget {
   const SwitcherScreen({super.key});
@@ -30,9 +36,9 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
 
   final CalendarFormat _calendarFormat = CalendarFormat.twoWeeks;
   DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDay;
 
   final tabViewBloc = LeftTabViewBloc();
+  final calendarDayBloc = CalendarDayBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -249,29 +255,32 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                   const SizedBox(
                     height: 15,
                   ),
-                  TableCalendar(
-                    firstDay: kFirstDay,
-                    lastDay: kLastDay,
-                    focusedDay: _focusedDay,
-                    calendarFormat: _calendarFormat,
-                    headerStyle: const HeaderStyle(
-                      formatButtonVisible: false,
-                      titleCentered: true,
-                    ),
-                    selectedDayPredicate: (day) {
-                      return isSameDay(_selectedDay, day);
-                    },
-                    onDaySelected: (selectedDay, focusedDay) {
-                      if (!isSameDay(_selectedDay, selectedDay)) {
-                        setState(() {
-                          _selectedDay = selectedDay;
+                  BlocBuilder<CalendarDayBloc, CalendarDayState>(
+                    bloc: calendarDayBloc,
+                    builder: (context, state) {
+                      return TableCalendar(
+                        firstDay: kFirstDay,
+                        lastDay: kLastDay,
+                        focusedDay: _focusedDay,
+                        calendarFormat: _calendarFormat,
+                        headerStyle: const HeaderStyle(
+                          formatButtonVisible: false,
+                          titleCentered: true,
+                        ),
+                        selectedDayPredicate: (day) {
+                          return isSameDay(state.selectedDay, day);
+                        },
+                        onDaySelected: (selectedDay, focusedDay) {
+                          if (!isSameDay(state.selectedDay, selectedDay)) {
+                            calendarDayBloc.add(
+                              SelectedDayEvent(selectedDay, focusedDay),
+                            );
+                          }
+                        },
+                        onPageChanged: (focusedDay) {
                           _focusedDay = focusedDay;
-                        });
-                      }
-                    },
-                    onPageChanged: (focusedDay) {
-                      // No need to call `setState()` here
-                      _focusedDay = focusedDay;
+                        },
+                      );
                     },
                   ),
                   const SizedBox(
@@ -289,95 +298,7 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (_) => AlertDialog(
-                                    shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0))),
-                                    content: Builder(
-                                      builder: (context) {
-                                        // Get available height and width of the build area of this widget. Make a choice depending on the size.
-
-                                        return SizedBox(
-                                          height: 250,
-                                          width: 500,
-                                          child: Column(
-                                            children: [
-                                              // add events
-                                              const Text(
-                                                "Add Event",
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 18,
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 15,
-                                              ),
-                                              ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(15.0),
-                                                child: TextFormField(
-                                                  decoration:
-                                                      const InputDecoration(
-                                                    hintText: "Event Name",
-                                                    filled: true,
-                                                    fillColor: Color.fromRGBO(
-                                                        234, 240, 247, 1),
-                                                    border: InputBorder.none,
-                                                    enabledBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          color: Colors
-                                                              .transparent),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 15,
-                                              ),
-                                              ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(15.0),
-                                                child: TextFormField(
-                                                  decoration:
-                                                      const InputDecoration(
-                                                    hintText: "Event Date",
-                                                    filled: true,
-                                                    fillColor: Color.fromRGBO(
-                                                        234, 240, 247, 1),
-                                                    border: InputBorder.none,
-                                                    enabledBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          color: Colors
-                                                              .transparent),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 15,
-                                              ),
-                                              SizedBox(
-                                                width: 200,
-                                                height: 50,
-                                                child: ElevatedButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child:
-                                                      const Text("Add Event"),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ));
+                          addEvent(context);
                         },
                         child: const HeroIcon(
                           HeroIcons.plus,

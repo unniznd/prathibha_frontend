@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:prathibha_web/switcher/switcher_screen.dart';
-import 'package:prathibha_web/login/login_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:prathibha_web/switcher/bloc/calendar_day/calendar_day_bloc.dart';
+import 'package:prathibha_web/switcher/bloc/left_tab_view/left_tab_view_bloc.dart';
 
 void main(List<String> args) {
   runApp(const PrathibhaWebApplication());
@@ -20,11 +22,6 @@ class _PrathibhaWebApplicationState extends State<PrathibhaWebApplication> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Prathibha",
-      initialRoute: '/',
-      routes: {
-        "/login": (context) => const LoginScreen(),
-        "/": (context) => const SwitcherScreen(),
-      },
       theme: ThemeData(
         fontFamily: "Poppins",
         elevatedButtonTheme: ElevatedButtonThemeData(
@@ -46,6 +43,13 @@ class _PrathibhaWebApplicationState extends State<PrathibhaWebApplication> {
         progressIndicatorTheme: const ProgressIndicatorThemeData(
           color: Color.fromRGBO(68, 97, 242, 1),
         ),
+      ),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: ((context) => CalendarDayBloc())),
+          BlocProvider(create: ((context) => LeftTabViewBloc())),
+        ],
+        child: const SwitcherScreen(),
       ),
     );
   }
