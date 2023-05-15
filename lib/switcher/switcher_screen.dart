@@ -36,7 +36,6 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("here");
     return Scaffold(
       backgroundColor: Colors.white,
       body: Row(
