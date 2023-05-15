@@ -39,6 +39,7 @@ dependencies:
   heroicons: ^0.7.0
   table_calendar: ^3.0.9
   fl_chart: ^0.62.0
+  flutter_bloc: ^8.1.2
 
 dev_dependencies:
   flutter_test:
