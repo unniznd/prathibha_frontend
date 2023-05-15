@@ -33,11 +33,17 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double ratioWidth = 1440 / MediaQuery.of(context).size.width;
+    double ratioHeight = 855 / MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Row(
         children: [
-          LeftTabView(tabViewBloc: tabViewBloc),
+          LeftTabView(
+            tabViewBloc: tabViewBloc,
+            ratioWidth: ratioWidth,
+          ),
           Expanded(
             child: BlocBuilder<LeftTabViewBloc, LeftTabViewState>(
               bloc: tabViewBloc,
@@ -57,7 +63,7 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
           ),
           SingleChildScrollView(
             child: Container(
-              width: 300,
+              width: 300 / ratioWidth,
               padding: const EdgeInsets.only(
                 top: 50,
                 left: 5,

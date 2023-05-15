@@ -10,6 +10,7 @@ class LeftTabView extends StatelessWidget {
   LeftTabView({
     super.key,
     required this.tabViewBloc,
+    required this.ratioWidth,
   });
 
   final List<String> _tabs = [
@@ -19,6 +20,7 @@ class LeftTabView extends StatelessWidget {
   ];
 
   final LeftTabViewBloc tabViewBloc;
+  final double ratioWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class LeftTabView extends StatelessWidget {
           selectedIndex = 2;
         }
         return Container(
-          width: 250.0,
+          width: 250 / ratioWidth,
           color: const Color.fromRGBO(245, 247, 249, 1),
           padding: const EdgeInsets.only(top: 30, left: 10, right: 10),
           child: Column(
@@ -68,8 +70,8 @@ class LeftTabView extends StatelessWidget {
                         HeroIcons.squares2x2,
                         color: selectedIndex == 0 ? Colors.white : Colors.black,
                       ),
-                      const SizedBox(
-                        width: 10,
+                      SizedBox(
+                        width: 10 / ratioWidth,
                       ),
                       Text(
                         _tabs[0],
@@ -77,6 +79,7 @@ class LeftTabView extends StatelessWidget {
                           color:
                               selectedIndex == 0 ? Colors.white : Colors.black,
                         ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
@@ -93,15 +96,15 @@ class LeftTabView extends StatelessWidget {
                         : Colors.transparent,
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16),
                   child: Row(
                     children: [
                       HeroIcon(
                         HeroIcons.userPlus,
                         color: selectedIndex == 1 ? Colors.white : Colors.black,
                       ),
-                      const SizedBox(
-                        width: 10,
+                      SizedBox(
+                        width: 10 / ratioWidth,
                       ),
                       Text(
                         _tabs[1],
@@ -109,6 +112,7 @@ class LeftTabView extends StatelessWidget {
                           color:
                               selectedIndex == 1 ? Colors.white : Colors.black,
                         ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
@@ -132,8 +136,8 @@ class LeftTabView extends StatelessWidget {
                         HeroIcons.currencyDollar,
                         color: selectedIndex == 2 ? Colors.white : Colors.black,
                       ),
-                      const SizedBox(
-                        width: 10,
+                      SizedBox(
+                        width: 10 / ratioWidth,
                       ),
                       Text(
                         _tabs[2],
@@ -141,6 +145,7 @@ class LeftTabView extends StatelessWidget {
                           color:
                               selectedIndex == 2 ? Colors.white : Colors.black,
                         ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
