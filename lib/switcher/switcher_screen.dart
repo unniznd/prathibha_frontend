@@ -5,6 +5,7 @@ import 'package:prathibha_web/attendance/attendance_screen.dart';
 import 'package:prathibha_web/dashboard/dashboard_screen.dart';
 import 'package:prathibha_web/finance/finance_screen.dart';
 import 'package:prathibha_web/switcher/widget/add_event_button.dart';
+import 'package:prathibha_web/switcher/widget/left_tab_view.dart';
 import 'package:prathibha_web/switcher/widget/show_calendar.dart';
 import 'package:prathibha_web/switcher/widget/show_events.dart';
 
@@ -43,145 +44,7 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
       backgroundColor: Colors.white,
       body: Row(
         children: [
-          BlocBuilder<LeftTabViewBloc, LeftTabViewState>(
-            bloc: tabViewBloc,
-            builder: (context, state) {
-              int selectedIndex = 0;
-              if (state is DashBoardState) {
-                selectedIndex = 0;
-              } else if (state is AttendanceState) {
-                selectedIndex = 1;
-              } else if (state is FinanceState) {
-                selectedIndex = 2;
-              }
-              return Container(
-                width: 250.0,
-                color: const Color.fromRGBO(245, 247, 249, 1),
-                padding: const EdgeInsets.only(top: 30, left: 10, right: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Center(
-                      child: SizedBox(
-                        height: 70,
-                        width: 70,
-                        child: Image.asset("assets/images/logo.png"),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        tabViewBloc.add(LeftTabViewSwitch(0));
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: selectedIndex == 0
-                              ? const Color.fromRGBO(68, 97, 242, 1)
-                              : Colors.transparent,
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        padding: const EdgeInsets.all(16.0),
-                        child: Row(
-                          children: [
-                            HeroIcon(
-                              HeroIcons.squares2x2,
-                              color: selectedIndex == 0
-                                  ? Colors.white
-                                  : Colors.black,
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              _tabs[0],
-                              style: TextStyle(
-                                color: selectedIndex == 0
-                                    ? Colors.white
-                                    : Colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        tabViewBloc.add(LeftTabViewSwitch(1));
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: selectedIndex == 1
-                              ? const Color.fromRGBO(68, 97, 242, 1)
-                              : Colors.transparent,
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        padding: const EdgeInsets.all(16.0),
-                        child: Row(
-                          children: [
-                            HeroIcon(
-                              HeroIcons.userPlus,
-                              color: selectedIndex == 1
-                                  ? Colors.white
-                                  : Colors.black,
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              _tabs[1],
-                              style: TextStyle(
-                                color: selectedIndex == 1
-                                    ? Colors.white
-                                    : Colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        tabViewBloc.add(LeftTabViewSwitch(2));
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: selectedIndex == 2
-                              ? const Color.fromRGBO(68, 97, 242, 1)
-                              : Colors.transparent,
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        padding: const EdgeInsets.all(16.0),
-                        child: Row(
-                          children: [
-                            HeroIcon(
-                              HeroIcons.currencyDollar,
-                              color: selectedIndex == 2
-                                  ? Colors.white
-                                  : Colors.black,
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              _tabs[2],
-                              style: TextStyle(
-                                color: selectedIndex == 2
-                                    ? Colors.white
-                                    : Colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-          // center view
+          LeftTabView(tabViewBloc: tabViewBloc),
           Expanded(
             child: BlocBuilder<LeftTabViewBloc, LeftTabViewState>(
               bloc: tabViewBloc,
@@ -199,7 +62,6 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
               },
             ),
           ),
-
           SingleChildScrollView(
             child: Container(
               width: 300,
