@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prathibha_web/switcher/switcher_screen.dart';
 
-import '../common/custom_page_route.dart';
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -96,9 +94,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () {
                           Navigator.pushReplacement(
                             context,
-                            CustomPageRoute(
+                            MaterialPageRoute(
                               builder: (context) => const SwitcherScreen(),
-                              routeName: '/',
                             ),
                           );
                         },
