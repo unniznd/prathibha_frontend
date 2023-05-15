@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:prathibha_web/attendance/attendance_screen.dart';
 import 'package:prathibha_web/dashboard/dashboard_screen.dart';
+import 'package:prathibha_web/finance/finance_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class SwitcherScreen extends StatefulWidget {
@@ -163,9 +165,9 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
             ),
           ),
           // center view
-          const Expanded(
-            child: DashboardScreen(),
-          ),
+          if (_selectedIndex == 0) const DashboardScreen(),
+          if (_selectedIndex == 1) const AttendanceScreen(),
+          if (_selectedIndex == 2) const FinanceScreen(),
           //add right side as profile view
           SingleChildScrollView(
             child: Container(
