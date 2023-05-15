@@ -4,9 +4,9 @@ import 'package:heroicons/heroicons.dart';
 import 'package:prathibha_web/attendance/attendance_screen.dart';
 import 'package:prathibha_web/dashboard/dashboard_screen.dart';
 import 'package:prathibha_web/finance/finance_screen.dart';
-import 'package:prathibha_web/switcher/bloc/add_event/add_event_event.dart';
-import 'package:prathibha_web/switcher/widget/add_event.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:prathibha_web/switcher/widget/add_event_button.dart';
+import 'package:prathibha_web/switcher/widget/show_calendar.dart';
+import 'package:prathibha_web/switcher/widget/show_events.dart';
 
 import 'bloc/add_event/add_event_bloc.dart';
 import 'bloc/left_tab_view/left_tab_view_bloc.dart';
@@ -14,11 +14,8 @@ import 'bloc/left_tab_view/left_tab_view_event.dart';
 import 'bloc/left_tab_view/left_tab_view_state.dart';
 
 import 'bloc/calendar_day/calendar_day_bloc.dart';
-import 'bloc/calendar_day/calendar_day_event.dart';
-import 'bloc/calendar_day/calendar_day_state.dart';
 
 // ignore: depend_on_referenced_packages
-import 'package:intl/intl.dart';
 
 class SwitcherScreen extends StatefulWidget {
   const SwitcherScreen({super.key});
@@ -27,20 +24,12 @@ class SwitcherScreen extends StatefulWidget {
   State<SwitcherScreen> createState() => _SwitcherScreenState();
 }
 
-final kToday = DateTime.now();
-
-final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
-final kLastDay = DateTime(kToday.year, kToday.month + 3, kToday.day);
-
 class _SwitcherScreenState extends State<SwitcherScreen> {
   final List<String> _tabs = [
     'Dashboard',
     'Attedance',
     'Finance',
   ];
-
-  final CalendarFormat _calendarFormat = CalendarFormat.twoWeeks;
-  DateTime _focusedDay = DateTime.now();
 
   final tabViewBloc = LeftTabViewBloc();
   final calendarDayBloc = CalendarDayBloc();
@@ -263,110 +252,90 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                   const SizedBox(
                     height: 15,
                   ),
-                  BlocBuilder<CalendarDayBloc, CalendarDayState>(
-                    bloc: calendarDayBloc,
-                    builder: (context, state) {
-                      return TableCalendar(
-                        firstDay: kFirstDay,
-                        lastDay: kLastDay,
-                        focusedDay: _focusedDay,
-                        calendarFormat: _calendarFormat,
-                        headerStyle: const HeaderStyle(
-                          formatButtonVisible: false,
-                          titleCentered: true,
-                        ),
-                        selectedDayPredicate: (day) {
-                          return isSameDay(state.selectedDay, day);
-                        },
-                        onDaySelected: (selectedDay, focusedDay) {
-                          if (!isSameDay(state.selectedDay, selectedDay)) {
-                            calendarDayBloc.add(
-                              SelectedDayEvent(selectedDay, focusedDay),
-                            );
-                          }
-                        },
-                        onPageChanged: (focusedDay) {
-                          _focusedDay = focusedDay;
-                        },
-                      );
-                    },
+                  ShowCalendar(
+                    calendarDayBloc: calendarDayBloc,
                   ),
                   const SizedBox(
                     height: 30,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "Events",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                      BlocBuilder<CalendarDayBloc, CalendarDayState>(
-                        bloc: calendarDayBloc,
-                        builder: (context, state) {
-                          dateController.text = DateFormat('MMMM d, y').format(
-                            state.selectedDay,
-                          );
-                          return GestureDetector(
-                            onTap: () {
-                              if (state.selectedDay
-                                  .add(const Duration(days: 1))
-                                  .isBefore(DateTime.now())) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    behavior: SnackBarBehavior.floating,
-                                    backgroundColor: Colors.red,
-                                    width: 700,
-                                    content: Row(
-                                      children: const [
-                                        HeroIcon(
-                                          HeroIcons.exclamationCircle,
-                                          color: Colors.white,
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                          'Can\'t add event for dates before today. Select Valid Date in Calendar',
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                                return;
-                              }
-                              addEvent(
-                                context: context,
-                                dateController: dateController,
-                                addEventBloc: addEventBloc,
-                                onDatePickerTap: () async {
-                                  DateTime? pickedDate = await showDatePicker(
-                                    context: context,
-                                    initialDate: state.selectedDay,
-                                    firstDate: DateTime(2022),
-                                    lastDate: DateTime(2100),
-                                  );
-                                  if (pickedDate != null) {
-                                    addEventBloc
-                                        .add(ChangeEventDate(pickedDate));
-                                  }
-                                },
-                              );
-                            },
-                            child: const HeroIcon(
-                              HeroIcons.plus,
-                            ),
-                          );
-                        },
-                      ),
-                    ],
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     const Text(
+                  //       "Events",
+                  //       style: TextStyle(
+                  //         fontWeight: FontWeight.bold,
+                  //         fontSize: 18,
+                  //       ),
+                  //     ),
+                  //     BlocBuilder<CalendarDayBloc, CalendarDayState>(
+                  //       bloc: calendarDayBloc,
+                  //       builder: (context, state) {
+                  //         dateController.text = DateFormat('MMMM d, y').format(
+                  //           state.selectedDay,
+                  //         );
+                  //         return GestureDetector(
+                  //           onTap: () {
+                  //             if (state.selectedDay
+                  //                 .add(const Duration(days: 1))
+                  //                 .isBefore(DateTime.now())) {
+                  //               ScaffoldMessenger.of(context).showSnackBar(
+                  //                 SnackBar(
+                  //                   behavior: SnackBarBehavior.floating,
+                  //                   backgroundColor: Colors.red,
+                  //                   width: 700,
+                  //                   content: Row(
+                  //                     children: const [
+                  //                       HeroIcon(
+                  //                         HeroIcons.exclamationCircle,
+                  //                         color: Colors.white,
+                  //                       ),
+                  //                       SizedBox(
+                  //                         width: 10,
+                  //                       ),
+                  //                       Text(
+                  //                         'Can\'t add event for dates before today. Select Valid Date in Calendar',
+                  //                         textAlign: TextAlign.left,
+                  //                         style: TextStyle(
+                  //                           fontSize: 18,
+                  //                         ),
+                  //                       ),
+                  //                     ],
+                  //                   ),
+                  //                 ),
+                  //               );
+                  //               return;
+                  //             }
+                  //             addEvent(
+                  //               context: context,
+                  //               dateController: dateController,
+                  //               addEventBloc: addEventBloc,
+                  //               onDatePickerTap: () async {
+                  //                 DateTime? pickedDate = await showDatePicker(
+                  //                   context: context,
+                  //                   initialDate: state.selectedDay,
+                  //                   firstDate: DateTime(2022),
+                  //                   lastDate: DateTime(2100),
+                  //                 );
+                  //                 if (pickedDate != null) {
+                  //                   addEventBloc
+                  //                       .add(ChangeEventDate(pickedDate));
+                  //                 }
+                  //               },
+                  //             );
+                  //           },
+                  //           child: const HeroIcon(
+                  //             HeroIcons.plus,
+                  //           ),
+                  //         );
+                  //       },
+                  //     ),
+                  //   ],
+                  // ),
+                  AddEventButton(
+                    calendarDayBloc: calendarDayBloc,
+                    dateController: dateController,
+                    addEventBloc: addEventBloc,
                   ),
                   const SizedBox(
                     height: 15,
@@ -381,25 +350,7 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                       );
                     },
                     itemBuilder: (context, index) {
-                      return Container(
-                        padding: const EdgeInsets.only(
-                          left: 15,
-                        ),
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: const Color.fromRGBO(245, 247, 249, 1),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: const Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Event Name",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      );
+                      return const ShowEvents(eventName: "Event Name");
                     },
                   ),
                 ],

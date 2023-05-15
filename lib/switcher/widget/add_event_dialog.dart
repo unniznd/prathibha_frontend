@@ -7,11 +7,12 @@ import 'package:intl/intl.dart';
 import '../bloc/add_event/add_event_bloc.dart';
 import '../bloc/add_event/add_event_state.dart';
 
-void addEvent(
-    {required BuildContext context,
-    required var dateController,
-    required var onDatePickerTap,
-    required var addEventBloc}) {
+void addEvent({
+  required BuildContext context,
+  required var dateController,
+  required var onDatePickerTap,
+  required var addEventBloc,
+}) {
   showDialog(
     context: context,
     builder: (_) => AlertDialog(
