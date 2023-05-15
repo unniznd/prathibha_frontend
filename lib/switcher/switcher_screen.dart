@@ -11,7 +11,6 @@ import 'package:prathibha_web/switcher/widget/show_events.dart';
 
 import 'bloc/add_event/add_event_bloc.dart';
 import 'bloc/left_tab_view/left_tab_view_bloc.dart';
-import 'bloc/left_tab_view/left_tab_view_event.dart';
 import 'bloc/left_tab_view/left_tab_view_state.dart';
 
 import 'bloc/calendar_day/calendar_day_bloc.dart';
@@ -26,12 +25,6 @@ class SwitcherScreen extends StatefulWidget {
 }
 
 class _SwitcherScreenState extends State<SwitcherScreen> {
-  final List<String> _tabs = [
-    'Dashboard',
-    'Attedance',
-    'Finance',
-  ];
-
   final tabViewBloc = LeftTabViewBloc();
   final calendarDayBloc = CalendarDayBloc();
   final addEventBloc = AddEventBloc();
