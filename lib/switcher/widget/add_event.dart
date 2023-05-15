@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:heroicons/heroicons.dart';
 
-void addEvent(BuildContext context) {
+void addEvent(
+  BuildContext context,
+  var dateController,
+  var onDatePickerTap,
+) {
   showDialog(
     context: context,
     builder: (_) => AlertDialog(
@@ -46,15 +51,23 @@ void addEvent(BuildContext context) {
                 ),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(15.0),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      hintText: "Event Date",
-                      filled: true,
-                      fillColor: Color.fromRGBO(234, 240, 247, 1),
-                      border: InputBorder.none,
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.transparent),
-                      ),
+                  child: GestureDetector(
+                    onTap: onDatePickerTap,
+                    child: TextFormField(
+                      controller: dateController,
+                      enabled: false,
+                      decoration: const InputDecoration(
+                          hintText: "Event Date",
+                          filled: true,
+                          fillColor: Color.fromRGBO(234, 240, 247, 1),
+                          border: InputBorder.none,
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.transparent),
+                          ),
+                          suffixIcon: Padding(
+                            padding: EdgeInsets.all(8),
+                            child: HeroIcon(HeroIcons.calendar),
+                          )),
                     ),
                   ),
                 ),

@@ -15,6 +15,9 @@ import 'bloc/calendar_day/calendar_day_bloc.dart';
 import 'bloc/calendar_day/calendar_day_event.dart';
 import 'bloc/calendar_day/calendar_day_state.dart';
 
+// ignore: depend_on_referenced_packages
+import 'package:intl/intl.dart';
+
 class SwitcherScreen extends StatefulWidget {
   const SwitcherScreen({super.key});
 
@@ -39,6 +42,8 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
 
   final tabViewBloc = LeftTabViewBloc();
   final calendarDayBloc = CalendarDayBloc();
+
+  final dateController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -296,13 +301,65 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                           fontSize: 18,
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          addEvent(context);
+                      BlocBuilder<CalendarDayBloc, CalendarDayState>(
+                        bloc: calendarDayBloc,
+                        builder: (context, state) {
+                          dateController.text = DateFormat('MMMM d, y').format(
+                            state.selectedDay,
+                          );
+                          return GestureDetector(
+                            onTap: () {
+                              if (state.selectedDay
+                                  .add(const Duration(days: 1))
+                                  .isBefore(DateTime.now())) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    behavior: SnackBarBehavior.floating,
+                                    backgroundColor: Colors.red,
+                                    width: 700,
+                                    content: Row(
+                                      children: const [
+                                        HeroIcon(
+                                          HeroIcons.exclamationCircle,
+                                          color: Colors.white,
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          'Can\'t add event for dates before today. Select Valid Date in Calendar',
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                                return;
+                              }
+                              addEvent(
+                                context,
+                                dateController,
+                                () async {
+                                  DateTime? pickedDate = await showDatePicker(
+                                    context: context,
+                                    initialDate: state.selectedDay,
+                                    firstDate: DateTime(2022),
+                                    lastDate: DateTime(2100),
+                                  );
+                                  if (pickedDate != null) {
+                                    print(pickedDate);
+                                  }
+                                },
+                              );
+                            },
+                            child: const HeroIcon(
+                              HeroIcons.plus,
+                            ),
+                          );
                         },
-                        child: const HeroIcon(
-                          HeroIcons.plus,
-                        ),
                       ),
                     ],
                   ),
