@@ -200,6 +200,157 @@ class _DashboardScreenState extends State<DashboardScreen> {
               IncomeExpenseGraph(
                 barChartModelData: barChartModelData,
               ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 20),
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        "Today's Attendance Overview",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  DataTable(
+                    columns: const [
+                      DataColumn(
+                        label: Text(
+                          'Sl No',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Branch',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Class & Division',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Percentage',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Actions',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                    rows: [
+                      DataRow(
+                        cells: [
+                          const DataCell(Text('1')),
+                          const DataCell(Text('Branch 1')),
+                          const DataCell(Text('10 A')),
+                          const DataCell(Text('90%')),
+                          DataCell(
+                            ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromARGB(255, 37, 6, 217),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    20,
+                                  ), // Set border radius
+                                ),
+                              ),
+                              child: const Text(
+                                "View",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      DataRow(
+                        cells: [
+                          const DataCell(Text('2')),
+                          const DataCell(Text('Branch 2')),
+                          const DataCell(Text('9 B')),
+                          const DataCell(Text('87%')),
+                          DataCell(
+                            ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromARGB(255, 37, 6, 217),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    20,
+                                  ), // Set border radius
+                                ),
+                              ),
+                              child: const Text(
+                                "View",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      DataRow(
+                        cells: [
+                          const DataCell(Text('3')),
+                          const DataCell(Text('Branch 3')),
+                          const DataCell(Text('10 D')),
+                          const DataCell(Text('84%')),
+                          DataCell(
+                            ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromARGB(255, 37, 6, 217),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    20,
+                                  ), // Set border radius
+                                ),
+                              ),
+                              child: const Text(
+                                "View",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ],
           ),
         ),
