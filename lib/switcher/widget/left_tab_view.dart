@@ -70,7 +70,7 @@ class LeftTabView extends StatelessWidget {
                         HeroIcons.squares2x2,
                         color: selectedIndex == 0 ? Colors.white : Colors.black,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Text(
@@ -103,7 +103,7 @@ class LeftTabView extends StatelessWidget {
                         HeroIcons.userPlus,
                         color: selectedIndex == 1 ? Colors.white : Colors.black,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Text(
@@ -136,7 +136,7 @@ class LeftTabView extends StatelessWidget {
                         HeroIcons.currencyDollar,
                         color: selectedIndex == 2 ? Colors.white : Colors.black,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Text(

@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:heroicons/heroicons.dart';
 
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 import 'package:prathibha_web/dashboard/widget/dashboard_summary_card.dart';
 import 'package:prathibha_web/dashboard/widget/income_expense_graph.dart';
 
-import 'bloc/drop_down_switch/drop_down_switch_bloc.dart';
-import 'bloc/drop_down_switch/drop_down_switch_event.dart';
-import 'bloc/drop_down_switch/drop_down_switch_state.dart';
 import 'model/bar_char_model.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -99,271 +94,188 @@ class _DashboardScreenState extends State<DashboardScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
     double ratioHeight = 900 / MediaQuery.of(context).size.height;
 
-    final dropDownSwitchBloc = DropDownSwitchBloc();
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.only(left: 30, right: 30, top: 50),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Hello Maietry \u{1F44B}",
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  Container(
-                    width: 200,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: const Color.fromRGBO(234, 240, 247, 1),
-                        ), // Customize the border color and other properties
-                        borderRadius: BorderRadius.circular(
-                          10.0,
-                        ),
-                        color: const Color.fromRGBO(234, 240, 247,
-                            1) // Customize the border radius if needed
-                        ),
-                    child: BlocBuilder<DropDownSwitchBloc, DropDownSwitchState>(
-                      bloc: dropDownSwitchBloc,
-                      builder: (context, state) {
-                        if (state is DropDownSwitchedState) {
-                          selectedOption = state.newBranch;
-                        }
-                        return DropdownButtonHideUnderline(
-                          child: DropdownButton<String>(
-                            value: selectedOption,
-                            onChanged: (String? newValue) {
-                              dropDownSwitchBloc.add(
-                                DropDownSwitchEventChange(
-                                  newBranch: newValue!,
-                                ),
-                              );
-                            },
-                            icon: const Padding(
-                              padding: EdgeInsets.only(right: 8.0),
-                              child: HeroIcon(HeroIcons.chevronDown),
-                            ),
-                            items: <String>[
-                              'All Branches',
-                              'Branch 1',
-                              'Branch 2',
-                              'Branch 3'
-                            ].map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
-                                  child: Text(
-                                    value,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        );
-                      },
-                    ),
-                  )
-                ],
-              ),
-              const SizedBox(height: 30),
-              DashboardSummaryCard(
-                totalStudents: "100",
-                totalExpenses: "345678",
-                totalDue: "23000",
-                ratioWidth: screenWidth,
-                ratioHeight: ratioHeight,
-              ),
-              const SizedBox(height: 30),
-              const Align(
-                alignment: Alignment.centerLeft,
+    return Column(
+      children: [
+        DashboardSummaryCard(
+          totalStudents: "100",
+          totalExpenses: "345678",
+          totalDue: "23000",
+          ratioWidth: screenWidth,
+          ratioHeight: ratioHeight,
+        ),
+        const SizedBox(height: 30),
+        const Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            "Income vs Expense",
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        const SizedBox(height: 30),
+        IncomeExpenseGraph(
+          barChartModelData: barChartModelData,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 20),
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Text(
-                  "Income vs Expense",
+                  "Today's Attendance Overview",
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
-              IncomeExpenseGraph(
-                barChartModelData: barChartModelData,
-              ),
-              SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 20),
-                    const Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          "Today's Attendance Overview",
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: DataTable(
+                columns: const [
+                  DataColumn(
+                    label: Text(
+                      'Sl No',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'Branch',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'Class & Division',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'Percentage',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'Actions',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+                rows: [
+                  DataRow(
+                    cells: [
+                      const DataCell(Text('1')),
+                      const DataCell(Text('Branch 1')),
+                      const DataCell(Text('10 A')),
+                      const DataCell(Text('90%')),
+                      DataCell(
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                const Color.fromARGB(255, 37, 6, 217),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                20,
+                              ), // Set border radius
+                            ),
+                          ),
+                          child: const Text(
+                            "View",
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: DataTable(
-                        columns: const [
-                          DataColumn(
-                            label: Text(
-                              'Sl No',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                              overflow: TextOverflow.ellipsis,
+                    ],
+                  ),
+                  DataRow(
+                    cells: [
+                      const DataCell(Text('2')),
+                      const DataCell(Text('Branch 2')),
+                      const DataCell(Text('9 B')),
+                      const DataCell(Text('87%')),
+                      DataCell(
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                const Color.fromARGB(255, 37, 6, 217),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                20,
+                              ), // Set border radius
                             ),
                           ),
-                          DataColumn(
-                            label: Text(
-                              'Branch',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
+                          child: const Text(
+                            "View",
+                            style: TextStyle(
+                              fontSize: 12,
                             ),
                           ),
-                          DataColumn(
-                            label: Text(
-                              'Class & Division',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'Percentage',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'Actions',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                        rows: [
-                          DataRow(
-                            cells: [
-                              const DataCell(Text('1')),
-                              const DataCell(Text('Branch 1')),
-                              const DataCell(Text('10 A')),
-                              const DataCell(Text('90%')),
-                              DataCell(
-                                ElevatedButton(
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        const Color.fromARGB(255, 37, 6, 217),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                        20,
-                                      ), // Set border radius
-                                    ),
-                                  ),
-                                  child: const Text(
-                                    "View",
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          DataRow(
-                            cells: [
-                              const DataCell(Text('2')),
-                              const DataCell(Text('Branch 2')),
-                              const DataCell(Text('9 B')),
-                              const DataCell(Text('87%')),
-                              DataCell(
-                                ElevatedButton(
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        const Color.fromARGB(255, 37, 6, 217),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                        20,
-                                      ), // Set border radius
-                                    ),
-                                  ),
-                                  child: const Text(
-                                    "View",
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          DataRow(
-                            cells: [
-                              const DataCell(Text('3')),
-                              const DataCell(Text('Branch 3')),
-                              const DataCell(Text('10 D')),
-                              const DataCell(Text('84%')),
-                              DataCell(
-                                ElevatedButton(
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        const Color.fromARGB(255, 37, 6, 217),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                        20,
-                                      ), // Set border radius
-                                    ),
-                                  ),
-                                  child: const Text(
-                                    "View",
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
+                  DataRow(
+                    cells: [
+                      const DataCell(Text('3')),
+                      const DataCell(Text('Branch 3')),
+                      const DataCell(Text('10 D')),
+                      const DataCell(Text('84%')),
+                      DataCell(
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                const Color.fromARGB(255, 37, 6, 217),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                20,
+                              ), // Set border radius
+                            ),
+                          ),
+                          child: const Text(
+                            "View",
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              const SizedBox(
-                height: 30,
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
-      ),
+        const SizedBox(
+          height: 30,
+        ),
+      ],
     );
   }
 }

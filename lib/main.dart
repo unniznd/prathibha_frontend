@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prathibha_web/switcher/bloc/calendar_day/calendar_day_bloc.dart';
 import 'package:prathibha_web/switcher/bloc/left_tab_view/left_tab_view_bloc.dart';
 import 'package:prathibha_web/switcher/bloc/add_event/add_event_bloc.dart';
-import 'package:prathibha_web/dashboard/bloc/drop_down_switch/drop_down_switch_bloc.dart';
+import 'package:prathibha_web/switcher/bloc/drop_down_switch/drop_down_switch_bloc.dart';
 
 void main(List<String> args) {
   runApp(const PrathibhaWebApplication());

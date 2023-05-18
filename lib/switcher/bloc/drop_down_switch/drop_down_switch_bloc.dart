@@ -11,3 +11,5 @@ class DropDownSwitchBloc
     });
   }
 }
+
+final dropDownSwitchBloc = DropDownSwitchBloc();

@@ -43,7 +43,7 @@ class DashboardSummaryCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 "Total Students",
                 style: TextStyle(
                   fontSize: 16,
@@ -52,7 +52,7 @@ class DashboardSummaryCard extends StatelessWidget {
               ),
               Text(
                 totalStudents,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                 ),
@@ -86,7 +86,7 @@ class DashboardSummaryCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 "Total Expenses",
                 style: TextStyle(
                   fontSize: 16,
@@ -95,7 +95,7 @@ class DashboardSummaryCard extends StatelessWidget {
               ),
               Text(
                 totalExpenses,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                 ),
@@ -129,7 +129,7 @@ class DashboardSummaryCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 "Total Fee Due",
                 style: TextStyle(
                   fontSize: 16,
@@ -138,7 +138,7 @@ class DashboardSummaryCard extends StatelessWidget {
               ),
               Text(
                 totalDue,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                 ),

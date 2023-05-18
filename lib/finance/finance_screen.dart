@@ -10,10 +10,8 @@ class FinanceScreen extends StatefulWidget {
 class _FinanceScreenState extends State<FinanceScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text('Finance Screen'),
-      ),
+    return const Center(
+      child: Text('Finance Screen'),
     );
   }
 }
