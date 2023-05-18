@@ -134,20 +134,31 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ),
         const SizedBox(height: 20),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Container(
-            width: MediaQuery.of(context).size.width / 1.8,
-            child: Column(
-              children: [
-                _buildTableRow(['Name', 'Age', 'City'], isHeader: true),
-                const Divider(),
-                _buildTableRow(['John', '25', 'New York']),
-                const Divider(),
-                _buildTableRow(['Emily', '30', 'San Francisco']),
-                const Divider(),
-                _buildTableRow(['David', '40', 'London']),
-              ],
+        Padding(
+          padding: const EdgeInsets.only(
+            left: 20,
+            right: 20,
+          ),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width / 1.67,
+              child: Column(
+                children: [
+                  _buildTableRow([
+                    'Sl No',
+                    'Branch/Class-Division',
+                    'Percentage',
+                    ' View Details'
+                  ], isHeader: true),
+                  const Divider(),
+                  _buildTableRow(['1', 'Branch 1', '90%', 'View']),
+                  const Divider(),
+                  _buildTableRow(['2', 'Branch 2', '100%', 'View']),
+                  const Divider(),
+                  _buildTableRow(['3', 'Branch 3', '86%', 'View']),
+                ],
+              ),
             ),
           ),
         ),
@@ -166,12 +177,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
           return Expanded(
             child: Padding(
               padding: const EdgeInsets.all(1),
-              child: Text(
-                cellData,
-                style: TextStyle(
-                  fontWeight: isHeader ? FontWeight.bold : FontWeight.normal,
-                ),
-              ),
+              child: cellData != "View"
+                  ? Text(
+                      cellData,
+                      style: TextStyle(
+                        fontWeight:
+                            isHeader ? FontWeight.bold : FontWeight.normal,
+                      ),
+                    )
+                  : TextButton(
+                      onPressed: () {},
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(cellData),
+                      ),
+                    ),
             ),
           );
         }).toList(),
