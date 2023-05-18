@@ -87,7 +87,7 @@ class DashboardSummaryCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "Total Expenses",
+                "Total Income",
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,

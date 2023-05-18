@@ -9,9 +9,13 @@ class LeftTabViewBloc extends Bloc<LeftTabViewEvent, LeftTabViewState> {
       if (event.index == 0) {
         emit(DashBoardState());
       } else if (event.index == 1) {
-        emit(AttendanceState());
+        emit(StudentsState());
       } else if (event.index == 2) {
-        emit(FinanceState());
+        emit(AttendanceState());
+      } else if (event.index == 3) {
+        emit(FeeState());
+      } else if (event.index == 4) {
+        emit(ReportsState());
       } else {
         emit(DashBoardState());
       }

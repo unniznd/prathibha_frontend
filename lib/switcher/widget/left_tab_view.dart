@@ -15,8 +15,18 @@ class LeftTabView extends StatelessWidget {
 
   final List<String> _tabs = [
     'Dashboard',
+    'Students',
     'Attedance',
-    'Finance',
+    'Fees',
+    'Reports',
+  ];
+
+  final List<HeroIcons> _tabIcons = [
+    HeroIcons.squares2x2,
+    HeroIcons.userGroup,
+    HeroIcons.userPlus,
+    HeroIcons.currencyDollar,
+    HeroIcons.newspaper,
   ];
 
   final LeftTabViewBloc tabViewBloc;
@@ -30,11 +40,18 @@ class LeftTabView extends StatelessWidget {
         int selectedIndex = 0;
         if (state is DashBoardState) {
           selectedIndex = 0;
-        } else if (state is AttendanceState) {
+        } else if (state is StudentsState) {
           selectedIndex = 1;
-        } else if (state is FinanceState) {
+        } else if (state is AttendanceState) {
           selectedIndex = 2;
+        } else if (state is FeeState) {
+          selectedIndex = 3;
+        } else if (state is ReportsState) {
+          selectedIndex = 4;
+        } else {
+          selectedIndex = 0;
         }
+
         return Container(
           width: screenWidth / 5.5,
           color: const Color.fromRGBO(245, 247, 249, 1),
@@ -52,105 +69,48 @@ class LeftTabView extends StatelessWidget {
               const SizedBox(
                 height: 50,
               ),
-              GestureDetector(
-                onTap: () {
-                  tabViewBloc.add(LeftTabViewSwitch(0));
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: _tabs.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      tabViewBloc.add(LeftTabViewSwitch(index));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: selectedIndex == index
+                            ? const Color.fromRGBO(68, 97, 242, 1)
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          HeroIcon(
+                            _tabIcons[index],
+                            color: selectedIndex == index
+                                ? Colors.white
+                                : Colors.black,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            _tabs[index],
+                            style: TextStyle(
+                              color: selectedIndex == index
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
                 },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: selectedIndex == 0
-                        ? const Color.fromRGBO(68, 97, 242, 1)
-                        : Colors.transparent,
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      HeroIcon(
-                        HeroIcons.squares2x2,
-                        color: selectedIndex == 0 ? Colors.white : Colors.black,
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        _tabs[0],
-                        style: TextStyle(
-                          color:
-                              selectedIndex == 0 ? Colors.white : Colors.black,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  tabViewBloc.add(LeftTabViewSwitch(1));
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: selectedIndex == 1
-                        ? const Color.fromRGBO(68, 97, 242, 1)
-                        : Colors.transparent,
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    children: [
-                      HeroIcon(
-                        HeroIcons.userPlus,
-                        color: selectedIndex == 1 ? Colors.white : Colors.black,
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        _tabs[1],
-                        style: TextStyle(
-                          color:
-                              selectedIndex == 1 ? Colors.white : Colors.black,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  tabViewBloc.add(LeftTabViewSwitch(2));
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: selectedIndex == 2
-                        ? const Color.fromRGBO(68, 97, 242, 1)
-                        : Colors.transparent,
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      HeroIcon(
-                        HeroIcons.currencyDollar,
-                        color: selectedIndex == 2 ? Colors.white : Colors.black,
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        _tabs[2],
-                        style: TextStyle(
-                          color:
-                              selectedIndex == 2 ? Colors.white : Colors.black,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              )
             ],
           ),
         );
