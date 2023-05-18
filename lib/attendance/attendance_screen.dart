@@ -15,6 +15,20 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(15.0),
+          child: TextFormField(
+            decoration: const InputDecoration(
+              hintText: "Search",
+              filled: true,
+              fillColor: Color.fromRGBO(234, 240, 247, 1),
+              border: InputBorder.none,
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.transparent),
+              ),
+            ),
+          ),
+        ),
         DataTable(
           columns: const [
             DataColumn(
