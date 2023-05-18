@@ -43,78 +43,81 @@ class _FeeScreenState extends State<FeeScreen> {
         Padding(
           padding: EdgeInsets.all(8.0),
         ),
-        DataTable(
-          columns: const [
-            DataColumn(
-              label: Text(
-                'REG NO:',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            DataColumn(
-              label: Text(
-                'NAME',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
+        Align(
+          alignment: Alignment.center,
+          child: DataTable(
+            columns: const [
+              DataColumn(
+                label: Text(
+                  'REG NO:',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-            ),
-            DataColumn(
-              label: Text(
-                'BRANCH',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            DataColumn(
-              label: Text(
-                'STATUS',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
+              DataColumn(
+                label: Text(
+                  'NAME',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-            DataColumn(
-              label: Text(
-                'DATE',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
+              DataColumn(
+                label: Text(
+                  'BRANCH',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-            ),
-          ],
-          rows: [
-            DataRow(
-              cells: [
-                const DataCell(Text('1')),
-                const DataCell(Text('John')),
-                const DataCell(Text('10 A')),
-                const DataCell(Text(
-                  'PAID',
-                  style: TextStyle(color: Colors.greenAccent),
-                )),
-                const DataCell(Text('31 DEC 2023')),
-              ],
-            ),
-            DataRow(
-              cells: [
-                const DataCell(Text('2')),
-                const DataCell(Text('Mathew')),
-                const DataCell(Text('9 B')),
-                const DataCell(Text(
-                  'PAID',
-                  style: TextStyle(color: Colors.greenAccent),
-                )),
-                const DataCell(Text('31 DEC 2023')),
-              ],
-            ),
-          ],
-        ),
+              DataColumn(
+                label: Text(
+                  'STATUS',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  'DATE',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+            rows: [
+              DataRow(
+                cells: [
+                  const DataCell(Text('1')),
+                  const DataCell(Text('John')),
+                  const DataCell(Text('10 A')),
+                  const DataCell(Text(
+                    'PAID',
+                    style: TextStyle(color: Colors.greenAccent),
+                  )),
+                  const DataCell(Text('31 DEC 2023')),
+                ],
+              ),
+              DataRow(
+                cells: [
+                  const DataCell(Text('2')),
+                  const DataCell(Text('Mathew')),
+                  const DataCell(Text('9 B')),
+                  const DataCell(Text(
+                    'PAID',
+                    style: TextStyle(color: Colors.greenAccent),
+                  )),
+                  const DataCell(Text('31 DEC 2023')),
+                ],
+              ),
+            ],
+          ),
+        )
       ],
     );
   }
