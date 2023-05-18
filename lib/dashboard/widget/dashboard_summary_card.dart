@@ -19,8 +19,7 @@ class DashboardSummaryCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Container(
-          width: 200 / ratioWidth,
-          height: 100 * ratioHeight,
+          width: ratioWidth / 8,
           decoration: BoxDecoration(
             border: Border.all(
               color: const Color.fromRGBO(234, 240, 247, 1),
@@ -47,14 +46,14 @@ class DashboardSummaryCard extends StatelessWidget {
               Text(
                 "Total Students",
                 style: TextStyle(
-                  fontSize: 16 / ratioWidth,
+                  fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               Text(
                 totalStudents,
                 style: TextStyle(
-                  fontSize: 28 / ratioWidth,
+                  fontSize: 28,
                   fontWeight: FontWeight.bold,
                 ),
                 overflow: TextOverflow.ellipsis,
@@ -63,8 +62,7 @@ class DashboardSummaryCard extends StatelessWidget {
           ),
         ),
         Container(
-          width: 200 / ratioWidth,
-          height: 100 * ratioHeight,
+          width: ratioWidth / 8,
           decoration: BoxDecoration(
             border: Border.all(
               color: const Color.fromRGBO(234, 240, 247, 1),
@@ -91,14 +89,14 @@ class DashboardSummaryCard extends StatelessWidget {
               Text(
                 "Total Expenses",
                 style: TextStyle(
-                  fontSize: 16 / ratioWidth,
+                  fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               Text(
                 totalExpenses,
                 style: TextStyle(
-                  fontSize: 28 / ratioWidth,
+                  fontSize: 28,
                   fontWeight: FontWeight.bold,
                 ),
                 overflow: TextOverflow.ellipsis,
@@ -107,8 +105,7 @@ class DashboardSummaryCard extends StatelessWidget {
           ),
         ),
         Container(
-          width: 200 / ratioWidth,
-          height: 100 * ratioHeight,
+          width: ratioWidth / 8,
           decoration: BoxDecoration(
             border: Border.all(
               color: const Color.fromRGBO(234, 240, 247, 1),
@@ -135,14 +132,14 @@ class DashboardSummaryCard extends StatelessWidget {
               Text(
                 "Total Fee Due",
                 style: TextStyle(
-                  fontSize: 16 / ratioWidth,
+                  fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               Text(
                 totalDue,
                 style: TextStyle(
-                  fontSize: 28 / ratioWidth,
+                  fontSize: 28,
                   fontWeight: FontWeight.bold,
                 ),
                 overflow: TextOverflow.ellipsis,

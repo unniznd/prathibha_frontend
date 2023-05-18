@@ -10,7 +10,7 @@ class LeftTabView extends StatelessWidget {
   LeftTabView({
     super.key,
     required this.tabViewBloc,
-    required this.ratioWidth,
+    required this.screenWidth,
   });
 
   final List<String> _tabs = [
@@ -20,7 +20,7 @@ class LeftTabView extends StatelessWidget {
   ];
 
   final LeftTabViewBloc tabViewBloc;
-  final double ratioWidth;
+  final double screenWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class LeftTabView extends StatelessWidget {
           selectedIndex = 2;
         }
         return Container(
-          width: 250 / ratioWidth,
+          width: screenWidth / 5.5,
           color: const Color.fromRGBO(245, 247, 249, 1),
           padding: const EdgeInsets.only(top: 30, left: 10, right: 10),
           child: Column(
@@ -71,7 +71,7 @@ class LeftTabView extends StatelessWidget {
                         color: selectedIndex == 0 ? Colors.white : Colors.black,
                       ),
                       SizedBox(
-                        width: 10 / ratioWidth,
+                        width: 10,
                       ),
                       Text(
                         _tabs[0],
@@ -104,7 +104,7 @@ class LeftTabView extends StatelessWidget {
                         color: selectedIndex == 1 ? Colors.white : Colors.black,
                       ),
                       SizedBox(
-                        width: 10 / ratioWidth,
+                        width: 10,
                       ),
                       Text(
                         _tabs[1],
@@ -137,7 +137,7 @@ class LeftTabView extends StatelessWidget {
                         color: selectedIndex == 2 ? Colors.white : Colors.black,
                       ),
                       SizedBox(
-                        width: 10 / ratioWidth,
+                        width: 10,
                       ),
                       Text(
                         _tabs[2],
