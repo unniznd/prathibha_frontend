@@ -55,9 +55,12 @@ class _FeeScreenState extends State<FeeScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            HeroIcon(
-              HeroIcons.arrowPath,
-              size: 28,
+            Tooltip(
+              message: 'Reload the table',
+              child: HeroIcon(
+                HeroIcons.arrowPath,
+                size: 28,
+              ),
             )
           ],
         ),
@@ -306,7 +309,7 @@ class _FeeScreenState extends State<FeeScreen> {
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: SizedBox(
-              width: MediaQuery.of(context).size.width / 1.8,
+              width: MediaQuery.of(context).size.width / 1.9,
               child: Column(
                 children: [
                   FeeTableRow(

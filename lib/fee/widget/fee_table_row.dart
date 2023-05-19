@@ -40,20 +40,17 @@ class FeeTableRow extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(right: 1),
                   child: Tooltip(
-                    message: "Amount: \u20B9 2000",
-                    child: TextButton(
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          cellData,
-                          style: TextStyle(
-                            fontWeight:
-                                isHeader ? FontWeight.bold : FontWeight.normal,
-                            color: Colors.red,
-                          ),
+                    message: "Amount: \u20B9 2000. Click to confirm payment",
+                    child: GestureDetector(
+                      child: Text(
+                        cellData,
+                        style: TextStyle(
+                          fontWeight:
+                              isHeader ? FontWeight.bold : FontWeight.normal,
+                          color: Colors.red,
                         ),
                       ),
-                      onPressed: () {
+                      onTap: () {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -127,11 +124,9 @@ class FeeTableRow extends StatelessWidget {
                   )),
             );
           } else {
-            return Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(right: 10.0),
-                child: Align(alignment: Alignment.centerLeft, child: cellData),
-              ),
+            return Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: Align(alignment: Alignment.centerLeft, child: cellData),
             );
           }
         }).toList(),
