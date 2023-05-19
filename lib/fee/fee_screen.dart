@@ -1,5 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:prathibha_web/fee/bloc/class/class_bloc.dart';
+import 'package:prathibha_web/fee/bloc/class/class_event.dart';
+import 'package:prathibha_web/fee/bloc/class/class_state.dart';
+import 'package:prathibha_web/fee/bloc/division/division_bloc.dart';
+import 'package:prathibha_web/fee/bloc/division/division_event.dart';
+import 'package:prathibha_web/fee/bloc/division/division_state.dart';
+import 'package:prathibha_web/fee/bloc/month/month_bloc.dart';
+import 'package:prathibha_web/fee/bloc/month/month_event.dart';
+import 'package:prathibha_web/fee/bloc/month/month_state.dart';
+import 'package:prathibha_web/fee/bloc/paid/paid_bloc.dart';
+import 'package:prathibha_web/fee/bloc/paid/paid_event.dart';
+import 'package:prathibha_web/fee/bloc/paid/paid_state.dart';
+import 'package:prathibha_web/fee/bloc/unpaid/unpaid_bloc.dart';
+import 'package:prathibha_web/fee/bloc/unpaid/unpaid_event.dart';
+import 'package:prathibha_web/fee/bloc/unpaid/unpaid_state.dart';
 import 'package:prathibha_web/fee/widget/fee_table_row.dart';
 
 class FeeScreen extends StatefulWidget {
@@ -10,32 +26,13 @@ class FeeScreen extends StatefulWidget {
 }
 
 class _FeeScreenState extends State<FeeScreen> {
-  String? selectedClass;
-  String? selectedDivision;
   String? selectedMonth;
 
-  bool isUnpaidChecked = false;
-  bool isPaidChecked = false;
-
-  void handleUnpaidCheck(bool? value) {
-    setState(() {
-      isUnpaidChecked = value!;
-      if (value) {
-        isPaidChecked =
-            false; // Set Paid checkbox to false when Unpaid is checked
-      }
-    });
-  }
-
-  void handlePaidCheck(bool? value) {
-    setState(() {
-      isPaidChecked = value!;
-      if (value) {
-        isUnpaidChecked =
-            false; // Set Unpaid checkbox to false when Paid is checked
-      }
-    });
-  }
+  final UnpaidBloc unpaidBloc = UnpaidBloc();
+  final PaidBloc paidBloc = PaidBloc();
+  final ClassBloc classBloc = ClassBloc();
+  final DivisionBloc divisionBloc = DivisionBloc();
+  final MonthBloc monthBloc = MonthBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -86,11 +83,21 @@ class _FeeScreenState extends State<FeeScreen> {
           children: [
             Transform.scale(
               scale: 1.2,
-              child: Checkbox(
-                value: isUnpaidChecked,
-                onChanged: handleUnpaidCheck,
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                activeColor: const Color.fromRGBO(68, 97, 242, 1),
+              child: BlocBuilder<UnpaidBloc, UnpaidState>(
+                bloc: unpaidBloc,
+                builder: (context, state) {
+                  return Checkbox(
+                    value: state.isActive,
+                    onChanged: (newState) {
+                      if (newState == true) {
+                        paidBloc.add(UpdatePaid(isActive: false));
+                      }
+                      unpaidBloc.add(UpdateUnpaid(isActive: newState!));
+                    },
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    activeColor: const Color.fromRGBO(68, 97, 242, 1),
+                  );
+                },
               ),
             ),
             const SizedBox(
@@ -107,15 +114,22 @@ class _FeeScreenState extends State<FeeScreen> {
             ),
             Transform.scale(
               scale: 1.2,
-              child: Checkbox(
-                value: isPaidChecked,
-                onChanged: handlePaidCheck,
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                activeColor: const Color.fromRGBO(68, 97, 242, 1),
+              child: BlocBuilder<PaidBloc, PaidState>(
+                bloc: paidBloc,
+                builder: (context, state) {
+                  return Checkbox(
+                    value: state.isActive,
+                    onChanged: (newState) {
+                      if (newState == true) {
+                        unpaidBloc.add(UpdateUnpaid(isActive: false));
+                      }
+                      paidBloc.add(UpdatePaid(isActive: !state.isActive));
+                    },
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    activeColor: const Color.fromRGBO(68, 97, 242, 1),
+                  );
+                },
               ),
-            ),
-            const SizedBox(
-              width: 5,
             ),
             const Text(
               "Paid",
@@ -138,42 +152,45 @@ class _FeeScreenState extends State<FeeScreen> {
                   color: const Color.fromRGBO(
                       234, 240, 247, 1) // Customize the border radius if needed
                   ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  value: selectedClass,
-                  hint: const Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text("Class"),
-                  ),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedClass = newValue;
-                    });
-                  },
-                  icon: const Padding(
-                    padding: EdgeInsets.only(right: 8.0),
-                    child: HeroIcon(HeroIcons.chevronDown),
-                  ),
-                  items: <String>[
-                    '10',
-                    '9',
-                    '8',
-                  ].map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Text(
-                          value,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+              child: BlocBuilder<ClassBloc, ClassState>(
+                bloc: classBloc,
+                builder: (context, state) {
+                  return DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      value: state.className,
+                      hint: const Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Text("Class"),
                       ),
-                    );
-                  }).toList(),
-                ),
+                      onChanged: (String? newValue) {
+                        classBloc.add(ChangeClass(className: newValue));
+                      },
+                      icon: const Padding(
+                        padding: EdgeInsets.only(right: 8.0),
+                        child: HeroIcon(HeroIcons.chevronDown),
+                      ),
+                      items: <String>[
+                        '10',
+                        '9',
+                        '8',
+                      ].map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Text(
+                              value,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  );
+                },
               ),
             ),
             const SizedBox(
@@ -191,42 +208,46 @@ class _FeeScreenState extends State<FeeScreen> {
                   color: const Color.fromRGBO(
                       234, 240, 247, 1) // Customize the border radius if needed
                   ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  value: selectedDivision,
-                  hint: const Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text("Division"),
-                  ),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedDivision = newValue;
-                    });
-                  },
-                  icon: const Padding(
-                    padding: EdgeInsets.only(right: 8.0),
-                    child: HeroIcon(HeroIcons.chevronDown),
-                  ),
-                  items: <String>[
-                    'A',
-                    'B',
-                    'C',
-                  ].map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Text(
-                          value,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+              child: BlocBuilder<DivisionBloc, DivisionState>(
+                bloc: divisionBloc,
+                builder: (context, state) {
+                  return DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      value: state.divisionName,
+                      hint: const Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Text("Division"),
                       ),
-                    );
-                  }).toList(),
-                ),
+                      onChanged: (String? newValue) {
+                        divisionBloc
+                            .add(ChangeDivision(divisionName: newValue));
+                      },
+                      icon: const Padding(
+                        padding: EdgeInsets.only(right: 8.0),
+                        child: HeroIcon(HeroIcons.chevronDown),
+                      ),
+                      items: <String>[
+                        'A',
+                        'B',
+                        'C',
+                      ].map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Text(
+                              value,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  );
+                },
               ),
             ),
             const SizedBox(
@@ -244,51 +265,54 @@ class _FeeScreenState extends State<FeeScreen> {
                   color: const Color.fromRGBO(
                       234, 240, 247, 1) // Customize the border radius if needed
                   ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  value: selectedMonth,
-                  hint: const Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text("Month"),
-                  ),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedMonth = newValue;
-                    });
-                  },
-                  icon: const Padding(
-                    padding: EdgeInsets.only(right: 8.0),
-                    child: HeroIcon(HeroIcons.chevronDown),
-                  ),
-                  items: <String>[
-                    'Jan',
-                    'Feb',
-                    'Mar',
-                    'Apr',
-                    'May',
-                    'Jun',
-                    'Jul',
-                    'Aug',
-                    'Sep',
-                    'Oct',
-                    'Nov',
-                    'Dec',
-                  ].map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Text(
-                          value,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+              child: BlocBuilder<MonthBloc, MonthState>(
+                bloc: monthBloc,
+                builder: (context, state) {
+                  return DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      value: state.monthName,
+                      hint: const Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Text("Month"),
                       ),
-                    );
-                  }).toList(),
-                ),
+                      onChanged: (String? newValue) {
+                        monthBloc.add(ChangeMonth(monthName: newValue));
+                      },
+                      icon: const Padding(
+                        padding: EdgeInsets.only(right: 8.0),
+                        child: HeroIcon(HeroIcons.chevronDown),
+                      ),
+                      items: <String>[
+                        'Jan',
+                        'Feb',
+                        'Mar',
+                        'Apr',
+                        'May',
+                        'Jun',
+                        'Jul',
+                        'Aug',
+                        'Sep',
+                        'Oct',
+                        'Nov',
+                        'Dec',
+                      ].map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Text(
+                              value,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  );
+                },
               ),
             ),
           ],
@@ -312,13 +336,11 @@ class _FeeScreenState extends State<FeeScreen> {
             ),
             TextButton(
               onPressed: () {
-                setState(() {
-                  selectedClass = null;
-                  selectedDivision = null;
-                  selectedMonth = null;
-                  isUnpaidChecked = false;
-                  isPaidChecked = false;
-                });
+                unpaidBloc.add(UpdateUnpaid(isActive: false));
+                paidBloc.add(UpdatePaid(isActive: false));
+                classBloc.add(ChangeClass(className: null));
+                divisionBloc.add(ChangeDivision(divisionName: null));
+                monthBloc.add(ChangeMonth(monthName: null));
               },
               child: const Text("Clear Filters"),
             )

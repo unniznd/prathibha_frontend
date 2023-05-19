@@ -5,6 +5,11 @@ import 'package:prathibha_web/switcher/bloc/calendar_day/calendar_day_bloc.dart'
 import 'package:prathibha_web/switcher/bloc/left_tab_view/left_tab_view_bloc.dart';
 import 'package:prathibha_web/switcher/bloc/add_event/add_event_bloc.dart';
 import 'package:prathibha_web/switcher/bloc/drop_down_switch/drop_down_switch_bloc.dart';
+import 'package:prathibha_web/fee/bloc/unpaid/unpaid_bloc.dart';
+import 'package:prathibha_web/fee/bloc/paid/paid_bloc.dart';
+import 'package:prathibha_web/fee/bloc/class/class_bloc.dart';
+import 'package:prathibha_web/fee/bloc/division/division_bloc.dart';
+import 'package:prathibha_web/fee/bloc/month/month_bloc.dart';
 
 void main(List<String> args) {
   runApp(const PrathibhaWebApplication());
@@ -52,6 +57,11 @@ class _PrathibhaWebApplicationState extends State<PrathibhaWebApplication> {
           BlocProvider(create: ((context) => LeftTabViewBloc())),
           BlocProvider(create: ((context) => AddEventBloc())),
           BlocProvider(create: ((context) => DropDownSwitchBloc())),
+          BlocProvider(create: ((context) => UnpaidBloc())),
+          BlocProvider(create: ((context) => PaidBloc())),
+          BlocProvider(create: ((context) => ClassBloc())),
+          BlocProvider(create: ((context) => DivisionBloc())),
+          BlocProvider(create: ((context) => MonthBloc())),
         ],
         child: const SwitcherScreen(),
       ),
