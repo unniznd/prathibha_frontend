@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 
+import '../fee/widget/fee_table_row.dart';
+
 class AttendanceScreen extends StatefulWidget {
   const AttendanceScreen({super.key});
 
@@ -225,97 +227,146 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             ),
           ],
         ),
-        DataTable(
-          columns: const [
-            DataColumn(
-              label: Text(
-                'Roll No',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            DataColumn(
-              label: Text(
-                'Name',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            DataColumn(
-              label: Text(
-                'Class & Division',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            DataColumn(
-              label: Text(
-                'Attendance',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
-          rows: [
-            DataRow(
-              cells: [
-                const DataCell(Text('1')),
-                const DataCell(Text('John')),
-                const DataCell(Text('10 A')),
-                DataCell(
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 37, 6, 217),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                          20,
-                        ), // Set border radius
-                      ),
-                    ),
-                    child: const Text(
-                      "Absent",
-                      style: TextStyle(
-                        fontSize: 12,
-                      ),
-                    ),
+        const SizedBox(
+          width: 10,
+          height: 10,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(
+            left: 20,
+            right: 20,
+          ),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width / 1.9,
+              child: Column(
+                children: [
+                  FeeTableRow(
+                    rowData: [
+                      Checkbox(value: true, onChanged: (value) {}),
+                      'Student Name',
+                      'Status',
+                      'Reason',
+                    ],
+                    isHeader: true,
                   ),
-                ),
-              ],
-            ),
-            DataRow(
-              cells: [
-                const DataCell(Text('2')),
-                const DataCell(Text('Mathew')),
-                const DataCell(Text('9 B')),
-                DataCell(
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 37, 6, 217),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                          20,
-                        ), // Set border radius
+                  const Divider(),
+                  FeeTableRow(
+                    rowData: [
+                      Checkbox(value: true, onChanged: (value) {}),
+                      'Akhil',
+                      Container(
+                        alignment: Alignment.center,
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            textStyle: const TextStyle(fontSize: 15),
+                          ),
+                          onPressed: () {},
+                          child: const Text('Present'),
+                        ),
                       ),
-                    ),
-                    child: const Text(
-                      "Absent",
-                      style: TextStyle(
-                        fontSize: 12,
+                      Container(
+                        width: 100,
+                        height: 40,
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            hintText: "Reason",
+                            filled: false,
+                            fillColor: Color.fromRGBO(234, 240, 247, 1),
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ),
-              ],
+                  const Divider(),
+                  FeeTableRow(
+                    rowData: [
+                      Checkbox(value: true, onChanged: (value) {}),
+                      'Akhil',
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            textStyle: const TextStyle(fontSize: 15),
+                          ),
+                          onPressed: () {},
+                          child: const Text('Present'),
+                        ),
+                      ),
+                      Container(
+                        width: 100,
+                        height: 40,
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            hintText: "Reason",
+                            filled: false,
+                            fillColor: Color.fromRGBO(234, 240, 247, 1),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Divider(),
+                  FeeTableRow(
+                    rowData: [
+                      Checkbox(value: true, onChanged: (value) {}),
+                      'Akhil',
+                      Container(
+                        alignment: Alignment.topLeft,
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            textStyle: const TextStyle(fontSize: 15),
+                          ),
+                          onPressed: () {},
+                          child: const Text('Present'),
+                        ),
+                      ),
+                      Container(
+                        width: 100,
+                        height: 40,
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            hintText: "Reason",
+                            filled: false,
+                            fillColor: Color.fromRGBO(234, 240, 247, 1),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Divider(),
+                  FeeTableRow(
+                    rowData: [
+                      Checkbox(value: true, onChanged: (value) {}),
+                      'Akhil',
+                      Container(
+                        alignment: Alignment.topLeft,
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            textStyle: const TextStyle(fontSize: 15),
+                          ),
+                          onPressed: () {},
+                          child: const Text('Present'),
+                        ),
+                      ),
+                      Container(
+                        width: 100,
+                        height: 40,
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            hintText: "Reason",
+                            filled: false,
+                            fillColor: Color.fromRGBO(234, 240, 247, 1),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ],
+          ),
         ),
       ],
     );
