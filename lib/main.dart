@@ -10,6 +10,10 @@ import 'package:prathibha_web/fee/bloc/paid/paid_bloc.dart';
 import 'package:prathibha_web/fee/bloc/class/class_bloc.dart';
 import 'package:prathibha_web/fee/bloc/division/division_bloc.dart';
 import 'package:prathibha_web/fee/bloc/month/month_bloc.dart';
+import 'package:prathibha_web/attendance/bloc/class/class_bloc.dart';
+import 'package:prathibha_web/attendance/bloc/division/division_bloc.dart';
+import 'package:prathibha_web/attendance/bloc/absent/absent_bloc.dart';
+import 'package:prathibha_web/attendance/bloc/present/present_bloc.dart';
 
 void main(List<String> args) {
   runApp(const PrathibhaWebApplication());
@@ -59,9 +63,13 @@ class _PrathibhaWebApplicationState extends State<PrathibhaWebApplication> {
           BlocProvider(create: ((context) => DropDownSwitchBloc())),
           BlocProvider(create: ((context) => UnpaidBloc())),
           BlocProvider(create: ((context) => PaidBloc())),
-          BlocProvider(create: ((context) => ClassBloc())),
-          BlocProvider(create: ((context) => DivisionBloc())),
-          BlocProvider(create: ((context) => MonthBloc())),
+          BlocProvider(create: ((context) => FeeClassBloc())),
+          BlocProvider(create: ((context) => FeeDivisionBloc())),
+          BlocProvider(create: ((context) => FeeMonthBloc())),
+          BlocProvider(create: ((context) => AttendanceClassBloc())),
+          BlocProvider(create: ((context) => AttendanceDivisionBloc())),
+          BlocProvider(create: ((context) => AbsentBloc())),
+          BlocProvider(create: ((context) => PresentBloc())),
         ],
         child: const SwitcherScreen(),
       ),

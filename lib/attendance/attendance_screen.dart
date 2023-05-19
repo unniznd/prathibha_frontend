@@ -1,5 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:prathibha_web/attendance/bloc/absent/absent_bloc.dart';
+import 'package:prathibha_web/attendance/bloc/absent/absent_event.dart';
+import 'package:prathibha_web/attendance/bloc/absent/absent_state.dart';
+import 'package:prathibha_web/attendance/bloc/class/class_bloc.dart';
+import 'package:prathibha_web/attendance/bloc/class/class_event.dart';
+import 'package:prathibha_web/attendance/bloc/class/class_state.dart';
+import 'package:prathibha_web/attendance/bloc/division/division_bloc.dart';
+import 'package:prathibha_web/attendance/bloc/division/division_event.dart';
+import 'package:prathibha_web/attendance/bloc/division/division_state.dart';
+import 'package:prathibha_web/attendance/bloc/present/present_bloc.dart';
+import 'package:prathibha_web/attendance/bloc/present/present_event.dart';
+import 'package:prathibha_web/attendance/bloc/present/present_state.dart';
 
 import '../fee/widget/fee_table_row.dart';
 
@@ -11,30 +24,10 @@ class AttendanceScreen extends StatefulWidget {
 }
 
 class _AttendanceScreenState extends State<AttendanceScreen> {
-  String? selectedClass = 'Class';
-  String? selectedDivision = 'Division';
-  String? selectedMonth = 'Month';
-
-  bool isAbsentChecked = false;
-  bool isPresentChecked = false;
-
-  void handleAbsentCheck(bool? value) {
-    setState(() {
-      isAbsentChecked = value!;
-      if (value) {
-        isPresentChecked = false;
-      }
-    });
-  }
-
-  void handlePresentCheck(bool? value) {
-    setState(() {
-      isPresentChecked = value!;
-      if (value) {
-        isAbsentChecked = false;
-      }
-    });
-  }
+  final AttendanceClassBloc attendanceClassBloc = AttendanceClassBloc();
+  final AttendanceDivisionBloc divisionBloc = AttendanceDivisionBloc();
+  final AbsentBloc absentBloc = AbsentBloc();
+  final PresentBloc presentBloc = PresentBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -85,11 +78,21 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           children: [
             Transform.scale(
               scale: 1.2,
-              child: Checkbox(
-                value: isAbsentChecked,
-                onChanged: handleAbsentCheck,
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                activeColor: const Color.fromRGBO(68, 97, 242, 1),
+              child: BlocBuilder<AbsentBloc, AbsentState>(
+                bloc: absentBloc,
+                builder: (context, state) {
+                  return Checkbox(
+                    value: state.isActive,
+                    onChanged: (newState) {
+                      if (newState == true) {
+                        presentBloc.add(UpdatePresent(isActive: false));
+                      }
+                      absentBloc.add(UpdateAbsent(isActive: !state.isActive));
+                    },
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    activeColor: const Color.fromRGBO(68, 97, 242, 1),
+                  );
+                },
               ),
             ),
             const SizedBox(
@@ -106,11 +109,21 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             ),
             Transform.scale(
               scale: 1.2,
-              child: Checkbox(
-                value: isPresentChecked,
-                onChanged: handlePresentCheck,
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                activeColor: const Color.fromRGBO(68, 97, 242, 1),
+              child: BlocBuilder<PresentBloc, PresentState>(
+                bloc: presentBloc,
+                builder: (context, state) {
+                  return Checkbox(
+                    value: state.isActive,
+                    onChanged: (newState) {
+                      if (newState == true) {
+                        absentBloc.add(UpdateAbsent(isActive: false));
+                      }
+                      presentBloc.add(UpdatePresent(isActive: !state.isActive));
+                    },
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    activeColor: const Color.fromRGBO(68, 97, 242, 1),
+                  );
+                },
               ),
             ),
             const SizedBox(
@@ -137,39 +150,46 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                   color: const Color.fromRGBO(
                       234, 240, 247, 1) // Customize the border radius if needed
                   ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  value: selectedClass,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedClass = newValue;
-                    });
-                  },
-                  icon: const Padding(
-                    padding: EdgeInsets.only(right: 8.0),
-                    child: HeroIcon(HeroIcons.chevronDown),
-                  ),
-                  items: <String>[
-                    'Class',
-                    '10',
-                    '9',
-                    '8',
-                  ].map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Text(
-                          value,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+              child: BlocBuilder<AttendanceClassBloc, ClassState>(
+                bloc: attendanceClassBloc,
+                builder: (context, state) {
+                  return DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      value: state.className,
+                      hint: const Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Text("Class"),
                       ),
-                    );
-                  }).toList(),
-                ),
+                      onChanged: (String? newValue) {
+                        attendanceClassBloc
+                            .add(ChangeClass(className: newValue));
+                      },
+                      icon: const Padding(
+                        padding: EdgeInsets.only(right: 8.0),
+                        child: HeroIcon(HeroIcons.chevronDown),
+                      ),
+                      items: <String>[
+                        '10',
+                        '9',
+                        '8',
+                      ].map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Text(
+                              value,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  );
+                },
               ),
             ),
             const SizedBox(
@@ -187,39 +207,46 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                   color: const Color.fromRGBO(
                       234, 240, 247, 1) // Customize the border radius if needed
                   ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  value: selectedDivision,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedDivision = newValue;
-                    });
-                  },
-                  icon: const Padding(
-                    padding: EdgeInsets.only(right: 8.0),
-                    child: HeroIcon(HeroIcons.chevronDown),
-                  ),
-                  items: <String>[
-                    'Division',
-                    'A',
-                    'B',
-                    'C',
-                  ].map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Text(
-                          value,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+              child: BlocBuilder<AttendanceDivisionBloc, DivisionState>(
+                bloc: divisionBloc,
+                builder: (context, state) {
+                  return DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      value: state.divisionName,
+                      hint: const Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Text("Division"),
                       ),
-                    );
-                  }).toList(),
-                ),
+                      onChanged: (String? newValue) {
+                        divisionBloc
+                            .add(ChangeDivision(divisionName: newValue));
+                      },
+                      icon: const Padding(
+                        padding: EdgeInsets.only(right: 8.0),
+                        child: HeroIcon(HeroIcons.chevronDown),
+                      ),
+                      items: <String>[
+                        'A',
+                        'B',
+                        'C',
+                      ].map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Text(
+                              value,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  );
+                },
               ),
             ),
             const SizedBox(
@@ -228,8 +255,33 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           ],
         ),
         const SizedBox(
-          width: 10,
           height: 10,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: Text(
+                "1 of 4 Absent Students",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                attendanceClassBloc.add(ChangeClass(className: null));
+                divisionBloc.add(ChangeDivision(divisionName: null));
+              },
+              child: const Text("Clear Filters"),
+            )
+          ],
+        ),
+        const SizedBox(
+          height: 30,
         ),
         Padding(
           padding: const EdgeInsets.only(

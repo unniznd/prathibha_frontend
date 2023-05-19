@@ -30,9 +30,9 @@ class _FeeScreenState extends State<FeeScreen> {
 
   final UnpaidBloc unpaidBloc = UnpaidBloc();
   final PaidBloc paidBloc = PaidBloc();
-  final ClassBloc classBloc = ClassBloc();
-  final DivisionBloc divisionBloc = DivisionBloc();
-  final MonthBloc monthBloc = MonthBloc();
+  final FeeClassBloc classBloc = FeeClassBloc();
+  final FeeDivisionBloc divisionBloc = FeeDivisionBloc();
+  final FeeMonthBloc monthBloc = FeeMonthBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +152,7 @@ class _FeeScreenState extends State<FeeScreen> {
                   color: const Color.fromRGBO(
                       234, 240, 247, 1) // Customize the border radius if needed
                   ),
-              child: BlocBuilder<ClassBloc, ClassState>(
+              child: BlocBuilder<FeeClassBloc, ClassState>(
                 bloc: classBloc,
                 builder: (context, state) {
                   return DropdownButtonHideUnderline(
@@ -208,7 +208,7 @@ class _FeeScreenState extends State<FeeScreen> {
                   color: const Color.fromRGBO(
                       234, 240, 247, 1) // Customize the border radius if needed
                   ),
-              child: BlocBuilder<DivisionBloc, DivisionState>(
+              child: BlocBuilder<FeeDivisionBloc, DivisionState>(
                 bloc: divisionBloc,
                 builder: (context, state) {
                   return DropdownButtonHideUnderline(
@@ -265,7 +265,7 @@ class _FeeScreenState extends State<FeeScreen> {
                   color: const Color.fromRGBO(
                       234, 240, 247, 1) // Customize the border radius if needed
                   ),
-              child: BlocBuilder<MonthBloc, MonthState>(
+              child: BlocBuilder<FeeMonthBloc, MonthState>(
                 bloc: monthBloc,
                 builder: (context, state) {
                   return DropdownButtonHideUnderline(
