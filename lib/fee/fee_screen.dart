@@ -12,6 +12,7 @@ class FeeScreen extends StatefulWidget {
 class _FeeScreenState extends State<FeeScreen> {
   String? selectedClass = 'Class';
   String? selectedDivision = 'Division';
+  String? selectedMonth = 'Month';
 
   bool isUnpaidChecked = false;
   bool isPaidChecked = false;
@@ -44,15 +45,21 @@ class _FeeScreenState extends State<FeeScreen> {
         const SizedBox(
           height: 20,
         ),
-        const Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            "Fee Details",
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: const [
+            Text(
+              "Fee Details",
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
+            HeroIcon(
+              HeroIcons.arrowPath,
+              size: 28,
+            )
+          ],
         ),
         const SizedBox(
           height: 30,
@@ -117,7 +124,7 @@ class _FeeScreenState extends State<FeeScreen> {
               width: 20,
             ),
             Container(
-              width: 150,
+              width: 120,
               decoration: BoxDecoration(
                   border: Border.all(
                     color: const Color.fromRGBO(234, 240, 247, 1),
@@ -167,7 +174,7 @@ class _FeeScreenState extends State<FeeScreen> {
               width: 10,
             ),
             Container(
-              width: 150,
+              width: 120,
               decoration: BoxDecoration(
                   border: Border.all(
                     color: const Color.fromRGBO(234, 240, 247, 1),
@@ -213,7 +220,80 @@ class _FeeScreenState extends State<FeeScreen> {
                 ),
               ),
             ),
+            const SizedBox(
+              width: 10,
+            ),
+            Container(
+              width: 100,
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    color: const Color.fromRGBO(234, 240, 247, 1),
+                  ), // Customize the border color and other properties
+                  borderRadius: BorderRadius.circular(
+                    10.0,
+                  ),
+                  color: const Color.fromRGBO(
+                      234, 240, 247, 1) // Customize the border radius if needed
+                  ),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  value: selectedMonth,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedMonth = newValue;
+                    });
+                  },
+                  icon: const Padding(
+                    padding: EdgeInsets.only(right: 8.0),
+                    child: HeroIcon(HeroIcons.chevronDown),
+                  ),
+                  items: <String>[
+                    'Month',
+                    'Jan',
+                    'Feb',
+                    'Mar',
+                    'Apr',
+                    'May',
+                    'Jun',
+                    'Jul',
+                    'Aug',
+                    'Sep',
+                    'Oct',
+                    'Nov',
+                    'Dec',
+                  ].map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Text(
+                          value,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ),
           ],
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        const Padding(
+          padding: EdgeInsets.only(left: 10),
+          child: Text(
+            "1 of 4 Unpaid Students",
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w500,
+              fontSize: 18,
+            ),
+          ),
         ),
         const SizedBox(
           height: 30,
@@ -226,7 +306,7 @@ class _FeeScreenState extends State<FeeScreen> {
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: SizedBox(
-              width: MediaQuery.of(context).size.width / 1.95,
+              width: MediaQuery.of(context).size.width / 1.8,
               child: Column(
                 children: [
                   FeeTableRow(

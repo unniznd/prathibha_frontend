@@ -25,7 +25,7 @@ class LeftTabView extends StatelessWidget {
     HeroIcons.squares2x2,
     HeroIcons.userGroup,
     HeroIcons.userPlus,
-    HeroIcons.currencyDollar,
+    HeroIcons.currencyRupee,
     HeroIcons.newspaper,
   ];
 

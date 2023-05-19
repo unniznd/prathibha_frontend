@@ -146,7 +146,7 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                           } else if (state is ReportsState) {
                             return const ReportScreen();
                           }
-                          return DashboardScreen();
+                          return const DashboardScreen();
                         },
                       ),
                     ],
@@ -306,8 +306,11 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
               padding: EdgeInsets.only(right: screenWidth / 5 + 10, bottom: 20),
               child: FloatingActionButton(
                 onPressed: () {},
+                elevation: 1,
                 child: const HeroIcon(
-                  HeroIcons.bookOpen,
+                  HeroIcons.documentText,
+                  size: 30,
+                  style: HeroIconStyle.solid,
                 ),
               ),
             );
