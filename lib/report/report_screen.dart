@@ -183,6 +183,20 @@ class _ReportScreenState extends State<ReportScreen> {
         const SizedBox(
           height: 20,
         ),
+        Align(
+          alignment: Alignment.centerRight,
+          child: TextButton(
+            onPressed: () {
+              setState(() {
+                selectedType = null;
+              });
+            },
+            child: const Text("Clear Filters"),
+          ),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
         const Divider(
           thickness: 1,
         ),
