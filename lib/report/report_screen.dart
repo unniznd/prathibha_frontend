@@ -9,7 +9,7 @@ class ReportScreen extends StatefulWidget {
 }
 
 class _ReportScreenState extends State<ReportScreen> {
-  String? selectedType = null;
+  String? selectedType;
 
   @override
   Widget build(BuildContext context) {

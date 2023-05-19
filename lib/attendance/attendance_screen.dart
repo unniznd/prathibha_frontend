@@ -266,7 +266,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                           child: const Text('Present'),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         width: 100,
                         height: 40,
                         child: TextFormField(
@@ -294,7 +294,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                           child: const Text('Present'),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         width: 100,
                         height: 40,
                         child: TextFormField(
@@ -322,7 +322,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                           child: const Text('Present'),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         width: 100,
                         height: 40,
                         child: TextFormField(
@@ -350,7 +350,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                           child: const Text('Present'),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         width: 100,
                         height: 40,
                         child: TextFormField(
