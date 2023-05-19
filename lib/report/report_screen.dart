@@ -9,6 +9,8 @@ class ReportScreen extends StatefulWidget {
 }
 
 class _ReportScreenState extends State<ReportScreen> {
+  String? selectedType = null;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -82,6 +84,58 @@ class _ReportScreenState extends State<ReportScreen> {
                   child: HeroIcon(HeroIcons.calendar),
                 ),
               ),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        Container(
+          width: double.maxFinite,
+          decoration: BoxDecoration(
+              border: Border.all(
+                color: const Color.fromRGBO(234, 240, 247, 1),
+              ), // Customize the border color and other properties
+              borderRadius: BorderRadius.circular(
+                10.0,
+              ),
+              color: const Color.fromRGBO(
+                  234, 240, 247, 1) // Customize the border radius if needed
+              ),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              value: selectedType,
+              hint: const Padding(
+                padding: EdgeInsets.only(left: 10.0),
+                child: Text("Report Type"),
+              ),
+              onChanged: (String? newValue) {
+                setState(() {
+                  selectedType = newValue;
+                });
+              },
+              icon: const Padding(
+                padding: EdgeInsets.only(right: 8.0),
+                child: HeroIcon(HeroIcons.chevronDown),
+              ),
+              items: <String>[
+                'Attendance',
+                'Fee',
+              ].map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      value,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
             ),
           ),
         ),

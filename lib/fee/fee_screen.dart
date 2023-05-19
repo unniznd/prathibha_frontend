@@ -10,9 +10,9 @@ class FeeScreen extends StatefulWidget {
 }
 
 class _FeeScreenState extends State<FeeScreen> {
-  String? selectedClass = 'Class';
-  String? selectedDivision = 'Division';
-  String? selectedMonth = 'Month';
+  String? selectedClass;
+  String? selectedDivision;
+  String? selectedMonth;
 
   bool isUnpaidChecked = false;
   bool isPaidChecked = false;
@@ -141,6 +141,10 @@ class _FeeScreenState extends State<FeeScreen> {
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
                   value: selectedClass,
+                  hint: const Padding(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Text("Class"),
+                  ),
                   onChanged: (String? newValue) {
                     setState(() {
                       selectedClass = newValue;
@@ -151,7 +155,6 @@ class _FeeScreenState extends State<FeeScreen> {
                     child: HeroIcon(HeroIcons.chevronDown),
                   ),
                   items: <String>[
-                    'Class',
                     '10',
                     '9',
                     '8',
@@ -191,6 +194,10 @@ class _FeeScreenState extends State<FeeScreen> {
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
                   value: selectedDivision,
+                  hint: const Padding(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Text("Division"),
+                  ),
                   onChanged: (String? newValue) {
                     setState(() {
                       selectedDivision = newValue;
@@ -201,7 +208,6 @@ class _FeeScreenState extends State<FeeScreen> {
                     child: HeroIcon(HeroIcons.chevronDown),
                   ),
                   items: <String>[
-                    'Division',
                     'A',
                     'B',
                     'C',
@@ -241,6 +247,10 @@ class _FeeScreenState extends State<FeeScreen> {
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
                   value: selectedMonth,
+                  hint: const Padding(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Text("Month"),
+                  ),
                   onChanged: (String? newValue) {
                     setState(() {
                       selectedMonth = newValue;
@@ -251,7 +261,6 @@ class _FeeScreenState extends State<FeeScreen> {
                     child: HeroIcon(HeroIcons.chevronDown),
                   ),
                   items: <String>[
-                    'Month',
                     'Jan',
                     'Feb',
                     'Mar',
@@ -287,16 +296,33 @@ class _FeeScreenState extends State<FeeScreen> {
         const SizedBox(
           height: 10,
         ),
-        const Padding(
-          padding: EdgeInsets.only(left: 10),
-          child: Text(
-            "1 of 4 Unpaid Students",
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.w500,
-              fontSize: 18,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: Text(
+                "1 of 4 Unpaid Students",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18,
+                ),
+              ),
             ),
-          ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  selectedClass = null;
+                  selectedDivision = null;
+                  selectedMonth = null;
+                  isUnpaidChecked = false;
+                  isPaidChecked = false;
+                });
+              },
+              child: const Text("Clear Filters"),
+            )
+          ],
         ),
         const SizedBox(
           height: 30,
