@@ -298,14 +298,22 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
           )
         ],
       ),
-      floatingActionButton: Padding(
-        padding: EdgeInsets.only(right: screenWidth / 5 + 10, bottom: 20),
-        child: FloatingActionButton(
-          onPressed: () {},
-          child: HeroIcon(
-            HeroIcons.bookOpen,
-          ),
-        ),
+      floatingActionButton: BlocBuilder<LeftTabViewBloc, LeftTabViewState>(
+        bloc: tabViewBloc,
+        builder: (context, state) {
+          if (state is FeeState) {
+            return Padding(
+              padding: EdgeInsets.only(right: screenWidth / 5 + 10, bottom: 20),
+              child: FloatingActionButton(
+                onPressed: () {},
+                child: const HeroIcon(
+                  HeroIcons.bookOpen,
+                ),
+              ),
+            );
+          }
+          return Container();
+        },
       ),
     );
   }
