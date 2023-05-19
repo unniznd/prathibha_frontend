@@ -211,21 +211,24 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                                       },
                                     ),
                                   ),
-                                  Container(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 10, right: 10),
-                                    child: ElevatedButton(
-                                      child: Container(
-                                        padding: const EdgeInsets.all(10),
-                                        child: const Text("Logout"),
-                                      ),
-                                      onPressed: () {
-                                        // Perform logout actions here
-                                        Navigator.of(context)
-                                            .pop(); // Close the dialog
+                                  Tooltip(
+                                    message: 'Logout from the system',
+                                    child: Container(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 10, right: 10),
+                                      child: ElevatedButton(
+                                        child: Container(
+                                          padding: const EdgeInsets.all(10),
+                                          child: const Text("Logout"),
+                                        ),
+                                        onPressed: () {
+                                          // Perform logout actions here
+                                          Navigator.of(context)
+                                              .pop(); // Close the dialog
 
-                                        // Add your logout logic here
-                                      },
+                                          // Add your logout logic here
+                                        },
+                                      ),
                                     ),
                                   ),
                                 ],
