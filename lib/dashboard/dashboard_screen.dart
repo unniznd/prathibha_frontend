@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:prathibha_web/dashboard/widget/dashboard_summary_card.dart';
 import 'package:prathibha_web/dashboard/widget/income_expense_graph.dart';
+import 'package:prathibha_web/dashboard/widget/attendance_table_row.dart';
 
 import 'model/bar_char_model.dart';
 
@@ -145,18 +146,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
               width: MediaQuery.of(context).size.width / 1.67,
               child: Column(
                 children: [
-                  _buildTableRow([
-                    'Sl No',
-                    'Branch/Class-Division',
-                    'Percentage',
-                    ' View Details'
-                  ], isHeader: true),
+                  AttendanceTableRow(
+                    rowData: const [
+                      'Sl No',
+                      'Branch/Class-Division',
+                      'Percentage',
+                      ' View Details'
+                    ],
+                    isHeader: true,
+                  ),
                   const Divider(),
-                  _buildTableRow(['1', 'Branch 1', '90%', 'View']),
+                  AttendanceTableRow(
+                    rowData: const ['1', 'Branch 1', '90%', 'View'],
+                  ),
                   const Divider(),
-                  _buildTableRow(['2', 'Branch 2', '100%', 'View']),
+                  AttendanceTableRow(
+                    rowData: const ['2', 'Branch 2', '100%', 'View'],
+                  ),
                   const Divider(),
-                  _buildTableRow(['3', 'Branch 3', '86%', 'View']),
+                  AttendanceTableRow(
+                    rowData: const ['3', 'Branch 3', '86%', 'View'],
+                  ),
                 ],
               ),
             ),
@@ -166,36 +176,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
           height: 30,
         ),
       ],
-    );
-  }
-
-  Widget _buildTableRow(List<String> rowData, {bool isHeader = false}) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        children: rowData.map((cellData) {
-          return Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(1),
-              child: cellData != "View"
-                  ? Text(
-                      cellData,
-                      style: TextStyle(
-                        fontWeight:
-                            isHeader ? FontWeight.bold : FontWeight.normal,
-                      ),
-                    )
-                  : TextButton(
-                      onPressed: () {},
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(cellData),
-                      ),
-                    ),
-            ),
-          );
-        }).toList(),
-      ),
     );
   }
 }
