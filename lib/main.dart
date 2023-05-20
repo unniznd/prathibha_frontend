@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prathibha_web/login/bloc/login_state.dart';
 import 'package:prathibha_web/login/login_screen.dart';
 import 'package:prathibha_web/switcher/switcher_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +16,7 @@ import 'package:prathibha_web/attendance/bloc/class/class_bloc.dart';
 import 'package:prathibha_web/attendance/bloc/division/division_bloc.dart';
 import 'package:prathibha_web/attendance/bloc/absent/absent_bloc.dart';
 import 'package:prathibha_web/attendance/bloc/present/present_bloc.dart';
+import 'package:prathibha_web/login/bloc/login_bloc.dart';
 
 void main(List<String> args) {
   runApp(const PrathibhaWebApplication());
@@ -53,7 +55,7 @@ class _PrathibhaWebApplicationState extends State<PrathibhaWebApplication> {
           backgroundColor: Colors.transparent,
         ),
         progressIndicatorTheme: const ProgressIndicatorThemeData(
-          color: Color.fromRGBO(68, 97, 242, 1),
+          color: Colors.white,
         ),
       ),
       home: MultiBlocProvider(
@@ -71,8 +73,17 @@ class _PrathibhaWebApplicationState extends State<PrathibhaWebApplication> {
           BlocProvider(create: ((context) => AttendanceDivisionBloc())),
           BlocProvider(create: ((context) => AbsentBloc())),
           BlocProvider(create: ((context) => PresentBloc())),
+          BlocProvider(create: ((context) => LoginBloc())),
         ],
-        child: const LoginScreen(),
+        child: BlocBuilder<LoginBloc, LoginState>(
+          bloc: loginBloc,
+          builder: (context, state) {
+            if (state is LoginSuccess) {
+              return const SwitcherScreen();
+            }
+            return const LoginScreen();
+          },
+        ),
       ),
     );
   }

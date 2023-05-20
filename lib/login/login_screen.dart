@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:prathibha_web/switcher/switcher_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:prathibha_web/login/bloc/login_bloc.dart';
+import 'package:prathibha_web/login/bloc/login_event.dart';
+import 'package:prathibha_web/login/bloc/login_state.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -74,6 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(20.0),
                         child: TextFormField(
                           controller: passwordController,
+                          obscureText: true,
                           decoration: const InputDecoration(
                             hintText: "Password",
                             filled: true,
@@ -95,17 +99,68 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      SizedBox(
-                        width: 200,
-                        height: 50,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            if (formKey.currentState!.validate()) {
-                              print("valid");
-                            }
-                          },
-                          child: const Text("Login"),
-                        ),
+                      BlocBuilder<LoginBloc, LoginState>(
+                        bloc: loginBloc,
+                        builder: (context, state) {
+                          if (state is LoginLoading) {
+                            return SizedBox(
+                              width: 200,
+                              height: 50,
+                              child: ElevatedButton(
+                                onPressed: () {},
+                                child: const CircularProgressIndicator(),
+                              ),
+                            );
+                          }
+                          if (state is LoginFailure) {
+                            return Column(
+                              children: [
+                                SizedBox(
+                                  width: 200,
+                                  height: 50,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      if (formKey.currentState!.validate()) {
+                                        loginBloc.add(
+                                          LoginButtonPressed(
+                                            username: usernameController.text,
+                                            password: passwordController.text,
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    child: const Text("Login"),
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                Text(
+                                  state.error,
+                                  style: const TextStyle(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            );
+                          }
+                          return SizedBox(
+                            width: 200,
+                            height: 50,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                if (formKey.currentState!.validate()) {
+                                  loginBloc.add(
+                                    LoginButtonPressed(
+                                      username: usernameController.text,
+                                      password: passwordController.text,
+                                    ),
+                                  );
+                                }
+                              },
+                              child: const Text("Login"),
+                            ),
+                          );
+                        },
                       )
                     ],
                   ),
