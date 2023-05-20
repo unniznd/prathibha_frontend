@@ -9,6 +9,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final formKey = GlobalKey<FormState>();
+
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,70 +31,84 @@ class _LoginScreenState extends State<LoginScreen> {
                   right: 150,
                   left: 150,
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 100,
-                      height: 100,
-                      child: Image.asset(
-                        "assets/images/logo.png",
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20.0),
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: "Username",
-                          filled: true,
-                          fillColor: Color.fromRGBO(234, 240, 247, 1),
-                          border: InputBorder.none,
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
-                          ),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: Image.asset(
+                          "assets/images/logo.png",
+                          fit: BoxFit.contain,
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20.0),
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: "Password",
-                          filled: true,
-                          fillColor: Color.fromRGBO(234, 240, 247, 1),
-                          border: InputBorder.none,
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      width: 200,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SwitcherScreen(),
+                      const SizedBox(height: 20),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(20.0),
+                        child: TextFormField(
+                          controller: usernameController,
+                          decoration: const InputDecoration(
+                            hintText: "Username",
+                            filled: true,
+                            fillColor: Color.fromRGBO(234, 240, 247, 1),
+                            border: InputBorder.none,
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.transparent),
                             ),
-                          );
-                        },
-                        child: const Text("Login"),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.transparent),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value!.length < 4) {
+                              return "Username is too short";
+                            }
+                            return null;
+                          },
+                        ),
                       ),
-                    )
-                  ],
+                      const SizedBox(height: 20),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(20.0),
+                        child: TextFormField(
+                          controller: passwordController,
+                          decoration: const InputDecoration(
+                            hintText: "Password",
+                            filled: true,
+                            fillColor: Color.fromRGBO(234, 240, 247, 1),
+                            border: InputBorder.none,
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.transparent),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.transparent),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value!.length < 4) {
+                              return "Password is too short";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      SizedBox(
+                        width: 200,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (formKey.currentState!.validate()) {
+                              print("valid");
+                            }
+                          },
+                          child: const Text("Login"),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

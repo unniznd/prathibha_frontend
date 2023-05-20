@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prathibha_web/login/login_screen.dart';
 import 'package:prathibha_web/switcher/switcher_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prathibha_web/switcher/bloc/calendar_day/calendar_day_bloc.dart';
@@ -71,7 +72,7 @@ class _PrathibhaWebApplicationState extends State<PrathibhaWebApplication> {
           BlocProvider(create: ((context) => AbsentBloc())),
           BlocProvider(create: ((context) => PresentBloc())),
         ],
-        child: const SwitcherScreen(),
+        child: const LoginScreen(),
       ),
     );
   }
