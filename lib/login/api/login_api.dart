@@ -11,7 +11,7 @@ class LoginApiProvider {
     try {
       res = await http.post(
           Uri.parse(
-            "$baseURL/get-token/",
+            "$baseURL/login/",
           ),
           body: {
             "username": username,
@@ -30,5 +30,26 @@ class LoginApiProvider {
     }
 
     return LoginModel.withError("Authentication Failed");
+  }
+
+  Future<LoginModel> dashboard(String token) async {
+    dynamic res;
+    try {
+      res = await http.get(
+          Uri.parse(
+            "$baseURL/dashboard/",
+          ),
+          headers: {
+            'Authorization': 'Token $token'
+          }).timeout(const Duration(seconds: 10));
+    } catch (e) {
+      throw Exception("Error Occured");
+    }
+
+    if (res.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(res.body);
+      return LoginModel.fromJson(responseData);
+    }
+    throw Exception("Error Occured");
   }
 }

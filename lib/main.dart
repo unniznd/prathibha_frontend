@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prathibha_web/common/login_loading.dart';
+import 'package:prathibha_web/login/bloc/login_event.dart';
 import 'package:prathibha_web/login/bloc/login_state.dart';
 import 'package:prathibha_web/login/login_screen.dart';
 import 'package:prathibha_web/switcher/switcher_screen.dart';
@@ -32,6 +33,12 @@ class PrathibhaWebApplication extends StatefulWidget {
 }
 
 class _PrathibhaWebApplicationState extends State<PrathibhaWebApplication> {
+  @override
+  void initState() {
+    loginBloc.add(LoginTokenCheck());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -79,11 +86,12 @@ class _PrathibhaWebApplicationState extends State<PrathibhaWebApplication> {
         child: BlocBuilder<LoginBloc, LoginState>(
           bloc: loginBloc,
           builder: (context, state) {
-            if (state is LoginSuccess) {
+            if (state is LoginTokenChecking) {
+              return const LoginLoadingScreen();
+            } else if (state is LoginSuccess) {
               return const SwitcherScreen();
             }
             return const LoginScreen();
-            // return const LoginLoadingScreen();
           },
         ),
       ),

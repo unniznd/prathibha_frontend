@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:prathibha_web/common/config.dart';
 import 'package:prathibha_web/login/api/login_api.dart';
 import 'package:prathibha_web/login/model/login_model.dart';
 import 'login_event.dart';
@@ -21,6 +22,18 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         }
       } catch (e) {
         emit(LoginFailure(error: "Error Occured: Try Again!"));
+      }
+    });
+    on<LoginTokenCheck>((event, emit) async {
+      emit(LoginTokenChecking());
+      try {
+        final token = getToken();
+
+        final LoginModel loginModel = await loginApiProvider.dashboard(token);
+
+        emit(LoginSuccess(loginModel: loginModel));
+      } catch (e) {
+        emit(LoginInitial());
       }
     });
   }
