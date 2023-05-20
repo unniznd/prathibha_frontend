@@ -108,21 +108,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
         const SizedBox(height: 30),
         const Align(
           alignment: Alignment.centerLeft,
-          child: Text(
-            "Income vs Expense",
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        const SizedBox(height: 30),
-        IncomeExpenseGraph(
-          barChartModelData: barChartModelData,
-        ),
-        const SizedBox(height: 20),
-        const Align(
-          alignment: Alignment.centerLeft,
           child: Padding(
             padding: EdgeInsets.all(8.0),
             child: Text(
@@ -172,6 +157,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
           ),
         ),
+        const SizedBox(
+          height: 30,
+        ),
+        const Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            "Income vs Expense",
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        const SizedBox(height: 30),
+        IncomeExpenseGraph(
+          barChartModelData: barChartModelData,
+        ),
+        const SizedBox(height: 20),
         const SizedBox(
           height: 30,
         ),
