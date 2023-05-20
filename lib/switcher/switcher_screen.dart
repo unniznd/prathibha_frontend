@@ -36,7 +36,7 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
 
   final dateController = TextEditingController();
 
-  String? selectedOption = 'All Branches';
+  String? selectedOption;
 
   @override
   Widget build(BuildContext context) {
@@ -91,6 +91,10 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                               return DropdownButtonHideUnderline(
                                 child: DropdownButton<String>(
                                   value: selectedOption,
+                                  hint: const Padding(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Text("Select Branch"),
+                                  ),
                                   onChanged: (String? newValue) {
                                     dropDownSwitchBloc.add(
                                       DropDownSwitchEventChange(
@@ -103,7 +107,6 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                                     child: HeroIcon(HeroIcons.chevronDown),
                                   ),
                                   items: <String>[
-                                    'All Branches',
                                     'Branch 1',
                                     'Branch 2',
                                     'Branch 3'
