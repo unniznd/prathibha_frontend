@@ -12,3 +12,7 @@ getToken() {
   final cookieMap = Map.fromEntries(entity);
   return cookieMap["token"];
 }
+
+deleteToken() {
+  document.cookie = "token=";
+}

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:prathibha_web/fee/fee_screen.dart';
+import 'package:prathibha_web/login/bloc/login_bloc.dart';
+import 'package:prathibha_web/login/bloc/login_event.dart';
+import 'package:prathibha_web/login/model/login_model.dart';
 import 'package:prathibha_web/switcher/widget/add_event_button.dart';
 import 'package:prathibha_web/switcher/widget/left_tab_view.dart';
 import 'package:prathibha_web/switcher/widget/show_calendar.dart';
@@ -23,7 +26,12 @@ import 'bloc/calendar_day/calendar_day_bloc.dart';
 // ignore: depend_on_referenced_packages
 
 class SwitcherScreen extends StatefulWidget {
-  const SwitcherScreen({super.key});
+  const SwitcherScreen({
+    super.key,
+    required this.loginModel,
+  });
+
+  final LoginModel loginModel;
 
   @override
   State<SwitcherScreen> createState() => _SwitcherScreenState();
@@ -37,6 +45,12 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
   final dateController = TextEditingController();
 
   String? selectedOption;
+
+  @override
+  void initState() {
+    selectedOption = widget.loginModel.branches?[0];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,9 +75,9 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ListTile(
-                        title: const Text(
-                          "Hello Maietry \u{1F44B}",
-                          style: TextStyle(
+                        title: Text(
+                          "Hello ${widget.loginModel.name} \u{1F44B}",
+                          style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w500,
                           ),
@@ -106,11 +120,8 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                                     padding: EdgeInsets.only(right: 8.0),
                                     child: HeroIcon(HeroIcons.chevronDown),
                                   ),
-                                  items: <String>[
-                                    'Branch 1',
-                                    'Branch 2',
-                                    'Branch 3'
-                                  ].map((String value) {
+                                  items: widget.loginModel.branches
+                                      ?.map((String value) {
                                     return DropdownMenuItem<String>(
                                       value: value,
                                       child: Padding(
@@ -223,11 +234,8 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                                         child: const Text("Logout"),
                                       ),
                                       onPressed: () {
-                                        // Perform logout actions here
-                                        Navigator.of(context)
-                                            .pop(); // Close the dialog
-
-                                        // Add your logout logic here
+                                        Navigator.of(context).pop();
+                                        loginBloc.add(LoginLogout());
                                       },
                                     ),
                                   ),
@@ -255,19 +263,27 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                   const SizedBox(
                     height: 15,
                   ),
-                  const Text(
-                    "Maietry Prajapati",
-                    style: TextStyle(
+                  Text(
+                    "${widget.loginModel.name}",
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
                     ),
                   ),
-                  const Text(
-                    "Main Adminstrator",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
+                  if (widget.loginModel.isAdmin!)
+                    const Text(
+                      "Main Adminstrator",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
+                  if (widget.loginModel.isBranchAdmin!)
+                    const Text(
+                      "Branch Adminstrator",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   const SizedBox(
                     height: 15,
                   ),

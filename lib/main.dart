@@ -89,7 +89,9 @@ class _PrathibhaWebApplicationState extends State<PrathibhaWebApplication> {
             if (state is LoginTokenChecking) {
               return const LoginLoadingScreen();
             } else if (state is LoginSuccess) {
-              return const SwitcherScreen();
+              return SwitcherScreen(
+                loginModel: state.loginModel,
+              );
             }
             return const LoginScreen();
           },

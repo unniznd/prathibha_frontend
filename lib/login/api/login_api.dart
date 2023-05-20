@@ -18,7 +18,6 @@ class LoginApiProvider {
             "password": password,
           }).timeout(const Duration(seconds: 10));
     } catch (e) {
-      print(res);
       return LoginModel.withError("Authentication Failed");
     }
 

@@ -36,6 +36,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(LoginInitial());
       }
     });
+
+    on<LoginLogout>((event, emit) async {
+      emit(LoginInitial());
+      deleteToken();
+    });
   }
 }
 

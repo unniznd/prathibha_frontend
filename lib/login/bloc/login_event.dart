@@ -8,3 +8,5 @@ class LoginButtonPressed extends LoginEvent {
 }
 
 class LoginTokenCheck extends LoginEvent {}
+
+class LoginLogout extends LoginEvent {}
