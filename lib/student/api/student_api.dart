@@ -27,12 +27,16 @@ class StudentApiProvider {
     return StudentClassDivisionModel.withError("Error Occured");
   }
 
-  Future<StudentModel> fetchStudentDetails(int branchId) async {
+  Future<StudentModel> fetchStudentDetails(
+    int branchId,
+    String standard,
+    String division,
+  ) async {
     dynamic res;
     try {
       res = await http.get(
           Uri.parse(
-            "$baseURL/students/$branchId/",
+            "$baseURL/students/$branchId/?standard=$standard&division=$division",
           ),
           headers: {
             'Authorization': 'Token ${getToken()}'

@@ -43,7 +43,7 @@ class _StudentScreenState extends State<StudentScreen> {
   @override
   Widget build(BuildContext context) {
     studentClassDivisionBloc.add(ClassDivisionFetch(widget.branchId));
-    studentBloc.add(FetchStudentDetails(widget.branchId));
+    studentBloc.add(FetchStudentDetails(widget.branchId, "", ""));
 
     List<String> divisionList = [];
 
@@ -59,8 +59,8 @@ class _StudentScreenState extends State<StudentScreen> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     "Students",
                     style: TextStyle(
                       fontSize: 28,
@@ -69,9 +69,17 @@ class _StudentScreenState extends State<StudentScreen> {
                   ),
                   Tooltip(
                     message: 'Reload the table',
-                    child: HeroIcon(
-                      HeroIcons.arrowPath,
-                      size: 28,
+                    child: GestureDetector(
+                      onTap: () {
+                        studentBloc.add(
+                          FetchStudentDetails(widget.branchId,
+                              selectedClass ?? "", selectedDivision ?? ""),
+                        );
+                      },
+                      child: const HeroIcon(
+                        HeroIcons.arrowPath,
+                        size: 28,
+                      ),
                     ),
                   )
                 ],
@@ -133,6 +141,13 @@ class _StudentScreenState extends State<StudentScreen> {
                                   divisionName: null,
                                 ),
                               );
+                              studentBloc.add(
+                                FetchStudentDetails(
+                                  widget.branchId,
+                                  newValue ?? "",
+                                  "",
+                                ),
+                              );
                             },
                             icon: const Padding(
                               padding: EdgeInsets.only(right: 8.0),
@@ -188,6 +203,13 @@ class _StudentScreenState extends State<StudentScreen> {
                             onChanged: (String? newValue) {
                               studentDivisionBloc
                                   .add(ChangeDivision(divisionName: newValue));
+                              studentBloc.add(
+                                FetchStudentDetails(
+                                  widget.branchId,
+                                  selectedClass ?? "",
+                                  newValue ?? "",
+                                ),
+                              );
                             },
                             icon: const Padding(
                               padding: EdgeInsets.only(right: 8.0),
@@ -230,16 +252,24 @@ class _StudentScreenState extends State<StudentScreen> {
                     builder: (context, state) {
                       if (state is StudentLoaded) {
                         return Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Text(
-                            "${state.studentModel.studentModel!.length} Students",
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18,
-                            ),
-                          ),
-                        );
+                            padding: const EdgeInsets.only(left: 10),
+                            child: state.studentModel.studentModel!.length > 1
+                                ? Text(
+                                    "${state.studentModel.studentModel!.length} Students",
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 18,
+                                    ),
+                                  )
+                                : Text(
+                                    "${state.studentModel.studentModel!.length} Student",
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 18,
+                                    ),
+                                  ));
                       } else if (state is StudentError) {
                         return const Padding(
                           padding: EdgeInsets.only(left: 10),
@@ -287,6 +317,8 @@ class _StudentScreenState extends State<StudentScreen> {
                       studentClassBloc.add(ChangeClass(className: null));
                       studentDivisionBloc
                           .add(ChangeDivision(divisionName: null));
+                      studentBloc
+                          .add(FetchStudentDetails(widget.branchId, "", ""));
                     },
                     child: const Text("Clear Filters"),
                   )
@@ -310,8 +342,8 @@ class _StudentScreenState extends State<StudentScreen> {
                           rowData: [
                             'Admission No',
                             'Student Name',
-                            'Class Division'
-                                'Actions',
+                            'Class Division',
+                            'Actions',
                           ],
                           isHeader: true,
                         ),

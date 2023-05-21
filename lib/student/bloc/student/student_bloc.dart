@@ -10,9 +10,11 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     on<FetchStudentDetails>((event, emit) async {
       emit(StudentLoading());
       try {
-        await Future.delayed(const Duration(seconds: 3));
-        final studentModel =
-            await studentApiProvider.fetchStudentDetails(event.branchId);
+        final studentModel = await studentApiProvider.fetchStudentDetails(
+          event.branchId,
+          event.standard,
+          event.division,
+        );
         if (studentModel.errorMsg != null) {
           emit(StudentError(studentModel.errorMsg!));
         } else {
