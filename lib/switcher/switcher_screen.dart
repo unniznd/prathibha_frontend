@@ -388,7 +388,7 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
               ),
             );
           }
-          return Container();
+          return const SizedBox.shrink();
         },
       ),
     );
