@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
+// ignore: must_be_immutable
 class StudentTableRow extends StatelessWidget {
-  StudentTableRow({
-    super.key,
+  const StudentTableRow({
+    Key? key,
     required this.rowData,
     this.isHeader = false,
-  });
+    this.isShimmer = false,
+  }) : super(key: key);
 
-  List<String> rowData;
-  bool isHeader;
+  final List<String> rowData;
+  final bool isHeader;
+  final bool isShimmer;
 
   @override
   Widget build(BuildContext context) {
@@ -19,21 +23,33 @@ class StudentTableRow extends StatelessWidget {
           return Expanded(
             child: Padding(
               padding: const EdgeInsets.all(1),
-              child: cellData != "View"
-                  ? Text(
-                      cellData,
-                      style: TextStyle(
-                        fontWeight:
-                            isHeader ? FontWeight.bold : FontWeight.normal,
+              child: isShimmer
+                  ? Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 16.0, // Adjust the height as needed
+                        child: Container(
+                          color: Colors.white,
+                        ),
                       ),
                     )
-                  : TextButton(
-                      onPressed: () {},
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(cellData),
-                      ),
-                    ),
+                  : (cellData != "View"
+                      ? Text(
+                          cellData,
+                          style: TextStyle(
+                            fontWeight:
+                                isHeader ? FontWeight.bold : FontWeight.normal,
+                          ),
+                        )
+                      : TextButton(
+                          onPressed: () {},
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(cellData),
+                          ),
+                        )),
             ),
           );
         }).toList(),
