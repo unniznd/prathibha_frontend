@@ -19,7 +19,9 @@ import 'package:prathibha_web/fee/bloc/unpaid/unpaid_state.dart';
 import 'package:prathibha_web/fee/widget/fee_table_row.dart';
 
 class FeeScreen extends StatefulWidget {
-  const FeeScreen({super.key});
+  const FeeScreen({super.key, required this.branchId});
+
+  final int branchId;
 
   @override
   State<FeeScreen> createState() => _FeeScreenState();

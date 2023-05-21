@@ -10,7 +10,9 @@ import 'package:prathibha_web/student/bloc/division/division_state.dart';
 import 'package:prathibha_web/student/widget/student_table_row.dart';
 
 class StudentScreen extends StatefulWidget {
-  const StudentScreen({super.key});
+  const StudentScreen({super.key, required this.branchId});
+
+  final int branchId;
 
   @override
   State<StudentScreen> createState() => _StudentScreenState();

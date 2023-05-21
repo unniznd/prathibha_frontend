@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:prathibha_web/dashboard/widget/dashboard_summary_card.dart';
 import 'package:prathibha_web/dashboard/widget/income_expense_graph.dart';
-import 'package:prathibha_web/dashboard/widget/attendance_table_row.dart';
+import 'package:prathibha_web/dashboard/widget/dashboard_table_row.dart';
 
 import 'model/bar_char_model.dart';
 
@@ -131,7 +131,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               width: MediaQuery.of(context).size.width / 1.67,
               child: Column(
                 children: [
-                  AttendanceTableRow(
+                  DashboardTableRow(
                     rowData: const [
                       'Sl No',
                       'Branch/Class-Division',
@@ -141,15 +141,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     isHeader: true,
                   ),
                   const Divider(),
-                  AttendanceTableRow(
+                  DashboardTableRow(
                     rowData: const ['1', 'Branch 1', '90%', 'View'],
                   ),
                   const Divider(),
-                  AttendanceTableRow(
+                  DashboardTableRow(
                     rowData: const ['2', 'Branch 2', '100%', 'View'],
                   ),
                   const Divider(),
-                  AttendanceTableRow(
+                  DashboardTableRow(
                     rowData: const ['3', 'Branch 3', '86%', 'View'],
                   ),
                 ],

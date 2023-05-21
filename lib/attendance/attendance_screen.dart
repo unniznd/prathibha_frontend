@@ -13,11 +13,12 @@ import 'package:prathibha_web/attendance/bloc/division/division_state.dart';
 import 'package:prathibha_web/attendance/bloc/present/present_bloc.dart';
 import 'package:prathibha_web/attendance/bloc/present/present_event.dart';
 import 'package:prathibha_web/attendance/bloc/present/present_state.dart';
-
-import '../fee/widget/fee_table_row.dart';
+import 'package:prathibha_web/attendance/widget/attendance_table_row.dart';
 
 class AttendanceScreen extends StatefulWidget {
-  const AttendanceScreen({super.key});
+  const AttendanceScreen({super.key, required this.branchId});
+
+  final int branchId;
 
   @override
   State<AttendanceScreen> createState() => _AttendanceScreenState();
@@ -294,7 +295,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
               width: MediaQuery.of(context).size.width / 1.9,
               child: Column(
                 children: [
-                  FeeTableRow(
+                  AttendanceTableRow(
                     rowData: [
                       Checkbox(value: true, onChanged: (value) {}),
                       'Student Name',
@@ -304,115 +305,39 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                     isHeader: true,
                   ),
                   const Divider(),
-                  FeeTableRow(
+                  AttendanceTableRow(
                     rowData: [
                       Checkbox(value: true, onChanged: (value) {}),
                       'Akhil',
-                      Container(
-                        alignment: Alignment.center,
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            textStyle: const TextStyle(fontSize: 15),
-                          ),
-                          onPressed: () {},
-                          child: const Text('Present'),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 100,
-                        height: 40,
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                            hintText: "Reason",
-                            filled: false,
-                            fillColor: Color.fromRGBO(234, 240, 247, 1),
-                          ),
-                        ),
-                      ),
+                      'Present',
+                      'Reason',
                     ],
                   ),
                   const Divider(),
-                  FeeTableRow(
+                  AttendanceTableRow(
                     rowData: [
                       Checkbox(value: true, onChanged: (value) {}),
                       'Akhil',
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            textStyle: const TextStyle(fontSize: 15),
-                          ),
-                          onPressed: () {},
-                          child: const Text('Present'),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 100,
-                        height: 40,
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                            hintText: "Reason",
-                            filled: false,
-                            fillColor: Color.fromRGBO(234, 240, 247, 1),
-                          ),
-                        ),
-                      ),
+                      'Present',
+                      'Reason',
                     ],
                   ),
                   const Divider(),
-                  FeeTableRow(
+                  AttendanceTableRow(
                     rowData: [
                       Checkbox(value: true, onChanged: (value) {}),
                       'Akhil',
-                      Container(
-                        alignment: Alignment.topLeft,
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            textStyle: const TextStyle(fontSize: 15),
-                          ),
-                          onPressed: () {},
-                          child: const Text('Present'),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 100,
-                        height: 40,
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                            hintText: "Reason",
-                            filled: false,
-                            fillColor: Color.fromRGBO(234, 240, 247, 1),
-                          ),
-                        ),
-                      ),
+                      'Absent',
+                      'Reason',
                     ],
                   ),
                   const Divider(),
-                  FeeTableRow(
+                  AttendanceTableRow(
                     rowData: [
                       Checkbox(value: true, onChanged: (value) {}),
                       'Akhil',
-                      Container(
-                        alignment: Alignment.topLeft,
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            textStyle: const TextStyle(fontSize: 15),
-                          ),
-                          onPressed: () {},
-                          child: const Text('Present'),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 100,
-                        height: 40,
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                            hintText: "Reason",
-                            filled: false,
-                            fillColor: Color.fromRGBO(234, 240, 247, 1),
-                          ),
-                        ),
-                      ),
+                      'Present',
+                      'Reason',
                     ],
                   ),
                 ],

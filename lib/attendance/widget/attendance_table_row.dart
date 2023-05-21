@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class FeeTableRow extends StatelessWidget {
-  FeeTableRow({
+class AttendanceTableRow extends StatelessWidget {
+  AttendanceTableRow({
     super.key,
     required this.rowData,
     this.isHeader = false,
@@ -23,12 +23,74 @@ class FeeTableRow extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(1),
                   child: Tooltip(
-                    child: Text(
-                      cellData,
-                      style: TextStyle(
-                        fontWeight:
-                            isHeader ? FontWeight.bold : FontWeight.normal,
-                        color: Colors.green,
+                    message: 'Present. Click to mark as absent',
+                    child: TextButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text("Mark as Absent Confirmation"),
+                              content: const Text(
+                                  "Are you sure you want to Mark as Absent?"),
+                              actions: <Widget>[
+                                Container(
+                                  padding: const EdgeInsets.only(bottom: 10),
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      textStyle: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      backgroundColor: const Color.fromARGB(
+                                          255, 255, 136, 67),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            20), // Set border radius
+                                      ),
+                                    ),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(10),
+                                      child: const Text("Cancel"),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .pop(); // Close the dialog
+                                    },
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.only(
+                                      bottom: 10, right: 10),
+                                  child: ElevatedButton(
+                                    child: Container(
+                                      padding: const EdgeInsets.all(10),
+                                      child: const Text("Confirm"),
+                                    ),
+                                    onPressed: () {
+                                      // Perform logout actions here
+                                      Navigator.of(context)
+                                          .pop(); // Close the dialog
+
+                                      // Add your logout logic here
+                                    },
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          cellData,
+                          style: TextStyle(
+                            fontWeight:
+                                isHeader ? FontWeight.bold : FontWeight.normal,
+                            color: Colors.green,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -39,23 +101,27 @@ class FeeTableRow extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(right: 1),
                   child: Tooltip(
-                    child: GestureDetector(
-                      child: Text(
-                        cellData,
-                        style: TextStyle(
-                          fontWeight:
-                              isHeader ? FontWeight.bold : FontWeight.normal,
-                          color: Colors.red,
+                    message: 'Absent. Click to mark as present',
+                    child: TextButton(
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          cellData,
+                          style: TextStyle(
+                            fontWeight:
+                                isHeader ? FontWeight.bold : FontWeight.normal,
+                            color: Colors.red,
+                          ),
                         ),
                       ),
-                      onTap: () {
+                      onPressed: () {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: const Text("Fee Payment Confirmation"),
+                              title: const Text("Mark as Present Confirmation"),
                               content: const Text(
-                                  "Are you sure you want to confirm fee payment of  \u20B9 2000?"),
+                                  "Are you sure you want to Mark as Present?"),
                               actions: <Widget>[
                                 Container(
                                   padding: const EdgeInsets.only(bottom: 10),

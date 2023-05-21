@@ -44,11 +44,11 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
 
   final dateController = TextEditingController();
 
-  String? selectedOption;
+  String? selectedBranch;
 
   @override
   void initState() {
-    selectedOption = widget.loginModel.branches?[0];
+    selectedBranch = widget.loginModel.branches?[0];
     super.initState();
   }
 
@@ -100,11 +100,11 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                             bloc: dropDownSwitchBloc,
                             builder: (context, state) {
                               if (state is DropDownSwitchedState) {
-                                selectedOption = state.newBranch;
+                                selectedBranch = state.newBranch;
                               }
                               return DropdownButtonHideUnderline(
                                 child: DropdownButton<String>(
-                                  value: selectedOption,
+                                  value: selectedBranch,
                                   hint: const Padding(
                                     padding: EdgeInsets.only(left: 10),
                                     child: Text("Select Branch"),
@@ -152,11 +152,62 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                           if (state is DashBoardState) {
                             return const DashboardScreen();
                           } else if (state is AttendanceState) {
-                            return const AttendanceScreen();
+                            return BlocBuilder<DropDownSwitchBloc,
+                                DropDownSwitchState>(
+                              bloc: dropDownSwitchBloc,
+                              builder: (context, state) {
+                                if (state is DropDownSwitchedState) {
+                                  selectedBranch = state.newBranch;
+
+                                  return AttendanceScreen(
+                                    branchId: widget
+                                        .loginModel.branchMap![selectedBranch]!,
+                                  );
+                                }
+                                return AttendanceScreen(
+                                  branchId: widget
+                                      .loginModel.branchMap![selectedBranch]!,
+                                );
+                              },
+                            );
                           } else if (state is FeeState) {
-                            return const FeeScreen();
+                            return BlocBuilder<DropDownSwitchBloc,
+                                DropDownSwitchState>(
+                              bloc: dropDownSwitchBloc,
+                              builder: (context, state) {
+                                if (state is DropDownSwitchedState) {
+                                  selectedBranch = state.newBranch;
+
+                                  return FeeScreen(
+                                    branchId: widget
+                                        .loginModel.branchMap![selectedBranch]!,
+                                  );
+                                }
+                                return FeeScreen(
+                                  branchId: widget
+                                      .loginModel.branchMap![selectedBranch]!,
+                                );
+                              },
+                            );
                           } else if (state is StudentsState) {
-                            return const StudentScreen();
+                            return BlocBuilder<DropDownSwitchBloc,
+                                DropDownSwitchState>(
+                              bloc: dropDownSwitchBloc,
+                              builder: (context, state) {
+                                if (state is DropDownSwitchedState) {
+                                  selectedBranch = state.newBranch;
+
+                                  return StudentScreen(
+                                    branchId: widget
+                                        .loginModel.branchMap![selectedBranch]!,
+                                  );
+                                }
+                                return StudentScreen(
+                                  branchId: widget
+                                      .loginModel.branchMap![selectedBranch]!,
+                                );
+                              },
+                            );
                           } else if (state is ReportsState) {
                             return const ReportScreen();
                           }

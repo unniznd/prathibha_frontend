@@ -6,15 +6,15 @@ import 'left_tab_view_state.dart';
 class LeftTabViewBloc extends Bloc<LeftTabViewEvent, LeftTabViewState> {
   LeftTabViewBloc() : super(DashBoardState()) {
     on<LeftTabViewSwitch>((event, emit) {
-      if (event.index == 0) {
+      if (event.tabIndex == 0) {
         emit(DashBoardState());
-      } else if (event.index == 1) {
+      } else if (event.tabIndex == 1) {
         emit(StudentsState());
-      } else if (event.index == 2) {
+      } else if (event.tabIndex == 2) {
         emit(AttendanceState());
-      } else if (event.index == 3) {
+      } else if (event.tabIndex == 3) {
         emit(FeeState());
-      } else if (event.index == 4) {
+      } else if (event.tabIndex == 4) {
         emit(ReportsState());
       } else {
         emit(DashBoardState());

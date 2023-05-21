@@ -1,7 +1,7 @@
 abstract class LeftTabViewEvent {}
 
 class LeftTabViewSwitch extends LeftTabViewEvent {
-  final int index;
+  final int tabIndex;
 
-  LeftTabViewSwitch(this.index);
+  LeftTabViewSwitch(this.tabIndex);
 }

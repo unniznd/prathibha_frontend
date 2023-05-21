@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class AttendanceTableRow extends StatelessWidget {
-  AttendanceTableRow({
+class DashboardTableRow extends StatelessWidget {
+  DashboardTableRow({
     super.key,
     required this.rowData,
     this.isHeader = false,
