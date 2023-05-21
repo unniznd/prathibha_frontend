@@ -16,7 +16,7 @@ class LeftTabView extends StatelessWidget {
   final List<String> _tabs = [
     'Dashboard',
     'Students',
-    'Attedance',
+    'Attendance',
     'Fees',
     'Reports',
   ];

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:intl/intl.dart';
 import 'package:prathibha_web/attendance/bloc/absent/absent_bloc.dart';
 import 'package:prathibha_web/attendance/bloc/absent/absent_event.dart';
 import 'package:prathibha_web/attendance/bloc/absent/absent_state.dart';
 import 'package:prathibha_web/attendance/bloc/class/class_bloc.dart';
 import 'package:prathibha_web/attendance/bloc/class/class_event.dart';
 import 'package:prathibha_web/attendance/bloc/class/class_state.dart';
+import 'package:prathibha_web/attendance/bloc/date/date_bloc.dart';
+import 'package:prathibha_web/attendance/bloc/date/date_event.dart';
+import 'package:prathibha_web/attendance/bloc/date/date_state.dart';
 import 'package:prathibha_web/attendance/bloc/division/division_bloc.dart';
 import 'package:prathibha_web/attendance/bloc/division/division_event.dart';
 import 'package:prathibha_web/attendance/bloc/division/division_state.dart';
@@ -29,6 +33,9 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   final AttendanceDivisionBloc divisionBloc = AttendanceDivisionBloc();
   final AbsentBloc absentBloc = AbsentBloc();
   final PresentBloc presentBloc = PresentBloc();
+  final DateBloc dateBloc = DateBloc();
+
+  String selectedDate = "Today";
 
   @override
   Widget build(BuildContext context) {
@@ -256,7 +263,92 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           ],
         ),
         const SizedBox(
-          height: 10,
+          height: 20,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            SizedBox(
+              // width: 200,
+              height: 50,
+              child: ElevatedButton.icon(
+                onPressed: () {},
+                icon: const HeroIcon(HeroIcons.sparkles),
+                label: const Text("Mark As Holiday"),
+              ),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            SizedBox(
+              // width: 120,
+              height: 50,
+              child: BlocBuilder<DateBloc, DateState>(
+                bloc: dateBloc,
+                builder: (context, state) {
+                  if (state is DateChanged) {
+                    selectedDate = DateFormat('MMMM d').format(
+                      state.date,
+                    );
+
+                    if (state.date.day == DateTime.now().day &&
+                        state.date.month == DateTime.now().month &&
+                        state.date.year == DateTime.now().year) {
+                      selectedDate = "Today";
+                    }
+                  }
+                  return ElevatedButton.icon(
+                    onPressed: () async {
+                      DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2022),
+                        lastDate: DateTime(2100),
+                      );
+                      if (pickedDate!.isAfter(DateTime.now())) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            behavior: SnackBarBehavior.floating,
+                            backgroundColor: Colors.red,
+                            width: 700,
+                            content: Row(
+                              children: const [
+                                HeroIcon(
+                                  HeroIcons.exclamationCircle,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  "Date cannot be in future",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                        return;
+                      }
+                      if (pickedDate != null) {
+                        dateBloc.add(ChangeDate(pickedDate));
+                      }
+                    },
+                    icon: const HeroIcon(HeroIcons.calendar),
+                    label: Text(selectedDate),
+                  );
+                },
+              ),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 30,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -276,6 +368,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
               onPressed: () {
                 attendanceClassBloc.add(ChangeClass(className: null));
                 divisionBloc.add(ChangeDivision(divisionName: null));
+                dateBloc.add(ChangeDate(DateTime.now()));
               },
               child: const Text("Clear Filters"),
             )
