@@ -32,6 +32,8 @@ class _StudentScreenState extends State<StudentScreen> {
       StudentClassDivisionBloc();
   final StudentBloc studentBloc = StudentBloc();
 
+  final TextEditingController searchController = TextEditingController();
+
   String? selectedClass;
   String? selectedDivision;
 
@@ -43,7 +45,7 @@ class _StudentScreenState extends State<StudentScreen> {
   @override
   Widget build(BuildContext context) {
     studentClassDivisionBloc.add(ClassDivisionFetch(widget.branchId));
-    studentBloc.add(FetchStudentDetails(widget.branchId, "", ""));
+    studentBloc.add(FetchStudentDetails(widget.branchId, "", "", ""));
 
     List<String> divisionList = [];
 
@@ -72,8 +74,12 @@ class _StudentScreenState extends State<StudentScreen> {
                     child: GestureDetector(
                       onTap: () {
                         studentBloc.add(
-                          FetchStudentDetails(widget.branchId,
-                              selectedClass ?? "", selectedDivision ?? ""),
+                          FetchStudentDetails(
+                            widget.branchId,
+                            selectedClass ?? "",
+                            selectedDivision ?? "",
+                            searchController.text,
+                          ),
                         );
                       },
                       child: const HeroIcon(
@@ -90,8 +96,19 @@ class _StudentScreenState extends State<StudentScreen> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(15.0),
                 child: TextFormField(
+                  controller: searchController,
+                  onChanged: (value) {
+                    studentBloc.add(
+                      FetchStudentDetails(
+                        widget.branchId,
+                        selectedClass ?? "",
+                        selectedDivision ?? "",
+                        value,
+                      ),
+                    );
+                  },
                   decoration: const InputDecoration(
-                    hintText: "Search by Reg No. and Name",
+                    hintText: "Search by Name",
                     filled: true,
                     fillColor: Color.fromRGBO(234, 240, 247, 1),
                     border: InputBorder.none,
@@ -146,6 +163,7 @@ class _StudentScreenState extends State<StudentScreen> {
                                   widget.branchId,
                                   newValue ?? "",
                                   "",
+                                  searchController.text,
                                 ),
                               );
                             },
@@ -208,6 +226,7 @@ class _StudentScreenState extends State<StudentScreen> {
                                   widget.branchId,
                                   selectedClass ?? "",
                                   newValue ?? "",
+                                  searchController.text,
                                 ),
                               );
                             },
@@ -317,8 +336,9 @@ class _StudentScreenState extends State<StudentScreen> {
                       studentClassBloc.add(ChangeClass(className: null));
                       studentDivisionBloc
                           .add(ChangeDivision(divisionName: null));
-                      studentBloc
-                          .add(FetchStudentDetails(widget.branchId, "", ""));
+                      searchController.text = "";
+                      studentBloc.add(
+                          FetchStudentDetails(widget.branchId, "", "", ""));
                     },
                     child: const Text("Clear Filters"),
                   )
@@ -352,6 +372,32 @@ class _StudentScreenState extends State<StudentScreen> {
                           bloc: studentBloc,
                           builder: (context, state) {
                             if (state is StudentLoaded) {
+                              if (state.studentModel.studentModel!.isEmpty) {
+                                return Column(
+                                  children: const [
+                                    SizedBox(
+                                      height: 50,
+                                    ),
+                                    // no report to view
+                                    HeroIcon(
+                                      HeroIcons.userGroup,
+                                      size: 100,
+                                      color: Color.fromRGBO(233, 233, 233, 1),
+                                    ),
+                                    Center(
+                                      child: Text(
+                                        " No Students Found",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color:
+                                              Color.fromRGBO(194, 194, 194, 1),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }
                               return ListView.separated(
                                 shrinkWrap: true,
                                 itemCount:

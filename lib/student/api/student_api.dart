@@ -31,12 +31,13 @@ class StudentApiProvider {
     int branchId,
     String standard,
     String division,
+    String q,
   ) async {
     dynamic res;
     try {
       res = await http.get(
           Uri.parse(
-            "$baseURL/students/$branchId/?standard=$standard&division=$division",
+            "$baseURL/students/$branchId/?standard=$standard&division=$division&q=$q",
           ),
           headers: {
             'Authorization': 'Token ${getToken()}'

@@ -14,6 +14,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
           event.branchId,
           event.standard,
           event.division,
+          event.q,
         );
         if (studentModel.errorMsg != null) {
           emit(StudentError(studentModel.errorMsg!));
