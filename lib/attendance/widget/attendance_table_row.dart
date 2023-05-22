@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 // ignore: must_be_immutable
 class AttendanceTableRow extends StatelessWidget {
@@ -6,10 +7,12 @@ class AttendanceTableRow extends StatelessWidget {
     super.key,
     required this.rowData,
     this.isHeader = false,
+    this.isShimmer = false,
   });
 
   List rowData;
   bool isHeader = false;
+  bool isShimmer = false;
 
   @override
   Widget build(BuildContext context) {
@@ -22,178 +25,210 @@ class AttendanceTableRow extends StatelessWidget {
               return Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(1),
-                  child: Tooltip(
-                    message: 'Present. Click to mark as absent',
-                    child: TextButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text("Mark as Absent Confirmation"),
-                              content: const Text(
-                                  "Are you sure you want to Mark as Absent?"),
-                              actions: <Widget>[
-                                Container(
-                                  padding: const EdgeInsets.only(bottom: 10),
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      textStyle: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
+                  child: isShimmer
+                      ? _buildShimmerWidget()
+                      : Tooltip(
+                          message: 'Present. Click to mark as absent',
+                          child: TextButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text(
+                                        "Mark as Absent Confirmation"),
+                                    content: const Text(
+                                        "Are you sure you want to Mark as Absent?"),
+                                    actions: <Widget>[
+                                      Container(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 10),
+                                        child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            textStyle: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            backgroundColor:
+                                                const Color.fromARGB(
+                                                    255, 255, 136, 67),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      20), // Set border radius
+                                            ),
+                                          ),
+                                          child: Container(
+                                            padding: const EdgeInsets.all(10),
+                                            child: const Text("Cancel"),
+                                          ),
+                                          onPressed: () {
+                                            Navigator.of(context)
+                                                .pop(); // Close the dialog
+                                          },
+                                        ),
                                       ),
-                                      backgroundColor: const Color.fromARGB(
-                                          255, 255, 136, 67),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            20), // Set border radius
-                                      ),
-                                    ),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(10),
-                                      child: const Text("Cancel"),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.of(context)
-                                          .pop(); // Close the dialog
-                                    },
-                                  ),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 10, right: 10),
-                                  child: ElevatedButton(
-                                    child: Container(
-                                      padding: const EdgeInsets.all(10),
-                                      child: const Text("Confirm"),
-                                    ),
-                                    onPressed: () {
-                                      // Perform logout actions here
-                                      Navigator.of(context)
-                                          .pop(); // Close the dialog
+                                      Container(
+                                        padding: const EdgeInsets.only(
+                                            bottom: 10, right: 10),
+                                        child: ElevatedButton(
+                                          child: Container(
+                                            padding: const EdgeInsets.all(10),
+                                            child: const Text("Confirm"),
+                                          ),
+                                          onPressed: () {
+                                            // Perform logout actions here
+                                            Navigator.of(context)
+                                                .pop(); // Close the dialog
 
-                                      // Add your logout logic here
-                                    },
-                                  ),
+                                            // Add your logout logic here
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                cellData,
+                                style: TextStyle(
+                                  fontWeight: isHeader
+                                      ? FontWeight.bold
+                                      : FontWeight.normal,
+                                  color: Colors.green,
                                 ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          cellData,
-                          style: TextStyle(
-                            fontWeight:
-                                isHeader ? FontWeight.bold : FontWeight.normal,
-                            color: Colors.green,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  ),
                 ),
               );
             } else if (cellData == "Absent") {
               return Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(right: 1),
-                  child: Tooltip(
-                    message: 'Absent. Click to mark as present',
-                    child: TextButton(
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          cellData,
-                          style: TextStyle(
-                            fontWeight:
-                                isHeader ? FontWeight.bold : FontWeight.normal,
-                            color: Colors.red,
+                  child: isShimmer
+                      ? _buildShimmerWidget()
+                      : Tooltip(
+                          message: 'Absent. Click to mark as present',
+                          child: TextButton(
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                cellData,
+                                style: TextStyle(
+                                  fontWeight: isHeader
+                                      ? FontWeight.bold
+                                      : FontWeight.normal,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ),
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text(
+                                        "Mark as Present Confirmation"),
+                                    content: const Text(
+                                        "Are you sure you want to Mark as Present?"),
+                                    actions: <Widget>[
+                                      Container(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 10),
+                                        child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            textStyle: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            backgroundColor:
+                                                const Color.fromARGB(
+                                                    255, 255, 136, 67),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      20), // Set border radius
+                                            ),
+                                          ),
+                                          child: Container(
+                                            padding: const EdgeInsets.all(10),
+                                            child: const Text("Cancel"),
+                                          ),
+                                          onPressed: () {
+                                            Navigator.of(context)
+                                                .pop(); // Close the dialog
+                                          },
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: const EdgeInsets.only(
+                                            bottom: 10, right: 10),
+                                        child: ElevatedButton(
+                                          child: Container(
+                                            padding: const EdgeInsets.all(10),
+                                            child: const Text("Confirm"),
+                                          ),
+                                          onPressed: () {
+                                            // Perform logout actions here
+                                            Navigator.of(context)
+                                                .pop(); // Close the dialog
+
+                                            // Add your logout logic here
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
                           ),
                         ),
-                      ),
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text("Mark as Present Confirmation"),
-                              content: const Text(
-                                  "Are you sure you want to Mark as Present?"),
-                              actions: <Widget>[
-                                Container(
-                                  padding: const EdgeInsets.only(bottom: 10),
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      textStyle: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      backgroundColor: const Color.fromARGB(
-                                          255, 255, 136, 67),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            20), // Set border radius
-                                      ),
-                                    ),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(10),
-                                      child: const Text("Cancel"),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.of(context)
-                                          .pop(); // Close the dialog
-                                    },
-                                  ),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 10, right: 10),
-                                  child: ElevatedButton(
-                                    child: Container(
-                                      padding: const EdgeInsets.all(10),
-                                      child: const Text("Confirm"),
-                                    ),
-                                    onPressed: () {
-                                      // Perform logout actions here
-                                      Navigator.of(context)
-                                          .pop(); // Close the dialog
-
-                                      // Add your logout logic here
-                                    },
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ),
                 ),
               );
             }
             return Expanded(
               child: Padding(
                   padding: const EdgeInsets.all(1),
-                  child: Text(
-                    cellData,
-                    style: TextStyle(
-                      fontWeight:
-                          isHeader ? FontWeight.bold : FontWeight.normal,
-                      color: Colors.black,
-                    ),
-                  )),
+                  child: isShimmer
+                      ? _buildShimmerWidget()
+                      : Text(
+                          cellData,
+                          style: TextStyle(
+                            fontWeight:
+                                isHeader ? FontWeight.bold : FontWeight.normal,
+                            color: Colors.black,
+                          ),
+                        )),
             );
           } else {
             return Padding(
               padding: const EdgeInsets.only(right: 20),
-              child: Align(alignment: Alignment.centerLeft, child: cellData),
+              child: isShimmer
+                  ? _buildShimmerWidget()
+                  : Align(alignment: Alignment.centerLeft, child: cellData),
             );
           }
         }).toList(),
+      ),
+    );
+  }
+
+  Widget _buildShimmerWidget() {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: SizedBox(
+        width: double.infinity,
+        height: 16.0, // Adjust the height as needed
+        child: Container(
+          color: Colors.white,
+        ),
       ),
     );
   }
