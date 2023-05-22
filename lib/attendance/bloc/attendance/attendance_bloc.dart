@@ -15,6 +15,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
         event.division,
         event.q,
         event.statusAttendance,
+        event.date,
       );
       if (attendanceModel.errorMsg != null) {
         emit(AttendanceError(errorMsg: attendanceModel.errorMsg!));

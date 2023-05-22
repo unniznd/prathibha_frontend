@@ -47,6 +47,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   final TextEditingController searchController = TextEditingController();
 
   String selectedDate = "Today";
+  String? pickedDate;
 
   String? selectedClass;
   String? selectedDivision;
@@ -58,7 +59,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   @override
   Widget build(BuildContext context) {
     attendanceClassDivisionBloc.add(ClassDivisionFetch(widget.branchId));
-    attendanceBloc.add(FetchAttendance(widget.branchId, "", "", "", ""));
+    attendanceBloc.add(FetchAttendance(widget.branchId, "", "", "", "", ""));
     attendanceClassBloc.add(ChangeClass(className: null));
     absentBloc.add(UpdateAbsent(isActive: false));
     presentBloc.add(UpdatePresent(isActive: false));
@@ -96,6 +97,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                             selectedDivision ?? "",
                             searchController.text,
                             attendanceStatus ?? "",
+                            pickedDate ?? "",
                           ),
                         );
                       },
@@ -122,6 +124,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                         selectedDivision ?? "",
                         value,
                         attendanceStatus ?? "",
+                        pickedDate ?? "",
                       ),
                     );
                   },
@@ -167,6 +170,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                                 selectedDivision ?? "",
                                 searchController.text,
                                 attendanceStatus ?? "",
+                                pickedDate ?? "",
                               ),
                             );
                           },
@@ -218,6 +222,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                                 selectedDivision ?? "",
                                 searchController.text,
                                 attendanceStatus ?? "",
+                                pickedDate ?? "",
                               ),
                             );
                           },
@@ -277,6 +282,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                                 "",
                                 searchController.text,
                                 attendanceStatus ?? "",
+                                pickedDate ?? "",
                               ));
                             },
                             icon: const Padding(
@@ -340,6 +346,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                                   newValue ?? "",
                                   searchController.text,
                                   attendanceStatus ?? "",
+                                  pickedDate ?? "",
                                 ),
                               );
                             },
@@ -401,11 +408,24 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                             state.date,
                           );
 
+                          pickedDate =
+                              DateFormat('yyyy-MM-dd').format(state.date);
+
                           if (state.date.day == DateTime.now().day &&
                               state.date.month == DateTime.now().month &&
                               state.date.year == DateTime.now().year) {
                             selectedDate = "Today";
                           }
+                          attendanceBloc.add(
+                            FetchAttendance(
+                              widget.branchId,
+                              selectedClass ?? "",
+                              selectedDivision ?? "",
+                              searchController.text,
+                              attendanceStatus ?? "",
+                              pickedDate ?? "",
+                            ),
+                          );
                         }
                         return ElevatedButton.icon(
                           onPressed: () async {
@@ -482,13 +502,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                       presentBloc.add(UpdatePresent(isActive: false));
                       absentBloc.add(UpdateAbsent(isActive: false));
                       attendanceBloc.add(
-                        FetchAttendance(
-                          widget.branchId,
-                          "",
-                          "",
-                          "",
-                          "",
-                        ),
+                        FetchAttendance(widget.branchId, "", "", "", "", ""),
                       );
                     },
                     child: const Text("Clear Filters"),

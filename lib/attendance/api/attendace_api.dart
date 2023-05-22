@@ -32,12 +32,13 @@ class AttendanceApiProvider {
     String division,
     String q,
     String attendanceStatus,
+    String date,
   ) async {
     dynamic res;
     try {
       res = await http.get(
           Uri.parse(
-            "$baseURL/attendance/$branchId/?standard=$standard&division=$division&q=$q&attendance=$attendanceStatus",
+            "$baseURL/attendance/$branchId/?standard=$standard&division=$division&q=$q&attendance=$attendanceStatus&date=$date",
           ),
           headers: {
             'Authorization': 'Token ${getToken()}'
