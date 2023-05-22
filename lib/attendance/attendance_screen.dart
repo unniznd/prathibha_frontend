@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 import 'package:prathibha_web/attendance/bloc/absent/absent_bloc.dart';
 import 'package:prathibha_web/attendance/bloc/absent/absent_event.dart';
@@ -24,6 +25,7 @@ import 'package:prathibha_web/attendance/bloc/present/present_bloc.dart';
 import 'package:prathibha_web/attendance/bloc/present/present_event.dart';
 import 'package:prathibha_web/attendance/bloc/present/present_state.dart';
 import 'package:prathibha_web/attendance/widget/attendance_table_row.dart';
+import 'package:shimmer/shimmer.dart';
 
 class AttendanceScreen extends StatefulWidget {
   const AttendanceScreen({super.key, required this.branchId});
@@ -385,14 +387,34 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  SizedBox(
-                    // width: 200,
-                    height: 50,
-                    child: ElevatedButton.icon(
-                      onPressed: () {},
-                      icon: const HeroIcon(HeroIcons.sparkles),
-                      label: const Text("Mark As Holiday"),
-                    ),
+                  BlocBuilder<AttendanceBloc, AttendanceState>(
+                    bloc: attendanceBloc,
+                    builder: (context, state) {
+                      if (state is AttendanceLoaded) {
+                        if (state.attendanceModel.isHoliday!) {
+                          return SizedBox(
+                            // width: 200,
+                            height: 50,
+                            child: ElevatedButton.icon(
+                              onPressed: () {},
+                              icon: const HeroIcon(HeroIcons.sparkles),
+                              label: const Text("Unmark As Holiday"),
+                            ),
+                          );
+                        }
+
+                        return SizedBox(
+                          // width: 200,
+                          height: 50,
+                          child: ElevatedButton.icon(
+                            onPressed: () {},
+                            icon: const HeroIcon(HeroIcons.sparkles),
+                            label: const Text("Mark As Holiday"),
+                          ),
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    },
                   ),
                   const SizedBox(
                     width: 10,
@@ -436,6 +458,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                               lastDate: DateTime(2100),
                             );
                             if (pickedDate!.isAfter(DateTime.now())) {
+                              // ignore: use_build_context_synchronously
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   behavior: SnackBarBehavior.floating,
@@ -462,9 +485,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                               );
                               return;
                             }
-                            if (pickedDate != null) {
-                              dateBloc.add(ChangeDate(pickedDate));
-                            }
+                            dateBloc.add(ChangeDate(pickedDate));
                           },
                           icon: const HeroIcon(HeroIcons.calendar),
                           label: Text(selectedDate),
@@ -483,16 +504,61 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text(
-                      "1 of 4 Absent Students",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 18,
-                      ),
-                    ),
+                  BlocBuilder<AttendanceBloc, AttendanceState>(
+                    bloc: attendanceBloc,
+                    builder: (context, state) {
+                      if (state is AttendanceLoaded) {
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Text(
+                            "${state.attendanceModel.absentCount} of ${state.attendanceModel.totalCount} Absent Students",
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18,
+                            ),
+                          ),
+                        );
+                      } else if (state is AttendanceError) {
+                        return const Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Text(
+                            "0 of 0 Absent Students",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18,
+                            ),
+                          ),
+                        );
+                      }
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Row(
+                          children: [
+                            Shimmer.fromColors(
+                              baseColor: Colors.grey[300]!,
+                              highlightColor: Colors.grey[100]!,
+                              child: SizedBox(
+                                width: 50,
+                                height: 16.0, // Adjust the height as needed
+                                child: Container(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            const Text(
+                              "Absent Students",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
                   TextButton(
                     onPressed: () {
@@ -538,6 +604,32 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                           bloc: attendanceBloc,
                           builder: (context, state) {
                             if (state is AttendanceLoaded) {
+                              if (state.attendanceModel.isHoliday!) {
+                                return Column(
+                                  children: [
+                                    const SizedBox(
+                                      height: 50,
+                                    ),
+                                    // no report to view
+                                    const HeroIcon(
+                                      HeroIcons.sparkles,
+                                      size: 100,
+                                      color: Color.fromRGBO(233, 233, 233, 1),
+                                    ),
+                                    Center(
+                                      child: Text(
+                                        " Holiday ${state.attendanceModel.holidayMsg}",
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color:
+                                              Color.fromRGBO(194, 194, 194, 1),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }
                               if (state.attendanceModel.studentModel!.isEmpty) {
                                 return Column(
                                   children: const [

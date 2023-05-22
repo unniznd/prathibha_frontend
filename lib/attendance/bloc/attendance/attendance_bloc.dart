@@ -8,23 +8,24 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   AttendanceBloc() : super(AttendanceLoading()) {
     on<FetchAttendance>((event, emit) async {
       emit(AttendanceLoading());
-      // try {
-      final attendanceModel = await attendanceApiProvider.fetchStudentDetails(
-        event.branchId,
-        event.standard,
-        event.division,
-        event.q,
-        event.statusAttendance,
-        event.date,
-      );
-      if (attendanceModel.errorMsg != null) {
-        emit(AttendanceError(errorMsg: attendanceModel.errorMsg!));
-      } else {
-        emit(AttendanceLoaded(attendanceModel: attendanceModel));
+      await Future.delayed(const Duration(seconds: 3));
+      try {
+        final attendanceModel = await attendanceApiProvider.fetchStudentDetails(
+          event.branchId,
+          event.standard,
+          event.division,
+          event.q,
+          event.statusAttendance,
+          event.date,
+        );
+        if (attendanceModel.errorMsg != null) {
+          emit(AttendanceError(errorMsg: attendanceModel.errorMsg!));
+        } else {
+          emit(AttendanceLoaded(attendanceModel: attendanceModel));
+        }
+      } catch (e) {
+        emit(AttendanceError(errorMsg: e.toString()));
       }
-      // } catch (e) {
-      //   emit(AttendanceError(errorMsg: e.toString()));
-      // }
     });
   }
 }
