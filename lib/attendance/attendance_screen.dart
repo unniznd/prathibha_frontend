@@ -640,7 +640,6 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                             'Student Name',
                             'Class Division',
                             'Status',
-                            'Reason',
                           ],
                           isHeader: true,
                           onMarkAbsent: null,
@@ -718,9 +717,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                                       state.attendanceModel.studentModel![index]
                                               .isAbsent
                                           ? "Absent"
-                                          : "Present",
-                                      state.attendanceModel.studentModel![index]
-                                          .reason,
+                                          : "Present"
                                     ],
                                     isMarkingAttendace: state
                                         .attendanceModel
