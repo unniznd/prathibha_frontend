@@ -399,7 +399,25 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                             // width: 200,
                             height: 50,
                             child: ElevatedButton.icon(
-                              onPressed: () {},
+                              onPressed: () {
+                                attendanceBloc.add(
+                                  UnmarkAsHoliday(
+                                    widget.branchId,
+                                    pickedDate ??
+                                        DateFormat("yyyy-MM-dd")
+                                            .format(DateTime.now()),
+                                    context,
+                                  ),
+                                );
+                                attendanceBloc.add(FetchAttendance(
+                                  widget.branchId,
+                                  selectedClass ?? "",
+                                  selectedDivision ?? "",
+                                  searchController.text,
+                                  attendanceStatus ?? "",
+                                  pickedDate ?? "",
+                                ));
+                              },
                               icon: const HeroIcon(HeroIcons.sparkles),
                               label: const Text("Unmark As Holiday"),
                             ),
@@ -410,7 +428,17 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                           // width: 200,
                           height: 50,
                           child: ElevatedButton.icon(
-                            onPressed: () {},
+                            onPressed: () {
+                              attendanceBloc.add(
+                                MarkAsHoliday(
+                                  widget.branchId,
+                                  pickedDate ??
+                                      DateFormat("yyyy-MM-dd")
+                                          .format(DateTime.now()),
+                                  context,
+                                ),
+                              );
+                            },
                             icon: const HeroIcon(HeroIcons.sparkles),
                             label: const Text("Mark As Holiday"),
                           ),
@@ -624,20 +652,20 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                             if (state is AttendanceLoaded) {
                               if (state.attendanceModel.isHoliday!) {
                                 return Column(
-                                  children: [
-                                    const SizedBox(
+                                  children: const [
+                                    SizedBox(
                                       height: 50,
                                     ),
                                     // no report to view
-                                    const HeroIcon(
+                                    HeroIcon(
                                       HeroIcons.sparkles,
                                       size: 100,
                                       color: Color.fromRGBO(233, 233, 233, 1),
                                     ),
                                     Center(
                                       child: Text(
-                                        " Holiday ${state.attendanceModel.holidayMsg}",
-                                        style: const TextStyle(
+                                        " Holiday",
+                                        style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
                                           color:

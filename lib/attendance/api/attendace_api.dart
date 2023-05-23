@@ -107,4 +107,56 @@ class AttendanceApiProvider {
     }
     return false;
   }
+
+  Future<bool> markAsHoliday(
+    int branchId,
+    String date,
+  ) async {
+    dynamic res;
+    try {
+      res = await http.post(
+        Uri.parse("$baseURL/holiday/"),
+        headers: {
+          'Authorization': 'Token ${getToken()}',
+        },
+        body: {
+          "branch": branchId.toString(),
+          "date": date,
+        },
+      ).timeout(const Duration(seconds: 10));
+    } catch (e) {
+      return false;
+    }
+
+    if (res.statusCode == 201) {
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> unmarkAsHoliday(
+    int branchId,
+    String date,
+  ) async {
+    dynamic res;
+    try {
+      res = await http.delete(
+        Uri.parse("$baseURL/holiday/"),
+        headers: {
+          'Authorization': 'Token ${getToken()}',
+        },
+        body: {
+          "branch": branchId.toString(),
+          "date": date,
+        },
+      ).timeout(const Duration(seconds: 10));
+    } catch (e) {
+      return false;
+    }
+
+    if (res.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
 }

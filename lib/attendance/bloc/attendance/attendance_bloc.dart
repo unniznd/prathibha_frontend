@@ -131,5 +131,93 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
         emit(AttendanceLoaded(attendanceModel: attendanceModel));
       }
     });
+    on<MarkAsHoliday>((event, emit) async {
+      if (state is AttendanceLoaded) {
+        final attendanceModel = (state as AttendanceLoaded).attendanceModel;
+        attendanceModel.isHoliday = true;
+        emit(AttendanceLoaded(attendanceModel: attendanceModel));
+        final isMarked = await attendanceApiProvider.markAsHoliday(
+          event.branchId,
+          event.date,
+        );
+        attendanceModel.isHoliday = false;
+        if (isMarked) {
+          attendanceModel.isHoliday = true;
+        } else {
+          // ignore: use_build_context_synchronously
+          final scaffoldMessenger = ScaffoldMessenger.of(event.context);
+          scaffoldMessenger.showSnackBar(
+            SnackBar(
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.red,
+              width: 700,
+              content: Row(
+                children: const [
+                  HeroIcon(
+                    HeroIcons.exclamationCircle,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'Failed to mark as holiday.',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+        emit(AttendanceLoaded(attendanceModel: attendanceModel));
+      }
+    });
+    on<UnmarkAsHoliday>((event, emit) async {
+      if (state is AttendanceLoaded) {
+        final attendanceModel = (state as AttendanceLoaded).attendanceModel;
+        attendanceModel.isHoliday = true;
+        emit(AttendanceLoaded(attendanceModel: attendanceModel));
+        final isMarked = await attendanceApiProvider.unmarkAsHoliday(
+          event.branchId,
+          event.date,
+        );
+        attendanceModel.isHoliday = false;
+        if (isMarked) {
+          attendanceModel.isHoliday = false;
+        } else {
+          // ignore: use_build_context_synchronously
+          final scaffoldMessenger = ScaffoldMessenger.of(event.context);
+          scaffoldMessenger.showSnackBar(
+            SnackBar(
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.red,
+              width: 700,
+              content: Row(
+                children: const [
+                  HeroIcon(
+                    HeroIcons.exclamationCircle,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'Failed to unmark as holiday.',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+        emit(AttendanceLoaded(attendanceModel: attendanceModel));
+      }
+    });
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:intl/intl.dart';
 
 abstract class AttendanceEvent {}
 
@@ -44,4 +43,18 @@ class MarkPresentAttendance extends AttendanceEvent {
     this.context,
     this.isAbsentChecked,
   );
+}
+
+class MarkAsHoliday extends AttendanceEvent {
+  int branchId;
+  String date;
+  BuildContext context;
+  MarkAsHoliday(this.branchId, this.date, this.context);
+}
+
+class UnmarkAsHoliday extends AttendanceEvent {
+  int branchId;
+  String date;
+  BuildContext context;
+  UnmarkAsHoliday(this.branchId, this.date, this.context);
 }
