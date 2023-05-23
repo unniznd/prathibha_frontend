@@ -2,6 +2,7 @@ class BaseAttendanceModel {
   int admissionNumber;
   String name, standard, division, reason;
   bool isAbsent;
+  bool isMarkingAttendace = false;
 
   BaseAttendanceModel({
     required this.admissionNumber,
@@ -10,6 +11,7 @@ class BaseAttendanceModel {
     required this.division,
     required this.reason,
     required this.isAbsent,
+    this.isMarkingAttendace = false,
   });
 }
 
@@ -17,9 +19,10 @@ class AttendanceModel {
   List<BaseAttendanceModel>? studentModel;
   int? totalCount;
   int? absentCount;
-  bool? isHoliday;
-  String? holidayMsg;
 
+  bool? isHoliday;
+
+  String? holidayMsg;
   String? errorMsg;
 
   AttendanceModel.fromJson(Map<String, dynamic> json) {

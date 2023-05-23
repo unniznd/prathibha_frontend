@@ -590,8 +590,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                     child: Column(
                       children: [
                         AttendanceTableRow(
-                          rowData: [
-                            Checkbox(value: false, onChanged: (value) {}),
+                          rowData: const [
                             'Admission No',
                             'Student Name',
                             'Class Division',
@@ -599,6 +598,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                             'Reason',
                           ],
                           isHeader: true,
+                          onMarkAbsent: null,
                         ),
                         BlocBuilder<AttendanceBloc, AttendanceState>(
                           bloc: attendanceBloc,
@@ -663,8 +663,6 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                                 itemBuilder: (context, index) {
                                   return AttendanceTableRow(
                                     rowData: [
-                                      Checkbox(
-                                          value: false, onChanged: (value) {}),
                                       state.attendanceModel.studentModel![index]
                                           .admissionNumber
                                           .toString(),
@@ -678,6 +676,22 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                                       state.attendanceModel.studentModel![index]
                                           .reason,
                                     ],
+                                    isMarkingAttendace: state
+                                        .attendanceModel
+                                        .studentModel![index]
+                                        .isMarkingAttendace,
+                                    onMarkAbsent: () {
+                                      attendanceBloc.add(
+                                        MarkAttendance(
+                                          widget.branchId,
+                                          index,
+                                          pickedDate ??
+                                              DateFormat("yyyy-MM-dd")
+                                                  .format(DateTime.now()),
+                                          context,
+                                        ),
+                                      );
+                                    },
                                   );
                                 },
                                 separatorBuilder: (context, index) {
@@ -695,6 +709,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                               itemBuilder: (context, index) {
                                 return AttendanceTableRow(
                                   rowData: const ["1", "2", "3", "4", "5"],
+                                  onMarkAbsent: null,
                                   isShimmer: true,
                                 );
                               },

@@ -53,4 +53,31 @@ class AttendanceApiProvider {
     }
     return AttendanceModel.withError("Error Occured");
   }
+
+  Future<bool> markAsAbsent(
+    int branchId,
+    int student,
+    String date,
+  ) async {
+    dynamic res;
+    try {
+      res = await http.post(
+        Uri.parse("$baseURL/attendance/$branchId/"),
+        headers: {
+          'Authorization': 'Token ${getToken()}',
+        },
+        body: {
+          "student": student.toString(),
+          "date": date,
+        },
+      ).timeout(const Duration(seconds: 10));
+    } catch (e) {
+      return false;
+    }
+
+    if (res.statusCode == 201) {
+      return true;
+    }
+    return false;
+  }
 }

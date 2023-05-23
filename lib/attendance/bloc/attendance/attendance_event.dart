@@ -1,3 +1,6 @@
+import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
+
 abstract class AttendanceEvent {}
 
 class FetchAttendance extends AttendanceEvent {
@@ -10,5 +13,18 @@ class FetchAttendance extends AttendanceEvent {
     this.q,
     this.statusAttendance,
     this.date,
+  );
+}
+
+class MarkAttendance extends AttendanceEvent {
+  int branchId;
+  int index;
+  String date;
+  BuildContext context;
+  MarkAttendance(
+    this.branchId,
+    this.index,
+    this.date,
+    this.context,
   );
 }
