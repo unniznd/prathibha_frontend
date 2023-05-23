@@ -599,6 +599,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                           ],
                           isHeader: true,
                           onMarkAbsent: null,
+                          onMarkPresent: null,
                         ),
                         BlocBuilder<AttendanceBloc, AttendanceState>(
                           bloc: attendanceBloc,
@@ -682,7 +683,19 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                                         .isMarkingAttendace,
                                     onMarkAbsent: () {
                                       attendanceBloc.add(
-                                        MarkAttendance(
+                                        MarkAbsentAttendance(
+                                          widget.branchId,
+                                          index,
+                                          pickedDate ??
+                                              DateFormat("yyyy-MM-dd")
+                                                  .format(DateTime.now()),
+                                          context,
+                                        ),
+                                      );
+                                    },
+                                    onMarkPresent: () {
+                                      attendanceBloc.add(
+                                        MarkPresentAttendance(
                                           widget.branchId,
                                           index,
                                           pickedDate ??
@@ -709,8 +722,9 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                               itemBuilder: (context, index) {
                                 return AttendanceTableRow(
                                   rowData: const ["1", "2", "3", "4", "5"],
-                                  onMarkAbsent: null,
                                   isShimmer: true,
+                                  onMarkAbsent: null,
+                                  onMarkPresent: null,
                                 );
                               },
                               separatorBuilder: (context, index) {

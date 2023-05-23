@@ -10,7 +10,6 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   AttendanceBloc() : super(AttendanceLoading()) {
     on<FetchAttendance>((event, emit) async {
       emit(AttendanceLoading());
-      await Future.delayed(const Duration(seconds: 3));
       try {
         final attendanceModel = await attendanceApiProvider.fetchStudentDetails(
           event.branchId,
@@ -29,7 +28,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
         emit(AttendanceError(errorMsg: e.toString()));
       }
     });
-    on<MarkAttendance>((event, emit) async {
+    on<MarkAbsentAttendance>((event, emit) async {
       if (state is AttendanceLoaded) {
         final attendanceModel = (state as AttendanceLoaded).attendanceModel;
         attendanceModel.studentModel![event.index].isMarkingAttendace = true;
@@ -61,6 +60,51 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
                   ),
                   Text(
                     'Failed to mark absent for ${attendanceModel.studentModel![event.index].name}.',
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+        emit(AttendanceLoaded(attendanceModel: attendanceModel));
+      }
+    });
+    on<MarkPresentAttendance>((event, emit) async {
+      if (state is AttendanceLoaded) {
+        final attendanceModel = (state as AttendanceLoaded).attendanceModel;
+        attendanceModel.studentModel![event.index].isMarkingAttendace = true;
+        emit(AttendanceLoaded(attendanceModel: attendanceModel));
+        final isMarked = await attendanceApiProvider.markAsPresent(
+          event.branchId,
+          attendanceModel.studentModel![event.index].admissionNumber,
+          event.date,
+        );
+        attendanceModel.studentModel![event.index].isMarkingAttendace = false;
+        if (isMarked) {
+          attendanceModel.studentModel![event.index].isAbsent = false;
+        } else {
+          // ignore: use_build_context_synchronously
+          final scaffoldMessenger = ScaffoldMessenger.of(event.context);
+          scaffoldMessenger.showSnackBar(
+            SnackBar(
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.red,
+              width: 700,
+              content: Row(
+                children: [
+                  const HeroIcon(
+                    HeroIcons.exclamationCircle,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'Failed to mark present for ${attendanceModel.studentModel![event.index].name}.',
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                       fontSize: 18,

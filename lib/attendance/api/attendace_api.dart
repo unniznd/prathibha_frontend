@@ -80,4 +80,31 @@ class AttendanceApiProvider {
     }
     return false;
   }
+
+  Future<bool> markAsPresent(
+    int branchId,
+    int student,
+    String date,
+  ) async {
+    dynamic res;
+    try {
+      res = await http.delete(
+        Uri.parse("$baseURL/attendance/$branchId/"),
+        headers: {
+          'Authorization': 'Token ${getToken()}',
+        },
+        body: {
+          "student": student.toString(),
+          "date": date,
+        },
+      ).timeout(const Duration(seconds: 10));
+    } catch (e) {
+      return false;
+    }
+
+    if (res.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
 }

@@ -7,6 +7,7 @@ class AttendanceTableRow extends StatelessWidget {
     super.key,
     required this.rowData,
     required this.onMarkAbsent,
+    required this.onMarkPresent,
     this.isHeader = false,
     this.isShimmer = false,
     this.isMarkingAttendace = false,
@@ -18,6 +19,7 @@ class AttendanceTableRow extends StatelessWidget {
   bool isMarkingAttendace = false;
 
   void Function()? onMarkAbsent;
+  void Function()? onMarkPresent;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +74,8 @@ class AttendanceTableRow extends StatelessWidget {
                               ? 'Marking present'
                               : 'Absent. Click to mark as present',
                           child: TextButton(
-                            onPressed: isMarkingAttendace ? null : () {},
+                            onPressed:
+                                isMarkingAttendace ? null : onMarkPresent,
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: isMarkingAttendace

@@ -16,12 +16,25 @@ class FetchAttendance extends AttendanceEvent {
   );
 }
 
-class MarkAttendance extends AttendanceEvent {
+class MarkAbsentAttendance extends AttendanceEvent {
   int branchId;
   int index;
   String date;
   BuildContext context;
-  MarkAttendance(
+  MarkAbsentAttendance(
+    this.branchId,
+    this.index,
+    this.date,
+    this.context,
+  );
+}
+
+class MarkPresentAttendance extends AttendanceEvent {
+  int branchId;
+  int index;
+  String date;
+  BuildContext context;
+  MarkPresentAttendance(
     this.branchId,
     this.index,
     this.date,
