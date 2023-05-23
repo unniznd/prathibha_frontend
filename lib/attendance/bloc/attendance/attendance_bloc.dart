@@ -41,6 +41,13 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
         attendanceModel.studentModel![event.index].isMarkingAttendace = false;
         if (isMarked) {
           attendanceModel.studentModel![event.index].isAbsent = true;
+
+          if (event.isPresentChecked) {
+            attendanceModel.studentModel!.removeAt(event.index);
+            attendanceModel.totalCount = attendanceModel.totalCount! - 1;
+          } else {
+            attendanceModel.absentCount = attendanceModel.absentCount! + 1;
+          }
         } else {
           // ignore: use_build_context_synchronously
           final scaffoldMessenger = ScaffoldMessenger.of(event.context);
@@ -86,6 +93,12 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
         attendanceModel.studentModel![event.index].isMarkingAttendace = false;
         if (isMarked) {
           attendanceModel.studentModel![event.index].isAbsent = false;
+
+          if (event.isAbsentChecked) {
+            attendanceModel.studentModel!.removeAt(event.index);
+            attendanceModel.totalCount = attendanceModel.totalCount! - 1;
+          }
+          attendanceModel.absentCount = attendanceModel.absentCount! - 1;
         } else {
           // ignore: use_build_context_synchronously
           final scaffoldMessenger = ScaffoldMessenger.of(event.context);

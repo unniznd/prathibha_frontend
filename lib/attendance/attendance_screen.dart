@@ -65,6 +65,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     attendanceClassBloc.add(ChangeClass(className: null));
     absentBloc.add(UpdateAbsent(isActive: false));
     presentBloc.add(UpdatePresent(isActive: false));
+    attendanceStatus = null;
 
     List<String> divisionList = [];
 
@@ -149,6 +150,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                     child: BlocBuilder<AbsentBloc, AbsentState>(
                       bloc: absentBloc,
                       builder: (context, state) {
+                        attendanceStatus = null;
                         return Checkbox(
                           value: state.isActive,
                           onChanged: (newState) {
@@ -200,6 +202,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                     child: BlocBuilder<PresentBloc, PresentState>(
                       bloc: presentBloc,
                       builder: (context, state) {
+                        attendanceStatus = null;
                         return Checkbox(
                           value: state.isActive,
                           onChanged: (newState) {
@@ -508,6 +511,19 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                     bloc: attendanceBloc,
                     builder: (context, state) {
                       if (state is AttendanceLoaded) {
+                        if (state.attendanceModel.isHoliday!) {
+                          return const Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Text(
+                              "0 of 0 Absent Students",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18,
+                              ),
+                            ),
+                          );
+                        }
                         return Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: Text(
@@ -570,6 +586,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                       attendanceBloc.add(
                         FetchAttendance(widget.branchId, "", "", "", "", ""),
                       );
+                      searchController.text = "";
                     },
                     child: const Text("Clear Filters"),
                   )
@@ -690,19 +707,20 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                                               DateFormat("yyyy-MM-dd")
                                                   .format(DateTime.now()),
                                           context,
+                                          isPresentChecked,
                                         ),
                                       );
                                     },
                                     onMarkPresent: () {
                                       attendanceBloc.add(
                                         MarkPresentAttendance(
-                                          widget.branchId,
-                                          index,
-                                          pickedDate ??
-                                              DateFormat("yyyy-MM-dd")
-                                                  .format(DateTime.now()),
-                                          context,
-                                        ),
+                                            widget.branchId,
+                                            index,
+                                            pickedDate ??
+                                                DateFormat("yyyy-MM-dd")
+                                                    .format(DateTime.now()),
+                                            context,
+                                            isAbsentChecked),
                                       );
                                     },
                                   );

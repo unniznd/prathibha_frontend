@@ -21,11 +21,13 @@ class MarkAbsentAttendance extends AttendanceEvent {
   int index;
   String date;
   BuildContext context;
+  bool isPresentChecked;
   MarkAbsentAttendance(
     this.branchId,
     this.index,
     this.date,
     this.context,
+    this.isPresentChecked,
   );
 }
 
@@ -34,10 +36,12 @@ class MarkPresentAttendance extends AttendanceEvent {
   int index;
   String date;
   BuildContext context;
+  bool isAbsentChecked;
   MarkPresentAttendance(
     this.branchId,
     this.index,
     this.date,
     this.context,
+    this.isAbsentChecked,
   );
 }
