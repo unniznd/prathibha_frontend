@@ -4,12 +4,18 @@ import 'dart:convert';
 import 'package:prathibha_web/fee/model/fee_model.dart';
 
 class FeeApiProvider {
-  Future<FeeModel> fetchFeeDetails(int branchId) async {
+  Future<FeeModel> fetchFeeDetails(
+    int branchId,
+    String standard,
+    String division,
+    String month,
+    String status,
+  ) async {
     dynamic res;
     try {
       res = await http.get(
           Uri.parse(
-            "$baseURL/fee/$branchId/",
+            "$baseURL/fee/$branchId/?standard=$standard&division=$division&month=$month&status=$status",
           ),
           headers: {
             'Authorization': 'Token ${getToken()}'
