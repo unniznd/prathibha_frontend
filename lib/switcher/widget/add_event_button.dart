@@ -46,12 +46,12 @@ class AddEventButton extends StatelessWidget {
                     .add(const Duration(days: 1))
                     .isBefore(DateTime.now())) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                       behavior: SnackBarBehavior.floating,
                       backgroundColor: Colors.red,
                       width: 700,
                       content: Row(
-                        children: const [
+                        children: [
                           HeroIcon(
                             HeroIcons.exclamationCircle,
                             color: Colors.white,

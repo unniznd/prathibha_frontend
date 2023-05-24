@@ -147,12 +147,12 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
           // ignore: use_build_context_synchronously
           final scaffoldMessenger = ScaffoldMessenger.of(event.context);
           scaffoldMessenger.showSnackBar(
-            SnackBar(
+            const SnackBar(
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.red,
               width: 700,
               content: Row(
-                children: const [
+                children: [
                   HeroIcon(
                     HeroIcons.exclamationCircle,
                     color: Colors.white,
@@ -191,12 +191,12 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
           // ignore: use_build_context_synchronously
           final scaffoldMessenger = ScaffoldMessenger.of(event.context);
           scaffoldMessenger.showSnackBar(
-            SnackBar(
+            const SnackBar(
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.red,
               width: 700,
               content: Row(
-                children: const [
+                children: [
                   HeroIcon(
                     HeroIcons.exclamationCircle,
                     color: Colors.white,

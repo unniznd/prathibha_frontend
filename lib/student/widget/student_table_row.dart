@@ -3,9 +3,10 @@ import 'package:shimmer/shimmer.dart';
 
 // ignore: must_be_immutable
 class StudentTableRow extends StatelessWidget {
-  const StudentTableRow({
+  StudentTableRow({
     Key? key,
     required this.rowData,
+    required this.onClickView,
     this.isHeader = false,
     this.isShimmer = false,
   }) : super(key: key);
@@ -13,6 +14,7 @@ class StudentTableRow extends StatelessWidget {
   final List<String> rowData;
   final bool isHeader;
   final bool isShimmer;
+  void Function()? onClickView;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,7 @@ class StudentTableRow extends StatelessWidget {
                           ),
                         )
                       : TextButton(
-                          onPressed: () {},
+                          onPressed: onClickView,
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(cellData),

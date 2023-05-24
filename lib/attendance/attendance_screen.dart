@@ -491,12 +491,12 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                             if (pickedDate!.isAfter(DateTime.now())) {
                               // ignore: use_build_context_synchronously
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
+                                const SnackBar(
                                   behavior: SnackBarBehavior.floating,
                                   backgroundColor: Colors.red,
                                   width: 700,
                                   content: Row(
-                                    children: const [
+                                    children: [
                                       HeroIcon(
                                         HeroIcons.exclamationCircle,
                                         color: Colors.white,
@@ -650,8 +650,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                           builder: (context, state) {
                             if (state is AttendanceLoaded) {
                               if (state.attendanceModel.isHoliday!) {
-                                return Column(
-                                  children: const [
+                                return const Column(
+                                  children: [
                                     SizedBox(
                                       height: 50,
                                     ),
@@ -676,8 +676,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                                 );
                               }
                               if (state.attendanceModel.studentModel!.isEmpty) {
-                                return Column(
-                                  children: const [
+                                return const Column(
+                                  children: [
                                     SizedBox(
                                       height: 50,
                                     ),

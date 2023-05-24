@@ -18,9 +18,9 @@ class _ReportScreenState extends State<ReportScreen> {
         const SizedBox(
           height: 20,
         ),
-        Row(
+        const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
+          children: [
             Text(
               "Reports",
               style: TextStyle(

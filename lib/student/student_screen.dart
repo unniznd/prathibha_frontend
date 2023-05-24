@@ -14,6 +14,7 @@ import 'package:prathibha_web/student/bloc/student/student_bloc.dart';
 import 'package:prathibha_web/student/bloc/student/student_event.dart';
 import 'package:prathibha_web/student/bloc/student/student_state.dart';
 import 'package:prathibha_web/student/widget/student_table_row.dart';
+import 'package:prathibha_web/student/widget/student_view.dart';
 import 'package:shimmer/shimmer.dart';
 
 class StudentScreen extends StatefulWidget {
@@ -41,6 +42,13 @@ class _StudentScreenState extends State<StudentScreen> {
   void initState() {
     super.initState();
   }
+
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController standardController = TextEditingController();
+  final TextEditingController admissionNoController = TextEditingController();
+  final TextEditingController parentsNameController = TextEditingController();
+  final TextEditingController parentsPhoneNoController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -358,14 +366,15 @@ class _StudentScreenState extends State<StudentScreen> {
                     width: MediaQuery.of(context).size.width / 1.8,
                     child: Column(
                       children: [
-                        const StudentTableRow(
-                          rowData: [
+                        StudentTableRow(
+                          rowData: const [
                             'Admission No',
                             'Student Name',
                             'Class Division',
                             'Actions',
                           ],
                           isHeader: true,
+                          onClickView: null,
                         ),
                         const Divider(),
                         BlocBuilder<StudentBloc, StudentState>(
@@ -373,8 +382,8 @@ class _StudentScreenState extends State<StudentScreen> {
                           builder: (context, state) {
                             if (state is StudentLoaded) {
                               if (state.studentModel.studentModel!.isEmpty) {
-                                return Column(
-                                  children: const [
+                                return const Column(
+                                  children: [
                                     SizedBox(
                                       height: 50,
                                     ),
@@ -417,6 +426,38 @@ class _StudentScreenState extends State<StudentScreen> {
                                       "${state.studentModel.studentModel![index].standard.toString()} ${state.studentModel.studentModel![index].division.toString()}",
                                       'View',
                                     ],
+                                    onClickView: () {
+                                      nameController.text = state.studentModel
+                                          .studentModel![index].name
+                                          .toString();
+                                      standardController.text =
+                                          "${state.studentModel.studentModel![index].standard.toString()} - ${state.studentModel.studentModel![index].division.toString()}";
+
+                                      admissionNoController.text = state
+                                          .studentModel
+                                          .studentModel![index]
+                                          .admissionNumber
+                                          .toString();
+                                      parentsNameController.text = state
+                                          .studentModel
+                                          .studentModel![index]
+                                          .parentName
+                                          .toString();
+                                      parentsPhoneNoController.text = state
+                                          .studentModel
+                                          .studentModel![index]
+                                          .phoneNumber
+                                          .toString();
+
+                                      studentView(
+                                        context,
+                                        nameController,
+                                        standardController,
+                                        admissionNoController,
+                                        parentsNameController,
+                                        parentsPhoneNoController,
+                                      );
+                                    },
                                   );
                                 },
                               );
@@ -432,14 +473,15 @@ class _StudentScreenState extends State<StudentScreen> {
                                 return const Divider();
                               },
                               itemBuilder: (context, index) {
-                                return const StudentTableRow(
-                                  rowData: [
+                                return StudentTableRow(
+                                  rowData: const [
                                     "1",
                                     "2",
                                     "3",
                                     "4",
                                   ],
                                   isShimmer: true,
+                                  onClickView: null,
                                 );
                               },
                             );

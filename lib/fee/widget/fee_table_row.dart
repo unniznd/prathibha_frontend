@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 // ignore: must_be_immutable
 class FeeTableRow extends StatelessWidget {
   FeeTableRow({
     super.key,
     required this.rowData,
+    required this.amount,
     this.isHeader = false,
+    this.isShimmer = false,
   });
 
   List rowData;
   bool isHeader = false;
+  bool isShimmer = false;
+  int amount;
 
   @override
   Widget build(BuildContext context) {
@@ -17,13 +22,28 @@ class FeeTableRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
         children: rowData.map((cellData) {
+          if (isShimmer) {
+            return Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(1),
+                child: Shimmer.fromColors(
+                  baseColor: Colors.grey[300]!,
+                  highlightColor: Colors.grey[100]!,
+                  child: Container(
+                    height: 16.0,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            );
+          }
           if (cellData.runtimeType == String) {
             if (cellData == "Paid") {
               return Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(1),
                   child: Tooltip(
-                    message: "Amount: \u20B9 2000",
+                    message: "Amount: \u20B9 $amount. Click to cancel payment",
                     child: Text(
                       cellData,
                       style: TextStyle(
@@ -40,7 +60,7 @@ class FeeTableRow extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(right: 1),
                   child: Tooltip(
-                    message: "Amount: \u20B9 2000. Click to confirm payment",
+                    message: "Amount: \u20B9 $amount. Click to confirm payment",
                     child: GestureDetector(
                       child: Text(
                         cellData,

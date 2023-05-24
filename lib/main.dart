@@ -26,6 +26,7 @@ import 'package:prathibha_web/student/bloc/student/student_bloc.dart';
 import 'package:prathibha_web/attendance/bloc/date/date_bloc.dart';
 import 'package:prathibha_web/attendance/bloc/attendance/attendance_bloc.dart';
 import 'package:prathibha_web/attendance/bloc/class_divison/class_division_bloc.dart';
+import 'package:prathibha_web/fee/bloc/fee/fee_bloc.dart';
 
 void main(List<String> args) {
   runApp(const PrathibhaWebApplication());
@@ -96,6 +97,7 @@ class _PrathibhaWebApplicationState extends State<PrathibhaWebApplication> {
           BlocProvider(create: ((context) => DateBloc())),
           BlocProvider(create: ((context) => AttendanceBloc())),
           BlocProvider(create: ((context) => AttendanceClassDivisionBloc())),
+          BlocProvider(create: ((context) => FeeBloc())),
         ],
         child: BlocBuilder<LoginBloc, LoginState>(
           bloc: loginBloc,

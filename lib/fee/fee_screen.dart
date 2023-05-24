@@ -7,6 +7,9 @@ import 'package:prathibha_web/fee/bloc/class/class_state.dart';
 import 'package:prathibha_web/fee/bloc/division/division_bloc.dart';
 import 'package:prathibha_web/fee/bloc/division/division_event.dart';
 import 'package:prathibha_web/fee/bloc/division/division_state.dart';
+import 'package:prathibha_web/fee/bloc/fee/fee_bloc.dart';
+import 'package:prathibha_web/fee/bloc/fee/fee_event.dart';
+import 'package:prathibha_web/fee/bloc/fee/fee_state.dart';
 import 'package:prathibha_web/fee/bloc/month/month_bloc.dart';
 import 'package:prathibha_web/fee/bloc/month/month_event.dart';
 import 'package:prathibha_web/fee/bloc/month/month_state.dart';
@@ -17,6 +20,7 @@ import 'package:prathibha_web/fee/bloc/unpaid/unpaid_bloc.dart';
 import 'package:prathibha_web/fee/bloc/unpaid/unpaid_event.dart';
 import 'package:prathibha_web/fee/bloc/unpaid/unpaid_state.dart';
 import 'package:prathibha_web/fee/widget/fee_table_row.dart';
+import 'package:shimmer/shimmer.dart';
 
 class FeeScreen extends StatefulWidget {
   const FeeScreen({super.key, required this.branchId});
@@ -35,18 +39,20 @@ class _FeeScreenState extends State<FeeScreen> {
   final FeeClassBloc classBloc = FeeClassBloc();
   final FeeDivisionBloc divisionBloc = FeeDivisionBloc();
   final FeeMonthBloc monthBloc = FeeMonthBloc();
+  final FeeBloc feeBloc = FeeBloc();
 
   @override
   Widget build(BuildContext context) {
+    feeBloc.add(FetchFee(branchId: widget.branchId));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(
           height: 20,
         ),
-        Row(
+        const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
+          children: [
             Text(
               "Fee Details",
               style: TextStyle(
@@ -325,16 +331,61 @@ class _FeeScreenState extends State<FeeScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Padding(
-              padding: EdgeInsets.only(left: 10),
-              child: Text(
-                "1 of 4 Unpaid Students",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 18,
-                ),
-              ),
+            BlocBuilder<FeeBloc, FeeState>(
+              bloc: feeBloc,
+              builder: (context, state) {
+                if (state is FeeLoaded) {
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: Text(
+                      "${state.feeModel.unpaidCount!} of ${state.feeModel.totalCount!} Unpaid Students",
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18,
+                      ),
+                    ),
+                  );
+                } else if (state is FeeError) {
+                  return const Padding(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Text(
+                      "0 of 0 Unpaid Students",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18,
+                      ),
+                    ),
+                  );
+                }
+                return Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Row(
+                    children: [
+                      Shimmer.fromColors(
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: Colors.grey[100]!,
+                        child: SizedBox(
+                          width: 50,
+                          height: 16.0, // Adjust the height as needed
+                          child: Container(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      const Text(
+                        " Unpaid Students",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
             TextButton(
               onPressed: () {
@@ -363,60 +414,70 @@ class _FeeScreenState extends State<FeeScreen> {
               child: Column(
                 children: [
                   FeeTableRow(
-                    rowData: [
-                      Checkbox(value: true, onChanged: (value) {}),
+                    rowData: const [
                       'Student Name',
-                      'Branch Name',
                       'Class Division',
+                      'Amount',
                       'Status',
                       'Date of Payment',
                     ],
                     isHeader: true,
+                    amount: 0,
                   ),
-                  const Divider(),
-                  FeeTableRow(
-                    rowData: [
-                      Checkbox(value: true, onChanged: (value) {}),
-                      'Akhil',
-                      'Branch 1',
-                      '10 B',
-                      'Unpaid',
-                      '--------',
-                    ],
-                  ),
-                  const Divider(),
-                  FeeTableRow(
-                    rowData: [
-                      Checkbox(value: true, onChanged: (value) {}),
-                      'Akhil',
-                      'Branch 1',
-                      '10 B',
-                      'Paid',
-                      'May 11, 2023',
-                    ],
-                  ),
-                  const Divider(),
-                  FeeTableRow(
-                    rowData: [
-                      Checkbox(value: true, onChanged: (value) {}),
-                      'Akhil',
-                      'Branch 1',
-                      '10 B',
-                      'Paid',
-                      'May 11, 2023',
-                    ],
-                  ),
-                  const Divider(),
-                  FeeTableRow(
-                    rowData: [
-                      Checkbox(value: true, onChanged: (value) {}),
-                      'Akhil',
-                      'Branch 1',
-                      '10 B',
-                      'Paid',
-                      'May 11, 2023',
-                    ],
-                  ),
+                  BlocBuilder<FeeBloc, FeeState>(
+                    bloc: feeBloc,
+                    builder: (context, state) {
+                      if (state is FeeLoaded) {
+                        return ListView.separated(
+                          itemCount: state.feeModel.totalCount!,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return FeeTableRow(
+                              rowData: [
+                                state.feeModel.feeList![index].studentName,
+                                "${state.feeModel.feeList![index].standard} ${state.feeModel.feeList![index].division}",
+                                state.feeModel.feeList![index].amount,
+                                state.feeModel.feeList![index].feeStatus,
+                                state.feeModel.feeList![index].feeStatus ==
+                                        "Paid"
+                                    ? state.feeModel.feeList![index].feeDate
+                                    : "-----",
+                              ],
+                              amount: int.parse(
+                                  state.feeModel.feeList![index].amount),
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return const Divider();
+                          },
+                        );
+                      } else if (state is FeeError) {
+                        return Center(
+                          child: Text(state.errorMsg),
+                        );
+                      }
+                      return ListView.separated(
+                        itemCount: 15,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return FeeTableRow(
+                            rowData: const [
+                              "1",
+                              "2",
+                              "3",
+                              "4",
+                              "5",
+                            ],
+                            isShimmer: true,
+                            amount: 0,
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return const Divider();
+                        },
+                      );
+                    },
+                  )
                 ],
               ),
             ),
