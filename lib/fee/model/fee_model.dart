@@ -1,7 +1,8 @@
 class BaseFeeModel {
-  String feeId;
+  int feeId;
   String studentName, standard, division, feeStatus, feeDate;
   String amount;
+  bool isMarkingFee;
 
   BaseFeeModel({
     required this.feeId,
@@ -11,6 +12,7 @@ class BaseFeeModel {
     required this.feeStatus,
     required this.feeDate,
     required this.amount,
+    this.isMarkingFee = false,
   });
 }
 
@@ -28,7 +30,7 @@ class FeeModel {
 
     for (var fee in json['data']) {
       feeList!.add(BaseFeeModel(
-        feeId: fee['fee_id'].toString(),
+        feeId: fee['fee_id'],
         studentName: fee['student_name'],
         standard: fee['standard'],
         division: fee['division'],

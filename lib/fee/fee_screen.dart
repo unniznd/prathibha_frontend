@@ -564,6 +564,8 @@ class _FeeScreenState extends State<FeeScreen> {
                           ],
                           isHeader: true,
                           amount: 0,
+                          markAsPaid: null,
+                          markAsUnpaid: null,
                         ),
                         BlocBuilder<FeeBloc, FeeState>(
                           bloc: feeBloc,
@@ -616,6 +618,36 @@ class _FeeScreenState extends State<FeeScreen> {
                                     ],
                                     amount: int.parse(
                                         state.feeModel.feeList![index].amount),
+                                    markAsPaid: () {
+                                      feeBloc.add(
+                                        MarkAsPaidAndUnpaid(
+                                          branchId: widget.branchId,
+                                          feeId: state
+                                              .feeModel.feeList![index].feeId,
+                                          index: index,
+                                          status: "paid",
+                                          isPaidChecked: isPaidChecked,
+                                          isUnpaidChecked: isUnpaidChecked,
+                                          context: context,
+                                        ),
+                                      );
+                                    },
+                                    markAsUnpaid: () {
+                                      feeBloc.add(
+                                        MarkAsPaidAndUnpaid(
+                                          branchId: widget.branchId,
+                                          feeId: state
+                                              .feeModel.feeList![index].feeId,
+                                          index: index,
+                                          status: "unpaid",
+                                          isPaidChecked: isPaidChecked,
+                                          isUnpaidChecked: isUnpaidChecked,
+                                          context: context,
+                                        ),
+                                      );
+                                    },
+                                    isMarkingFee: state
+                                        .feeModel.feeList![index].isMarkingFee,
                                   );
                                 },
                                 separatorBuilder: (context, index) {
@@ -641,6 +673,8 @@ class _FeeScreenState extends State<FeeScreen> {
                                   ],
                                   isShimmer: true,
                                   amount: 0,
+                                  markAsPaid: null,
+                                  markAsUnpaid: null,
                                 );
                               },
                               separatorBuilder: (context, index) {

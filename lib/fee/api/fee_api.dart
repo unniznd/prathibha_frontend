@@ -30,4 +30,31 @@ class FeeApiProvider {
     }
     return FeeModel.withError("Error Occured");
   }
+
+  Future<bool> markUnpaidAndPaid(
+    int branchId,
+    int feeId,
+    String status,
+  ) async {
+    dynamic res;
+    try {
+      res = await http.post(
+        Uri.parse("$baseURL/fee/$branchId/"),
+        headers: {
+          'Authorization': 'Token ${getToken()}',
+        },
+        body: {
+          "fee_id": feeId.toString(),
+          "status": status,
+        },
+      ).timeout(const Duration(seconds: 10));
+    } catch (e) {
+      return false;
+    }
+
+    if (res.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
 }

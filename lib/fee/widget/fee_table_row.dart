@@ -7,14 +7,21 @@ class FeeTableRow extends StatelessWidget {
     super.key,
     required this.rowData,
     required this.amount,
+    required this.markAsPaid,
+    required this.markAsUnpaid,
     this.isHeader = false,
     this.isShimmer = false,
+    this.isMarkingFee = false,
   });
 
   List rowData;
   bool isHeader = false;
   bool isShimmer = false;
   int amount;
+  bool isMarkingFee = false;
+
+  void Function()? markAsPaid;
+  void Function()? markAsUnpaid;
 
   @override
   Widget build(BuildContext context) {
@@ -43,13 +50,26 @@ class FeeTableRow extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(1),
                   child: Tooltip(
-                    message: "Amount: \u20B9 $amount. Click to cancel payment",
-                    child: Text(
-                      cellData,
-                      style: TextStyle(
-                        fontWeight:
-                            isHeader ? FontWeight.bold : FontWeight.normal,
-                        color: Colors.green,
+                    message: isMarkingFee
+                        ? "Marking Unpaid for Amount: \u20B9 $amount"
+                        : "Amount: \u20B9 $amount. Click to cancel payment",
+                    child: TextButton(
+                      onPressed: isMarkingFee ? null : markAsUnpaid,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: isMarkingFee
+                            ? const CircularProgressIndicator(
+                                color: Colors.blue,
+                              )
+                            : Text(
+                                cellData,
+                                style: TextStyle(
+                                  fontWeight: isHeader
+                                      ? FontWeight.bold
+                                      : FontWeight.normal,
+                                  color: Colors.green,
+                                ),
+                              ),
                       ),
                     ),
                   ),
@@ -60,72 +80,27 @@ class FeeTableRow extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(right: 1),
                   child: Tooltip(
-                    message: "Amount: \u20B9 $amount. Click to confirm payment",
-                    child: GestureDetector(
-                      child: Text(
-                        cellData,
-                        style: TextStyle(
-                          fontWeight:
-                              isHeader ? FontWeight.bold : FontWeight.normal,
-                          color: Colors.red,
-                        ),
+                    message: isMarkingFee
+                        ? "Marking paid for Amount: \u20B9 $amount"
+                        : "Amount: \u20B9 $amount. Click to confirm payment",
+                    child: TextButton(
+                      onPressed: isMarkingFee ? null : markAsPaid,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: isMarkingFee
+                            ? const CircularProgressIndicator(
+                                color: Colors.blue,
+                              )
+                            : Text(
+                                cellData,
+                                style: TextStyle(
+                                  fontWeight: isHeader
+                                      ? FontWeight.bold
+                                      : FontWeight.normal,
+                                  color: Colors.red,
+                                ),
+                              ),
                       ),
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text("Fee Payment Confirmation"),
-                              content: const Text(
-                                  "Are you sure you want to confirm fee payment of  \u20B9 2000?"),
-                              actions: <Widget>[
-                                Container(
-                                  padding: const EdgeInsets.only(bottom: 10),
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      textStyle: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      backgroundColor: const Color.fromARGB(
-                                          255, 255, 136, 67),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            20), // Set border radius
-                                      ),
-                                    ),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(10),
-                                      child: const Text("Cancel"),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.of(context)
-                                          .pop(); // Close the dialog
-                                    },
-                                  ),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 10, right: 10),
-                                  child: ElevatedButton(
-                                    child: Container(
-                                      padding: const EdgeInsets.all(10),
-                                      child: const Text("Confirm"),
-                                    ),
-                                    onPressed: () {
-                                      // Perform logout actions here
-                                      Navigator.of(context)
-                                          .pop(); // Close the dialog
-
-                                      // Add your logout logic here
-                                    },
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
                     ),
                   ),
                 ),

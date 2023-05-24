@@ -4,11 +4,12 @@ import 'fee_event.dart';
 import 'fee_state.dart';
 
 class FeeBloc extends Bloc<FeeEvent, FeeState> {
+  final FeeApiProvider feeApiProvider = FeeApiProvider();
   FeeBloc() : super(FeeLoading()) {
     on<FetchFee>((event, emit) async {
       emit(FeeLoading());
       try {
-        final feeModel = await FeeApiProvider().fetchFeeDetails(
+        final feeModel = await feeApiProvider.fetchFeeDetails(
           event.branchId,
           event.standard,
           event.division,
@@ -22,6 +23,47 @@ class FeeBloc extends Bloc<FeeEvent, FeeState> {
         }
       } catch (e) {
         emit(FeeError(errorMsg: e.toString()));
+      }
+    });
+
+    on<MarkAsPaidAndUnpaid>((event, emit) async {
+      if (state is FeeLoaded) {
+        final feeModel = (state as FeeLoaded).feeModel;
+        feeModel.feeList![event.index].isMarkingFee = true;
+        emit(FeeLoaded(feeModel: feeModel));
+
+        final response = await feeApiProvider.markUnpaidAndPaid(
+          event.branchId,
+          event.feeId,
+          event.status,
+        );
+
+        if (response) {
+          if (event.status == "paid") {
+            if (event.isUnpaidChecked) {
+              feeModel.feeList!.removeAt(event.index);
+              feeModel.unpaidCount = feeModel.unpaidCount! - 1;
+              feeModel.totalCount = feeModel.totalCount! - 1;
+            } else {
+              feeModel.feeList![event.index].feeStatus = "Paid";
+              feeModel.unpaidCount = feeModel.unpaidCount! - 1;
+            }
+          } else {
+            if (event.isPaidChecked) {
+              feeModel.feeList!.removeAt(event.index);
+
+              feeModel.totalCount = feeModel.totalCount! - 1;
+            } else {
+              feeModel.feeList![event.index].feeStatus = "Unpaid";
+              feeModel.unpaidCount = feeModel.unpaidCount! + 1;
+            }
+          }
+        }
+        if (feeModel.feeList!.isNotEmpty) {
+          feeModel.feeList![event.index].isMarkingFee = false;
+        }
+
+        emit(FeeLoaded(feeModel: feeModel));
       }
     });
   }
