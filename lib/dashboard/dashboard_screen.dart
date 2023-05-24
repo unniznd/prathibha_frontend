@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:prathibha_web/dashboard/bloc/attendance_overview/attendance_overview_bloc.dart';
+import 'package:prathibha_web/dashboard/bloc/attendance_overview/attendance_overview_event.dart';
+import 'package:prathibha_web/dashboard/bloc/attendance_overview/attendance_overview_state.dart';
 
 import 'package:prathibha_web/dashboard/bloc/dashboard_summary/dashboard_summary_bloc.dart';
 import 'package:prathibha_web/dashboard/bloc/dashboard_summary/dashboard_summary_event.dart';
@@ -18,12 +21,19 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   final DashboardSummaryBloc dashboardSummaryBloc = DashboardSummaryBloc();
+  final AttendanceOverviewBloc attendanceOverviewBloc =
+      AttendanceOverviewBloc();
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double ratioHeight = 900 / MediaQuery.of(context).size.height;
     dashboardSummaryBloc.add(FetchDashboardSummary(widget.branchId));
+    attendanceOverviewBloc.add(
+      FetchAttendanceOverview(
+        branchId: widget.branchId,
+      ),
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -84,6 +94,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 children: [
                   DashboardTableRow(
                     rowData: const [
+                      'Sl No.',
                       'Class Division',
                       'Present',
                       'Total',
@@ -91,21 +102,67 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ],
                     isHeader: true,
                   ),
-                  ListView.separated(
-                    itemCount: 5,
-                    shrinkWrap: true,
-                    separatorBuilder: (context, index) {
-                      return const Divider();
-                    },
-                    itemBuilder: (context, index) {
-                      return DashboardTableRow(
-                        rowData: [
-                          'Class ${index + 1}',
-                          '10',
-                          '20',
-                          'View Absent',
-                        ],
-                        isShimmer: true,
+                  BlocBuilder<AttendanceOverviewBloc, AttendanceOverviewState>(
+                    bloc: attendanceOverviewBloc,
+                    builder: (context, state) {
+                      if (state is AttendanceOverviewLoaded) {
+                        if (state.attendanceOverview.attendanceOverviewList!
+                            .isEmpty) {
+                          return const Center(
+                            child: Text("No Data Found"),
+                          );
+                        }
+                        return ListView.separated(
+                          itemCount: state.attendanceOverview
+                              .attendanceOverviewList!.length,
+                          shrinkWrap: true,
+                          separatorBuilder: (context, index) {
+                            return const Divider();
+                          },
+                          itemBuilder: (context, index) {
+                            return DashboardTableRow(
+                              rowData: [
+                                (index + 1).toString(),
+                                state
+                                    .attendanceOverview
+                                    .attendanceOverviewList![index]
+                                    .standardDivision,
+                                state.attendanceOverview
+                                    .attendanceOverviewList![index].totalPresent
+                                    .toString(),
+                                state
+                                    .attendanceOverview
+                                    .attendanceOverviewList![index]
+                                    .totalStudents
+                                    .toString(),
+                                'View Absent',
+                              ],
+                              isShimmer: false,
+                            );
+                          },
+                        );
+                      } else if (state is AttendanceOverviewError) {
+                        return Center(
+                          child: Text(state.errorMsg),
+                        );
+                      }
+                      return ListView.separated(
+                        itemCount: 5,
+                        shrinkWrap: true,
+                        separatorBuilder: (context, index) {
+                          return const Divider();
+                        },
+                        itemBuilder: (context, index) {
+                          return DashboardTableRow(
+                            rowData: [
+                              'Class ${index + 1}',
+                              '10',
+                              '20',
+                              'View Absent',
+                            ],
+                            isShimmer: true,
+                          );
+                        },
                       );
                     },
                   ),

@@ -33,7 +33,7 @@ class DashboardApiProvider {
     try {
       res = await http.get(
           Uri.parse(
-            "$baseURL/dashboard-overview/$branchId/",
+            "$baseURL/today-attendance-overview/$branchId/",
           ),
           headers: {
             'Authorization': 'Token ${getToken()}'
