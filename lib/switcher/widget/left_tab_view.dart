@@ -19,6 +19,7 @@ class LeftTabView extends StatelessWidget {
     'Attendance',
     'Fees',
     'Reports',
+    'Settings'
   ];
 
   final List<HeroIcons> _tabIcons = [
@@ -27,6 +28,7 @@ class LeftTabView extends StatelessWidget {
     HeroIcons.userPlus,
     HeroIcons.currencyRupee,
     HeroIcons.newspaper,
+    HeroIcons.cog6Tooth,
   ];
 
   final LeftTabViewBloc tabViewBloc;
@@ -48,6 +50,8 @@ class LeftTabView extends StatelessWidget {
           selectedIndex = 3;
         } else if (state is ReportsState) {
           selectedIndex = 4;
+        } else if (state is SettingsState) {
+          selectedIndex = 5;
         } else {
           selectedIndex = 0;
         }

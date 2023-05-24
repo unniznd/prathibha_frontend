@@ -16,6 +16,8 @@ class LeftTabViewBloc extends Bloc<LeftTabViewEvent, LeftTabViewState> {
         emit(FeeState());
       } else if (event.tabIndex == 4) {
         emit(ReportsState());
+      } else if (event.tabIndex == 5) {
+        emit(SettingsState());
       } else {
         emit(DashBoardState());
       }

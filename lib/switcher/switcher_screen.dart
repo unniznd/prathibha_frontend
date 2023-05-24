@@ -5,6 +5,7 @@ import 'package:prathibha_web/fee/fee_screen.dart';
 import 'package:prathibha_web/login/bloc/login_bloc.dart';
 import 'package:prathibha_web/login/bloc/login_event.dart';
 import 'package:prathibha_web/login/model/login_model.dart';
+import 'package:prathibha_web/settings/settings_screen.dart';
 import 'package:prathibha_web/switcher/widget/add_event_button.dart';
 import 'package:prathibha_web/switcher/widget/left_tab_view.dart';
 import 'package:prathibha_web/switcher/widget/show_calendar.dart';
@@ -210,6 +211,8 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                             );
                           } else if (state is ReportsState) {
                             return const ReportScreen();
+                          } else if (state is SettingsState) {
+                            return const SettingsScreen();
                           }
                           return const DashboardScreen();
                         },
@@ -370,26 +373,6 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
             ),
           )
         ],
-      ),
-      floatingActionButton: BlocBuilder<LeftTabViewBloc, LeftTabViewState>(
-        bloc: tabViewBloc,
-        builder: (context, state) {
-          if (state is FeeState) {
-            return Padding(
-              padding: EdgeInsets.only(right: screenWidth / 5 + 10, bottom: 20),
-              child: FloatingActionButton(
-                onPressed: () {},
-                elevation: 1,
-                child: const HeroIcon(
-                  HeroIcons.documentText,
-                  size: 30,
-                  style: HeroIconStyle.solid,
-                ),
-              ),
-            );
-          }
-          return const SizedBox.shrink();
-        },
       ),
     );
   }
