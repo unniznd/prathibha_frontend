@@ -151,7 +151,24 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                         bloc: tabViewBloc,
                         builder: (context, state) {
                           if (state is DashBoardState) {
-                            return const DashboardScreen();
+                            return BlocBuilder<DropDownSwitchBloc,
+                                DropDownSwitchState>(
+                              bloc: dropDownSwitchBloc,
+                              builder: (context, state) {
+                                if (state is DropDownSwitchedState) {
+                                  selectedBranch = state.newBranch;
+
+                                  return DashboardScreen(
+                                    branchId: widget
+                                        .loginModel.branchMap![selectedBranch]!,
+                                  );
+                                }
+                                return DashboardScreen(
+                                  branchId: widget
+                                      .loginModel.branchMap![selectedBranch]!,
+                                );
+                              },
+                            );
                           } else if (state is AttendanceState) {
                             return BlocBuilder<DropDownSwitchBloc,
                                 DropDownSwitchState>(
@@ -214,7 +231,24 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                           } else if (state is SettingsState) {
                             return const SettingsScreen();
                           }
-                          return const DashboardScreen();
+                          return BlocBuilder<DropDownSwitchBloc,
+                              DropDownSwitchState>(
+                            bloc: dropDownSwitchBloc,
+                            builder: (context, state) {
+                              if (state is DropDownSwitchedState) {
+                                selectedBranch = state.newBranch;
+
+                                return DashboardScreen(
+                                  branchId: widget
+                                      .loginModel.branchMap![selectedBranch]!,
+                                );
+                              }
+                              return DashboardScreen(
+                                branchId: widget
+                                    .loginModel.branchMap![selectedBranch]!,
+                              );
+                            },
+                          );
                         },
                       ),
                     ],

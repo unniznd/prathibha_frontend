@@ -1,109 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-// ignore: depend_on_referenced_packages
-import 'package:intl/intl.dart';
+import 'package:prathibha_web/dashboard/bloc/dashboard_summary/dashboard_summary_bloc.dart';
+import 'package:prathibha_web/dashboard/bloc/dashboard_summary/dashboard_summary_event.dart';
+import 'package:prathibha_web/dashboard/bloc/dashboard_summary/dashboard_summary_state.dart';
 import 'package:prathibha_web/dashboard/widget/dashboard_summary_card.dart';
-import 'package:prathibha_web/dashboard/widget/income_expense_graph.dart';
 import 'package:prathibha_web/dashboard/widget/dashboard_table_row.dart';
 
-import 'model/bar_char_model.dart';
-
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({super.key});
+  const DashboardScreen({super.key, required this.branchId});
+
+  final int branchId;
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  String? selectedOption = 'All Branches';
-
-  String formatNumber(int number) {
-    return NumberFormat.compactCurrency(
-      decimalDigits: 2,
-      symbol: '',
-    ).format(number);
-  }
-
-  int touchedIndex = -1;
+  final DashboardSummaryBloc dashboardSummaryBloc = DashboardSummaryBloc();
 
   @override
   Widget build(BuildContext context) {
-    List<BarChartModel> barChartModelData = [
-      BarChartModel(
-        monthName: "Jan",
-        income: 100000,
-        expense: 50000,
-      ),
-      BarChartModel(
-        monthName: "Feb",
-        income: 200000,
-        expense: 100000,
-      ),
-      BarChartModel(
-        monthName: "Mar",
-        income: 300000,
-        expense: 150000,
-      ),
-      BarChartModel(
-        monthName: "Apr",
-        income: 400000,
-        expense: 200000,
-      ),
-      BarChartModel(
-        monthName: "May",
-        income: 500000,
-        expense: 250000,
-      ),
-      BarChartModel(
-        monthName: "Jun",
-        income: 600000,
-        expense: 300000,
-      ),
-      BarChartModel(
-        monthName: "Jul",
-        income: 700000,
-        expense: 350000,
-      ),
-      BarChartModel(
-        monthName: "Aug",
-        income: 800000,
-        expense: 400000,
-      ),
-      BarChartModel(
-        monthName: "Sep",
-        income: 900000,
-        expense: 450000,
-      ),
-      BarChartModel(
-        monthName: "Oct",
-        income: 1000000,
-        expense: 500000,
-      ),
-      BarChartModel(
-        monthName: "Nov",
-        income: 1100000,
-        expense: 550000,
-      ),
-      BarChartModel(
-        monthName: "Dec",
-        income: 1200000,
-        expense: 600000,
-      ),
-    ];
-
     double screenWidth = MediaQuery.of(context).size.width;
     double ratioHeight = 900 / MediaQuery.of(context).size.height;
+    dashboardSummaryBloc.add(FetchDashboardSummary(widget.branchId));
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        DashboardSummaryCard(
-          totalStudents: "100",
-          totalExpenses: "345678",
-          totalDue: "23000",
-          ratioWidth: screenWidth,
-          ratioHeight: ratioHeight,
+        BlocBuilder<DashboardSummaryBloc, DashboardSummaryState>(
+          bloc: dashboardSummaryBloc,
+          builder: (context, state) {
+            if (state is DashboardSummaryLoaded) {
+              return DashboardSummaryCard(
+                totalStudents:
+                    state.dashboardSummaryModel.totalStudents.toString(),
+                totalPaid: state.dashboardSummaryModel.totalPaid.toString(),
+                totalDue: state.dashboardSummaryModel.totalUnpaid.toString(),
+                ratioWidth: screenWidth,
+                ratioHeight: ratioHeight,
+              );
+            } else if (state is DashboardSummaryError) {
+              return Center(
+                child: Text(state.errorMsg),
+              );
+            } else {
+              return DashboardSummaryCard(
+                totalStudents: "",
+                totalPaid: "",
+                totalDue: "",
+                ratioWidth: screenWidth,
+                ratioHeight: ratioHeight,
+                isLoading: true,
+              );
+            }
+          },
         ),
         const SizedBox(height: 30),
         const Align(
@@ -133,24 +84,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 children: [
                   DashboardTableRow(
                     rowData: const [
-                      'Sl No',
-                      'Branch/Class-Division',
-                      'Percentage',
-                      ' View Details'
+                      'Class Division',
+                      'Present',
+                      'Total',
+                      'Actions'
                     ],
                     isHeader: true,
                   ),
-                  const Divider(),
-                  DashboardTableRow(
-                    rowData: const ['1', 'Branch 1', '90%', 'View'],
-                  ),
-                  const Divider(),
-                  DashboardTableRow(
-                    rowData: const ['2', 'Branch 2', '100%', 'View'],
-                  ),
-                  const Divider(),
-                  DashboardTableRow(
-                    rowData: const ['3', 'Branch 3', '86%', 'View'],
+                  ListView.separated(
+                    itemCount: 5,
+                    shrinkWrap: true,
+                    separatorBuilder: (context, index) {
+                      return const Divider();
+                    },
+                    itemBuilder: (context, index) {
+                      return DashboardTableRow(
+                        rowData: [
+                          'Class ${index + 1}',
+                          '10',
+                          '20',
+                          'View Absent',
+                        ],
+                        isShimmer: true,
+                      );
+                    },
                   ),
                 ],
               ),
@@ -169,14 +126,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
               fontWeight: FontWeight.bold,
             ),
           ),
-        ),
-        const SizedBox(height: 30),
-        IncomeExpenseGraph(
-          barChartModelData: barChartModelData,
-        ),
-        const SizedBox(height: 20),
-        const SizedBox(
-          height: 30,
         ),
       ],
     );

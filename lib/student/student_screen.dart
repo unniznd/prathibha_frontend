@@ -77,24 +77,42 @@ class _StudentScreenState extends State<StudentScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Tooltip(
-                    message: 'Reload the table',
-                    child: GestureDetector(
-                      onTap: () {
-                        studentBloc.add(
-                          FetchStudentDetails(
-                            widget.branchId,
-                            selectedClass ?? "",
-                            selectedDivision ?? "",
-                            searchController.text,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Tooltip(
+                        message: 'Add Student',
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: const HeroIcon(
+                            HeroIcons.plus,
+                            size: 35,
                           ),
-                        );
-                      },
-                      child: const HeroIcon(
-                        HeroIcons.arrowPath,
-                        size: 28,
+                        ),
                       ),
-                    ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Tooltip(
+                        message: 'Reload the table',
+                        child: GestureDetector(
+                          onTap: () {
+                            studentBloc.add(
+                              FetchStudentDetails(
+                                widget.branchId,
+                                selectedClass ?? "",
+                                selectedDivision ?? "",
+                                searchController.text,
+                              ),
+                            );
+                          },
+                          child: const HeroIcon(
+                            HeroIcons.arrowPath,
+                            size: 35,
+                          ),
+                        ),
+                      ),
+                    ],
                   )
                 ],
               ),
