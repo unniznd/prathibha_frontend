@@ -132,7 +132,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                     );
                   },
                   decoration: const InputDecoration(
-                    hintText: "Search by Student Name",
+                    hintText: "Search by Admission Number, Student Name",
                     filled: true,
                     fillColor: Color.fromRGBO(234, 240, 247, 1),
                     border: InputBorder.none,

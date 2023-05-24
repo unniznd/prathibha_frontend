@@ -10,12 +10,13 @@ class FeeApiProvider {
     String division,
     String month,
     String status,
+    String q,
   ) async {
     dynamic res;
     try {
       res = await http.get(
           Uri.parse(
-            "$baseURL/fee/$branchId/?standard=$standard&division=$division&month=$month&status=$status",
+            "$baseURL/fee/$branchId/?standard=$standard&division=$division&month=$month&status=$status&q=$q",
           ),
           headers: {
             'Authorization': 'Token ${getToken()}'

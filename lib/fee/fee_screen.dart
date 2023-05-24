@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:prathibha_web/fee/bloc/class/class_bloc.dart';
@@ -45,6 +46,8 @@ class _FeeScreenState extends State<FeeScreen> {
   final FeeBloc feeBloc = FeeBloc();
   final FeeClassDivisionBloc feeClassDivisionBloc = FeeClassDivisionBloc();
 
+  final TextEditingController searchController = TextEditingController();
+
   String? selectedMonth;
   String? selectedStandard;
   String? selectedDivision;
@@ -78,6 +81,7 @@ class _FeeScreenState extends State<FeeScreen> {
     paidBloc.add(UpdatePaid(isActive: false));
     classBloc.add(ChangeClass(className: null));
     divisionBloc.add(ChangeDivision(divisionName: null));
+    searchController.text = "";
     feeBloc.add(
       FetchFee(
         branchId: widget.branchId,
@@ -85,6 +89,7 @@ class _FeeScreenState extends State<FeeScreen> {
         division: "",
         month: "",
         status: "",
+        q: "",
       ),
     );
 
@@ -125,6 +130,7 @@ class _FeeScreenState extends State<FeeScreen> {
                                 : isPaidChecked
                                     ? "paid"
                                     : "",
+                            q: searchController.text,
                           ),
                         );
                       },
@@ -142,9 +148,25 @@ class _FeeScreenState extends State<FeeScreen> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(15.0),
                 child: TextFormField(
+                  controller: searchController,
+                  onChanged: (value) {
+                    feeBloc.add(
+                      FetchFee(
+                        branchId: widget.branchId,
+                        standard: selectedStandard ?? "",
+                        division: selectedDivision ?? "",
+                        month: selectedMonth ?? "",
+                        status: isUnpaidChecked
+                            ? "unpaid"
+                            : isPaidChecked
+                                ? "paid"
+                                : "",
+                        q: value,
+                      ),
+                    );
+                  },
                   decoration: const InputDecoration(
-                    hintText:
-                        "Search by Student Name, Class, Section, Roll No.",
+                    hintText: "Search by Admission Number, Student Name",
                     filled: true,
                     fillColor: Color.fromRGBO(234, 240, 247, 1),
                     border: InputBorder.none,
@@ -183,6 +205,7 @@ class _FeeScreenState extends State<FeeScreen> {
                                     : isPaidChecked
                                         ? "paid"
                                         : "",
+                                q: searchController.text,
                               ),
                             );
                           },
@@ -231,6 +254,7 @@ class _FeeScreenState extends State<FeeScreen> {
                                     : newState!
                                         ? "paid"
                                         : "",
+                                q: searchController.text,
                               ),
                             );
                           },
@@ -291,6 +315,7 @@ class _FeeScreenState extends State<FeeScreen> {
                                       : isPaidChecked
                                           ? "paid"
                                           : "",
+                                  q: searchController.text,
                                 ),
                               );
                             },
@@ -360,6 +385,7 @@ class _FeeScreenState extends State<FeeScreen> {
                                       : isPaidChecked
                                           ? "paid"
                                           : "",
+                                  q: searchController.text,
                                 ),
                               );
                             },
@@ -426,6 +452,7 @@ class _FeeScreenState extends State<FeeScreen> {
                                       : isPaidChecked
                                           ? "paid"
                                           : "",
+                                  q: searchController.text,
                                 ),
                               );
                             },
@@ -526,6 +553,7 @@ class _FeeScreenState extends State<FeeScreen> {
                       monthBloc.add(ChangeMonth(
                         monthName: DateFormat.MMMM().format(DateTime.now()),
                       ));
+                      searchController.text = "";
                       feeBloc.add(
                         FetchFee(
                           branchId: widget.branchId,
@@ -533,6 +561,7 @@ class _FeeScreenState extends State<FeeScreen> {
                           division: "",
                           month: "",
                           status: "",
+                          q: "",
                         ),
                       );
                     },
@@ -556,6 +585,7 @@ class _FeeScreenState extends State<FeeScreen> {
                       children: [
                         FeeTableRow(
                           rowData: const [
+                            'Admission Number',
                             'Student Name',
                             'Class Division',
                             'Amount',
@@ -604,6 +634,8 @@ class _FeeScreenState extends State<FeeScreen> {
                                 itemBuilder: (context, index) {
                                   return FeeTableRow(
                                     rowData: [
+                                      state.feeModel.feeList![index]
+                                          .admissionNumber,
                                       state
                                           .feeModel.feeList![index].studentName,
                                       "${state.feeModel.feeList![index].standard} ${state.feeModel.feeList![index].division}",

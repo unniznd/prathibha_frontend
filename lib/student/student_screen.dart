@@ -116,7 +116,7 @@ class _StudentScreenState extends State<StudentScreen> {
                     );
                   },
                   decoration: const InputDecoration(
-                    hintText: "Search by Name",
+                    hintText: "Search by Admission Number, Student Name",
                     filled: true,
                     fillColor: Color.fromRGBO(234, 240, 247, 1),
                     border: InputBorder.none,

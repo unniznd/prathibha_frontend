@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:heroicons/heroicons.dart';
 import 'package:prathibha_web/fee/api/fee_api.dart';
 import 'fee_event.dart';
 import 'fee_state.dart';
@@ -15,6 +17,7 @@ class FeeBloc extends Bloc<FeeEvent, FeeState> {
           event.division,
           event.month,
           event.status,
+          event.q,
         );
         if (feeModel.errorMsg != null) {
           emit(FeeError(errorMsg: feeModel.errorMsg!));
@@ -58,6 +61,34 @@ class FeeBloc extends Bloc<FeeEvent, FeeState> {
               feeModel.unpaidCount = feeModel.unpaidCount! + 1;
             }
           }
+        } else {
+          // ignore: use_build_context_synchronously
+          final scaffoldMessenger = ScaffoldMessenger.of(event.context);
+          scaffoldMessenger.showSnackBar(
+            SnackBar(
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.red,
+              width: 700,
+              content: Row(
+                children: [
+                  const HeroIcon(
+                    HeroIcons.exclamationCircle,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'Failed to mark ${event.status} for ${feeModel.feeList![event.index].studentName}.',
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
         }
         if (feeModel.feeList!.isNotEmpty) {
           feeModel.feeList![event.index].isMarkingFee = false;
