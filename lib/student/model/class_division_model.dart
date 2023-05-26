@@ -1,6 +1,7 @@
 class StudentClassDivisionModel {
   List<String>? classes;
   Map<String, List<String>>? divisions;
+  List<String>? installments;
 
   String? errorMsg;
 
@@ -16,6 +17,10 @@ class StudentClassDivisionModel {
       for (var j in json["data"][1][i]) {
         divisions![i.toString()]!.add(j.toString());
       }
+    }
+    installments = [];
+    for (var i in json["data"][2]) {
+      installments!.add(i.toString());
     }
   }
 

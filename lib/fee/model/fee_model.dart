@@ -2,7 +2,7 @@ class BaseFeeModel {
   int feeId;
 
   String admissionNumber, studentName, standard, division, feeStatus, feeDate;
-  String amount;
+  String totalAmount, amountLeft, installment;
   bool isMarkingFee;
 
   BaseFeeModel({
@@ -13,7 +13,9 @@ class BaseFeeModel {
     required this.division,
     required this.feeStatus,
     required this.feeDate,
-    required this.amount,
+    required this.totalAmount,
+    required this.amountLeft,
+    required this.installment,
     this.isMarkingFee = false,
   });
 }
@@ -39,7 +41,9 @@ class FeeModel {
         division: fee['division'],
         feeStatus: fee['status'],
         feeDate: fee['date_of_payment'],
-        amount: fee['amount'].toString(),
+        totalAmount: fee['amount'].toString(),
+        amountLeft: fee['amount_left'].toString(),
+        installment: fee['installment'],
       ));
     }
   }

@@ -1,6 +1,6 @@
 class _BaseStudentModel {
   int admissionNumber;
-  String name, standard, division, branch, phoneNumber, parentName;
+  String name, standard, division, branch, phoneNumber;
 
   _BaseStudentModel({
     required this.admissionNumber,
@@ -9,7 +9,6 @@ class _BaseStudentModel {
     required this.division,
     required this.branch,
     required this.phoneNumber,
-    required this.parentName,
   });
 }
 
@@ -31,7 +30,6 @@ class StudentModel {
         division: i["division"],
         branch: i["branch"],
         phoneNumber: i["phone_number"],
-        parentName: i["parent_name"],
       ));
     }
   }

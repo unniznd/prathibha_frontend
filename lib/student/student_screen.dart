@@ -456,11 +456,7 @@ class _StudentScreenState extends State<StudentScreen> {
                                           .studentModel![index]
                                           .admissionNumber
                                           .toString();
-                                      parentsNameController.text = state
-                                          .studentModel
-                                          .studentModel![index]
-                                          .parentName
-                                          .toString();
+
                                       parentsPhoneNoController.text = state
                                           .studentModel
                                           .studentModel![index]

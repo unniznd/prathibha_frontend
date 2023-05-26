@@ -23,6 +23,7 @@ import 'package:prathibha_web/fee/bloc/paid/paid_state.dart';
 import 'package:prathibha_web/fee/bloc/unpaid/unpaid_bloc.dart';
 import 'package:prathibha_web/fee/bloc/unpaid/unpaid_event.dart';
 import 'package:prathibha_web/fee/bloc/unpaid/unpaid_state.dart';
+import 'package:prathibha_web/fee/widget/fee_amount_dialog.dart';
 import 'package:prathibha_web/fee/widget/fee_table_row.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -47,6 +48,7 @@ class _FeeScreenState extends State<FeeScreen> {
   final FeeClassDivisionBloc feeClassDivisionBloc = FeeClassDivisionBloc();
 
   final TextEditingController searchController = TextEditingController();
+  final TextEditingController amountController = TextEditingController();
 
   String? selectedMonth;
   String? selectedStandard;
@@ -54,26 +56,11 @@ class _FeeScreenState extends State<FeeScreen> {
   bool isUnpaidChecked = false;
   bool isPaidChecked = false;
 
-  List<String> month = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-  ];
-
   @override
   Widget build(BuildContext context) {
     monthBloc.add(
       ChangeMonth(
-        monthName: DateFormat.MMMM().format(DateTime.now()),
+        monthName: null,
       ),
     );
     feeClassDivisionBloc.add(ClassDivisionFetch(widget.branchId));
@@ -99,6 +86,8 @@ class _FeeScreenState extends State<FeeScreen> {
       bloc: feeClassDivisionBloc,
       builder: (context, classDivisionState) {
         if (classDivisionState is ClassDivisionLoaded) {
+          List<String>? installment =
+              classDivisionState.classDivisionModel.installments;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -417,7 +406,7 @@ class _FeeScreenState extends State<FeeScreen> {
                     width: 10,
                   ),
                   Container(
-                    width: 100,
+                    width: 145,
                     decoration: BoxDecoration(
                         border: Border.all(
                           color: const Color.fromRGBO(234, 240, 247, 1),
@@ -437,7 +426,7 @@ class _FeeScreenState extends State<FeeScreen> {
                             value: state.monthName,
                             hint: const Padding(
                               padding: EdgeInsets.only(left: 10),
-                              child: Text("Month"),
+                              child: Text("Installment"),
                             ),
                             onChanged: (String? newValue) {
                               monthBloc.add(ChangeMonth(monthName: newValue));
@@ -460,7 +449,7 @@ class _FeeScreenState extends State<FeeScreen> {
                               padding: EdgeInsets.only(right: 8.0),
                               child: HeroIcon(HeroIcons.chevronDown),
                             ),
-                            items: month.map((String value) {
+                            items: installment!.map((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
                                 child: Padding(
@@ -580,7 +569,7 @@ class _FeeScreenState extends State<FeeScreen> {
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: SizedBox(
-                    width: MediaQuery.of(context).size.width / 1.9,
+                    width: MediaQuery.of(context).size.width / 1.8,
                     child: Column(
                       children: [
                         FeeTableRow(
@@ -588,14 +577,15 @@ class _FeeScreenState extends State<FeeScreen> {
                             'Admission Number',
                             'Student Name',
                             'Class Division',
-                            'Amount',
+                            'Amount Left',
+                            'Total Amount',
                             'Status',
-                            'Date of Payment',
+                            'Installment',
+                            'Date of Last Payment',
                           ],
                           isHeader: true,
                           amount: 0,
                           markAsPaid: null,
-                          markAsUnpaid: null,
                         ),
                         BlocBuilder<FeeBloc, FeeState>(
                           bloc: feeBloc,
@@ -615,7 +605,7 @@ class _FeeScreenState extends State<FeeScreen> {
                                     ),
                                     Center(
                                       child: Text(
-                                        "No student found or Fee not generated for this month",
+                                        "No student found",
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                           fontSize: 20,
@@ -639,44 +629,48 @@ class _FeeScreenState extends State<FeeScreen> {
                                       state
                                           .feeModel.feeList![index].studentName,
                                       "${state.feeModel.feeList![index].standard} ${state.feeModel.feeList![index].division}",
-                                      state.feeModel.feeList![index].amount,
+                                      state.feeModel.feeList![index].amountLeft,
+                                      state
+                                          .feeModel.feeList![index].totalAmount,
                                       state.feeModel.feeList![index].feeStatus,
+                                      state
+                                          .feeModel.feeList![index].installment,
                                       state.feeModel.feeList![index]
-                                                  .feeStatus ==
-                                              "Paid"
+                                                  .amountLeft !=
+                                              state.feeModel.feeList![index]
+                                                  .totalAmount
                                           ? state
                                               .feeModel.feeList![index].feeDate
                                           : "-----",
                                     ],
-                                    amount: int.parse(
-                                        state.feeModel.feeList![index].amount),
+                                    amount: int.parse(state
+                                        .feeModel.feeList![index].amountLeft),
                                     markAsPaid: () {
-                                      feeBloc.add(
-                                        MarkAsPaidAndUnpaid(
-                                          branchId: widget.branchId,
-                                          feeId: state
-                                              .feeModel.feeList![index].feeId,
-                                          index: index,
-                                          status: "paid",
-                                          isPaidChecked: isPaidChecked,
-                                          isUnpaidChecked: isUnpaidChecked,
-                                          context: context,
-                                        ),
+                                      feeAmountDialog(
+                                        context: context,
+                                        feeBloc: feeBloc,
+                                        amountController: amountController,
+                                        feeAmount: state.feeModel
+                                            .feeList![index].amountLeft,
+                                        branchId: widget.branchId,
+                                        feeId: state
+                                            .feeModel.feeList![index].feeId,
+                                        index: index,
+                                        isPaidChecked: isPaidChecked,
+                                        isUnpaidChecked: isUnpaidChecked,
                                       );
-                                    },
-                                    markAsUnpaid: () {
-                                      feeBloc.add(
-                                        MarkAsPaidAndUnpaid(
-                                          branchId: widget.branchId,
-                                          feeId: state
-                                              .feeModel.feeList![index].feeId,
-                                          index: index,
-                                          status: "unpaid",
-                                          isPaidChecked: isPaidChecked,
-                                          isUnpaidChecked: isUnpaidChecked,
-                                          context: context,
-                                        ),
-                                      );
+                                      // feeBloc.add(
+                                      //   MarkAsPaidAndUnpaid(
+                                      //     branchId: widget.branchId,
+                                      //     feeId: state
+                                      //         .feeModel.feeList![index].feeId,
+                                      //     index: index,
+                                      //     amountPaid: "70",
+                                      //     isPaidChecked: isPaidChecked,
+                                      //     isUnpaidChecked: isUnpaidChecked,
+                                      //     context: context,
+                                      //   ),
+                                      // );
                                     },
                                     isMarkingFee: state
                                         .feeModel.feeList![index].isMarkingFee,
@@ -706,7 +700,6 @@ class _FeeScreenState extends State<FeeScreen> {
                                   isShimmer: true,
                                   amount: 0,
                                   markAsPaid: null,
-                                  markAsUnpaid: null,
                                 );
                               },
                               separatorBuilder: (context, index) {

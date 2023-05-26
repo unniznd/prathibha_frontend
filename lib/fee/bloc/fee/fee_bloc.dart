@@ -4,6 +4,7 @@ import 'package:heroicons/heroicons.dart';
 import 'package:prathibha_web/fee/api/fee_api.dart';
 import 'fee_event.dart';
 import 'fee_state.dart';
+import 'package:intl/intl.dart';
 
 class FeeBloc extends Bloc<FeeEvent, FeeState> {
   final FeeApiProvider feeApiProvider = FeeApiProvider();
@@ -38,28 +39,30 @@ class FeeBloc extends Bloc<FeeEvent, FeeState> {
         final response = await feeApiProvider.markUnpaidAndPaid(
           event.branchId,
           event.feeId,
-          event.status,
+          event.amountPaid,
         );
 
         if (response) {
-          if (event.status == "paid") {
+          if (event.amountPaid == feeModel.feeList![event.index].amountLeft) {
             if (event.isUnpaidChecked) {
               feeModel.feeList!.removeAt(event.index);
               feeModel.unpaidCount = feeModel.unpaidCount! - 1;
               feeModel.totalCount = feeModel.totalCount! - 1;
             } else {
               feeModel.feeList![event.index].feeStatus = "Paid";
+              feeModel.feeList![event.index].amountLeft =
+                  (int.parse(feeModel.feeList![event.index].amountLeft) -
+                          int.parse(event.amountPaid))
+                      .toString();
+              feeModel.feeList![event.index].feeDate =
+                  DateFormat("MMM dd, yyyy").format(DateTime.now()).toString();
               feeModel.unpaidCount = feeModel.unpaidCount! - 1;
             }
           } else {
-            if (event.isPaidChecked) {
-              feeModel.feeList!.removeAt(event.index);
-
-              feeModel.totalCount = feeModel.totalCount! - 1;
-            } else {
-              feeModel.feeList![event.index].feeStatus = "Unpaid";
-              feeModel.unpaidCount = feeModel.unpaidCount! + 1;
-            }
+            feeModel.feeList![event.index].amountLeft =
+                (int.parse(feeModel.feeList![event.index].amountLeft) -
+                        int.parse(event.amountPaid))
+                    .toString();
           }
         } else {
           // ignore: use_build_context_synchronously
@@ -79,7 +82,7 @@ class FeeBloc extends Bloc<FeeEvent, FeeState> {
                     width: 10,
                   ),
                   Text(
-                    'Failed to mark ${event.status} for ${feeModel.feeList![event.index].studentName}.',
+                    'Failed to update fee for ${feeModel.feeList![event.index].studentName}.',
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                       fontSize: 18,

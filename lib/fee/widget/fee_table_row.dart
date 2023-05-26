@@ -8,7 +8,6 @@ class FeeTableRow extends StatelessWidget {
     required this.rowData,
     required this.amount,
     required this.markAsPaid,
-    required this.markAsUnpaid,
     this.isHeader = false,
     this.isShimmer = false,
     this.isMarkingFee = false,
@@ -21,7 +20,6 @@ class FeeTableRow extends StatelessWidget {
   bool isMarkingFee = false;
 
   void Function()? markAsPaid;
-  void Function()? markAsUnpaid;
 
   @override
   Widget build(BuildContext context) {
@@ -49,28 +47,12 @@ class FeeTableRow extends StatelessWidget {
               return Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(1),
-                  child: Tooltip(
-                    message: isMarkingFee
-                        ? "Marking Unpaid for Amount: \u20B9 $amount"
-                        : "Amount: \u20B9 $amount. Click to cancel payment",
-                    child: TextButton(
-                      onPressed: isMarkingFee ? null : markAsUnpaid,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: isMarkingFee
-                            ? const CircularProgressIndicator(
-                                color: Colors.blue,
-                              )
-                            : Text(
-                                cellData,
-                                style: TextStyle(
-                                  fontWeight: isHeader
-                                      ? FontWeight.bold
-                                      : FontWeight.normal,
-                                  color: Colors.green,
-                                ),
-                              ),
-                      ),
+                  child: Text(
+                    cellData,
+                    style: TextStyle(
+                      fontWeight:
+                          isHeader ? FontWeight.bold : FontWeight.normal,
+                      color: Colors.green,
                     ),
                   ),
                 ),

@@ -16,7 +16,7 @@ class FeeApiProvider {
     try {
       res = await http.get(
           Uri.parse(
-            "$baseURL/fee/$branchId/?standard=$standard&division=$division&month=$month&status=$status&q=$q",
+            "$baseURL/fee/$branchId/?standard=$standard&division=$division&installment=$month&status=$status&q=$q",
           ),
           headers: {
             'Authorization': 'Token ${getToken()}'
@@ -35,7 +35,7 @@ class FeeApiProvider {
   Future<bool> markUnpaidAndPaid(
     int branchId,
     int feeId,
-    String status,
+    String amount,
   ) async {
     dynamic res;
     try {
@@ -46,7 +46,7 @@ class FeeApiProvider {
         },
         body: {
           "fee_id": feeId.toString(),
-          "status": status,
+          "amount": amount,
         },
       ).timeout(const Duration(seconds: 10));
     } catch (e) {

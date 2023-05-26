@@ -19,7 +19,7 @@ class MarkAsPaidAndUnpaid extends FeeEvent {
   final int branchId;
   final int feeId;
   final int index;
-  final String status;
+  final String amountPaid;
   final BuildContext context;
   final bool isUnpaidChecked, isPaidChecked;
 
@@ -27,7 +27,7 @@ class MarkAsPaidAndUnpaid extends FeeEvent {
     required this.branchId,
     required this.feeId,
     required this.index,
-    required this.status,
+    required this.amountPaid,
     required this.context,
     required this.isPaidChecked,
     required this.isUnpaidChecked,
