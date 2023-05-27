@@ -57,6 +57,19 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
 
+    final DateTime now = DateTime.now();
+    final int currentHour = now.hour;
+
+    String greeting = '';
+
+    if (currentHour >= 0 && currentHour < 12) {
+      greeting = 'Good Morning';
+    } else if (currentHour >= 12 && currentHour < 17) {
+      greeting = 'Good Afternoon';
+    } else {
+      greeting = 'Good Evening';
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Row(
@@ -77,7 +90,7 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                     children: [
                       ListTile(
                         title: Text(
-                          "Hello ${widget.loginModel.name} \u{1F44B}",
+                          greeting,
                           style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w500,

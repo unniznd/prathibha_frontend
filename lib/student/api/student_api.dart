@@ -52,4 +52,38 @@ class StudentApiProvider {
     }
     return StudentModel.withError("Error Occured");
   }
+
+  Future addStudent(
+    int branchId,
+    String admissionNumber,
+    String name,
+    String standard,
+    String division,
+    String phoneNumber,
+  ) async {
+    dynamic res;
+    try {
+      res = await http.post(
+          Uri.parse(
+            "$baseURL/students/$branchId/",
+          ),
+          body: {
+            "admission_number": admissionNumber,
+            "student_name": name,
+            "standard": standard,
+            "division": division,
+            "phone_number": phoneNumber
+          },
+          headers: {
+            'Authorization': 'Token ${getToken()}'
+          }).timeout(const Duration(seconds: 10));
+    } catch (e) {
+      return false;
+    }
+
+    if (res.statusCode == 201) {
+      return true;
+    }
+    return false;
+  }
 }

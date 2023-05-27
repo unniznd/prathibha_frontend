@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:prathibha_web/student/bloc/add_student/add_student_bloc.dart';
 import 'package:prathibha_web/student/bloc/class/class_bloc.dart';
 import 'package:prathibha_web/student/bloc/class/class_event.dart';
 import 'package:prathibha_web/student/bloc/class/class_state.dart';
@@ -34,6 +35,7 @@ class _StudentScreenState extends State<StudentScreen> {
   final StudentBloc studentBloc = StudentBloc();
 
   final TextEditingController searchController = TextEditingController();
+  final AddStudentBloc addStudentBloc = AddStudentBloc();
 
   String? selectedClass;
   String? selectedDivision;
@@ -83,7 +85,17 @@ class _StudentScreenState extends State<StudentScreen> {
                       Tooltip(
                         message: 'Add Student',
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            addStudentView(
+                              context,
+                              nameController,
+                              standardController,
+                              admissionNoController,
+                              parentsPhoneNoController,
+                              widget.branchId,
+                              addStudentBloc,
+                            );
+                          },
                           child: const HeroIcon(
                             HeroIcons.plus,
                             size: 35,
@@ -444,34 +456,7 @@ class _StudentScreenState extends State<StudentScreen> {
                                       "${state.studentModel.studentModel![index].standard.toString()} ${state.studentModel.studentModel![index].division.toString()}",
                                       'View',
                                     ],
-                                    onClickView: () {
-                                      nameController.text = state.studentModel
-                                          .studentModel![index].name
-                                          .toString();
-                                      standardController.text =
-                                          "${state.studentModel.studentModel![index].standard.toString()} - ${state.studentModel.studentModel![index].division.toString()}";
-
-                                      admissionNoController.text = state
-                                          .studentModel
-                                          .studentModel![index]
-                                          .admissionNumber
-                                          .toString();
-
-                                      parentsPhoneNoController.text = state
-                                          .studentModel
-                                          .studentModel![index]
-                                          .phoneNumber
-                                          .toString();
-
-                                      studentView(
-                                        context,
-                                        nameController,
-                                        standardController,
-                                        admissionNoController,
-                                        parentsNameController,
-                                        parentsPhoneNoController,
-                                      );
-                                    },
+                                    onClickView: () {},
                                   );
                                 },
                               );
