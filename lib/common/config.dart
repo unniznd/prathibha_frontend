@@ -1,7 +1,7 @@
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html';
 
-const String baseURL = "http://localhost:8000";
+const String baseURL = "https://unniku.pythonanywhere.com";
 
 getToken() {
   final cookie = document.cookie!;
