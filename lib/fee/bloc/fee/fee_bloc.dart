@@ -4,6 +4,7 @@ import 'package:heroicons/heroicons.dart';
 import 'package:prathibha_web/fee/api/fee_api.dart';
 import 'fee_event.dart';
 import 'fee_state.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 class FeeBloc extends Bloc<FeeEvent, FeeState> {

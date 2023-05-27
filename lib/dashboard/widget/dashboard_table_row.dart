@@ -6,6 +6,7 @@ class DashboardTableRow extends StatelessWidget {
   DashboardTableRow({
     super.key,
     required this.rowData,
+    required this.onAbsenteesView,
     this.isHeader = false,
     this.isShimmer = false,
   });
@@ -13,6 +14,7 @@ class DashboardTableRow extends StatelessWidget {
   List<String> rowData;
   bool isHeader = false;
   bool isShimmer = false;
+  void Function()? onAbsenteesView;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,7 @@ class DashboardTableRow extends StatelessWidget {
                           ),
                         )
                       : TextButton(
-                          onPressed: () {},
+                          onPressed: onAbsenteesView,
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(cellData),

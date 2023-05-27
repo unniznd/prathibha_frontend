@@ -3,12 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prathibha_web/dashboard/bloc/attendance_overview/attendance_overview_bloc.dart';
 import 'package:prathibha_web/dashboard/bloc/attendance_overview/attendance_overview_event.dart';
 import 'package:prathibha_web/dashboard/bloc/attendance_overview/attendance_overview_state.dart';
-
 import 'package:prathibha_web/dashboard/bloc/dashboard_summary/dashboard_summary_bloc.dart';
 import 'package:prathibha_web/dashboard/bloc/dashboard_summary/dashboard_summary_event.dart';
 import 'package:prathibha_web/dashboard/bloc/dashboard_summary/dashboard_summary_state.dart';
+import 'package:prathibha_web/dashboard/widget/attendance_detailed.dart';
 import 'package:prathibha_web/dashboard/widget/dashboard_summary_card.dart';
 import 'package:prathibha_web/dashboard/widget/dashboard_table_row.dart';
+import 'package:prathibha_web/dashboard/bloc/attendance_detailed/attendance_detailed_bloc.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key, required this.branchId});
@@ -23,6 +24,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final DashboardSummaryBloc dashboardSummaryBloc = DashboardSummaryBloc();
   final AttendanceOverviewBloc attendanceOverviewBloc =
       AttendanceOverviewBloc();
+
+  final AttendanceDetailedBloc attendanceDetailedBloc =
+      AttendanceDetailedBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -100,6 +104,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       'Total',
                       'Actions'
                     ],
+                    onAbsenteesView: null,
                     isHeader: true,
                   ),
                   BlocBuilder<AttendanceOverviewBloc, AttendanceOverviewState>(
@@ -137,6 +142,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     .toString(),
                                 'View Absent',
                               ],
+                              onAbsenteesView: () {
+                                viewAbsenteesDialog(
+                                  context: context,
+                                  standard: state
+                                      .attendanceOverview
+                                      .attendanceOverviewList![index]
+                                      .standardDivision
+                                      .split(" ")[0],
+                                  division: state
+                                      .attendanceOverview
+                                      .attendanceOverviewList![index]
+                                      .standardDivision
+                                      .split(" ")[1],
+                                  branchId: widget.branchId,
+                                  attendanceDetailedBloc:
+                                      attendanceDetailedBloc,
+                                );
+                              },
                               isShimmer: false,
                             );
                           },
@@ -160,6 +183,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               '20',
                               'View Absent',
                             ],
+                            onAbsenteesView: null,
                             isShimmer: true,
                           );
                         },

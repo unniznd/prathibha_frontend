@@ -81,18 +81,16 @@ void feeAmountDialog({
                       height: 50,
                       child: ElevatedButton(
                         onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            feeBloc.add(MarkAsPaidAndUnpaid(
-                              branchId: branchId,
-                              feeId: feeId,
-                              index: index,
-                              amountPaid: feeAmount,
-                              context: context,
-                              isPaidChecked: isPaidChecked,
-                              isUnpaidChecked: isUnpaidChecked,
-                            ));
-                            Navigator.pop(context);
-                          }
+                          feeBloc.add(MarkAsPaidAndUnpaid(
+                            branchId: branchId,
+                            feeId: feeId,
+                            index: index,
+                            amountPaid: feeAmount,
+                            context: context,
+                            isPaidChecked: isPaidChecked,
+                            isUnpaidChecked: isUnpaidChecked,
+                          ));
+                          Navigator.pop(context);
                         },
                         child: const Text("Pay Full Amount"),
                       ),
