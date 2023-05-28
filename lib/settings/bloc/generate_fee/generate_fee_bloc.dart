@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
-import 'package:prathibha_web/student/api/student_api.dart';
+import 'generate_fee_event.dart';
+import 'generate_fee_state.dart';
+import 'package:prathibha_web/settings/api/settings_api.dart';
 
-import 'add_student_event.dart';
-import 'add_student_state.dart';
-
-class AddStudentBloc extends Bloc<AddStudentEvent, AddStudentState> {
-  final StudentApiProvider studentApiProvider = StudentApiProvider();
-  AddStudentBloc() : super(AddStudentInitial()) {
-    on<AddStudentEvent>((event, emit) async {
-      emit(AddStudentAdding());
+class GenerateFeeBloc extends Bloc<GenerateFeeEvent, GenerateFeeState> {
+  final SettingsApiProvider settingsApiProvider = SettingsApiProvider();
+  GenerateFeeBloc() : super(GenerateFeeInitial()) {
+    on<GenerateFeeEvent>((event, emit) async {
+      emit(GenerateFeeLoading());
       final scaffoldMessenger = ScaffoldMessenger.of(event.context);
       scaffoldMessenger.showSnackBar(
         const SnackBar(
@@ -27,7 +26,7 @@ class AddStudentBloc extends Bloc<AddStudentEvent, AddStudentState> {
                 width: 10,
               ),
               Text(
-                'Adding Student.',
+                'Generating Fee',
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontSize: 18,
@@ -38,16 +37,12 @@ class AddStudentBloc extends Bloc<AddStudentEvent, AddStudentState> {
         ),
       );
       try {
-        final res = await studentApiProvider.addStudent(
+        final res = await settingsApiProvider.generateFee(
           event.branchId,
-          event.admissionNumber,
-          event.name,
-          event.standard,
-          event.division,
-          event.phoneNumber,
+          event.standardFee,
+          event.installment,
         );
         if (res) {
-          // ignore: use_build_context_synchronously
           final scaffoldMessenger = ScaffoldMessenger.of(event.context);
           scaffoldMessenger.showSnackBar(
             const SnackBar(
@@ -64,7 +59,7 @@ class AddStudentBloc extends Bloc<AddStudentEvent, AddStudentState> {
                     width: 10,
                   ),
                   Text(
-                    'Added Student. Refresh the students page',
+                    'Generated Fee',
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 18,
@@ -74,9 +69,8 @@ class AddStudentBloc extends Bloc<AddStudentEvent, AddStudentState> {
               ),
             ),
           );
-          emit(AddStudentAdded());
+          emit(GenerateFeeSuccess());
         } else {
-          // ignore: use_build_context_synchronously
           final scaffoldMessenger = ScaffoldMessenger.of(event.context);
           scaffoldMessenger.showSnackBar(
             const SnackBar(
@@ -93,7 +87,7 @@ class AddStudentBloc extends Bloc<AddStudentEvent, AddStudentState> {
                     width: 10,
                   ),
                   Text(
-                    'Failed to add student',
+                    'Failed to generate fee',
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 18,
@@ -103,10 +97,10 @@ class AddStudentBloc extends Bloc<AddStudentEvent, AddStudentState> {
               ),
             ),
           );
-          emit(AddStudentError("Error Occured"));
+          emit(GenerateFeeFailure(message: "Error Failed to generate feee"));
         }
       } catch (e) {
-        emit(AddStudentError(e.toString()));
+        emit(GenerateFeeFailure(message: "Error Failed to generate feee"));
       }
     });
   }

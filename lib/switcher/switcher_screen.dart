@@ -242,7 +242,24 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                           } else if (state is ReportsState) {
                             return const ReportScreen();
                           } else if (state is SettingsState) {
-                            return const SettingsScreen();
+                            return BlocBuilder<DropDownSwitchBloc,
+                                DropDownSwitchState>(
+                              bloc: dropDownSwitchBloc,
+                              builder: (context, state) {
+                                if (state is DropDownSwitchedState) {
+                                  selectedBranch = state.newBranch;
+
+                                  return SettingsScreen(
+                                    branchId: widget
+                                        .loginModel.branchMap![selectedBranch]!,
+                                  );
+                                }
+                                return SettingsScreen(
+                                  branchId: widget
+                                      .loginModel.branchMap![selectedBranch]!,
+                                );
+                              },
+                            );
                           }
                           return BlocBuilder<DropDownSwitchBloc,
                               DropDownSwitchState>(

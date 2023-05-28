@@ -540,7 +540,7 @@ class _FeeScreenState extends State<FeeScreen> {
                       classBloc.add(ChangeClass(className: null));
                       divisionBloc.add(ChangeDivision(divisionName: null));
                       monthBloc.add(ChangeMonth(
-                        monthName: DateFormat.MMMM().format(DateTime.now()),
+                        monthName: null,
                       ));
                       searchController.text = "";
                       feeBloc.add(
@@ -659,18 +659,6 @@ class _FeeScreenState extends State<FeeScreen> {
                                         isPaidChecked: isPaidChecked,
                                         isUnpaidChecked: isUnpaidChecked,
                                       );
-                                      // feeBloc.add(
-                                      //   MarkAsPaidAndUnpaid(
-                                      //     branchId: widget.branchId,
-                                      //     feeId: state
-                                      //         .feeModel.feeList![index].feeId,
-                                      //     index: index,
-                                      //     amountPaid: "70",
-                                      //     isPaidChecked: isPaidChecked,
-                                      //     isUnpaidChecked: isUnpaidChecked,
-                                      //     context: context,
-                                      //   ),
-                                      // );
                                     },
                                     isMarkingFee: state
                                         .feeModel.feeList![index].isMarkingFee,

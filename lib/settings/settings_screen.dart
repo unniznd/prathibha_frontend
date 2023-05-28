@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:prathibha_web/settings/widget/generate_fee.dart';
 
+// ignore: must_be_immutable
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
+  SettingsScreen({super.key, required this.branchId});
+
+  int branchId;
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -25,20 +29,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
           height: 20,
         ),
         const Text(
-          "Manage Attendance",
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const Divider(),
-        ElevatedButton(
-            onPressed: () {},
-            child: const Text("Send Attendance Notification")),
-        const SizedBox(
-          height: 20,
-        ),
-        const Text(
           "Manage Fees",
           style: TextStyle(
             fontSize: 20,
@@ -48,7 +38,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
         const Divider(),
         Row(
           children: [
-            ElevatedButton(onPressed: () {}, child: const Text("Generate Fee")),
+            ElevatedButton(
+                onPressed: () {
+                  generateFee(
+                    context: context,
+                    branchId: widget.branchId,
+                  );
+                },
+                child: const Text("Generate Fee")),
             const SizedBox(
               width: 20,
             ),
