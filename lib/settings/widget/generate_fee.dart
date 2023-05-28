@@ -27,143 +27,145 @@ void generateFee({
           Radius.circular(10.0),
         ),
       ),
-      content: SingleChildScrollView(
-        child: SizedBox(
-          width: 500,
-          height: 400,
-          child: Column(
-            children: [
-              // add events
-              const Text(
-                "Amount Paying",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
+      content: Builder(builder: (context) {
+        return SingleChildScrollView(
+          child: SizedBox(
+            width: 500,
+            height: 400,
+            child: Column(
+              children: [
+                // add events
+                const Text(
+                  "Amount Paying",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              BlocBuilder<SettingsClassDivisionBloc, ClassDivisionState>(
-                bloc: settingsClassDivisionBloc,
-                builder: (context, state) {
-                  if (state is ClassDivisionLoaded) {
-                    for (var element
-                        in state.classDivisionModel.installments!) {
-                      if (int.parse(nextInstallment) < int.parse(element)) {
-                        nextInstallment = element;
-                      }
-                    }
-                    nextInstallment =
-                        (int.parse(nextInstallment) + 1).toString();
-                    installmentController.text = nextInstallment;
-                    return ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: TextFormField(
-                        keyboardType: TextInputType.number,
-                        controller: installmentController,
-                        enabled: false,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return "Please enter amount";
-                          }
-
-                          return null;
-                        },
-                        decoration: const InputDecoration(
-                          labelText: "Installment",
-                          filled: true,
-                          fillColor: Color.fromRGBO(234, 240, 247, 1),
-                          border: InputBorder.none,
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                  return const SizedBox.shrink();
-                },
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Form(
-                key: formKey,
-                child:
-                    BlocBuilder<SettingsClassDivisionBloc, ClassDivisionState>(
+                const SizedBox(
+                  height: 15,
+                ),
+                BlocBuilder<SettingsClassDivisionBloc, ClassDivisionState>(
                   bloc: settingsClassDivisionBloc,
                   builder: (context, state) {
                     if (state is ClassDivisionLoaded) {
-                      amountControllers.clear();
-                      for (int index = 0;
-                          index < state.classDivisionModel.classes!.length;
-                          index++) {
-                        // Create a new controller for each item
-                        amountControllers.add(TextEditingController());
+                      for (var element
+                          in state.classDivisionModel.installments!) {
+                        if (int.parse(nextInstallment) < int.parse(element)) {
+                          nextInstallment = element;
+                        }
                       }
-                      return ListView.separated(
-                        itemCount: state.classDivisionModel.classes!.length,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: TextFormField(
-                              keyboardType: TextInputType.number,
-                              controller: amountControllers[index],
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "Please enter amount";
-                                }
-                                try {
-                                  int.parse(value);
-                                } catch (e) {
-                                  return "Please enter numbers only";
-                                }
+                      nextInstallment =
+                          (int.parse(nextInstallment) + 1).toString();
+                      installmentController.text = nextInstallment;
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          controller: installmentController,
+                          enabled: false,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Please enter amount";
+                            }
 
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                labelText:
-                                    "${state.classDivisionModel.classes![index]}th Amount",
-                                filled: true,
-                                fillColor:
-                                    const Color.fromRGBO(234, 240, 247, 1),
-                                border: InputBorder.none,
-                                enabledBorder: const OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.transparent),
-                                ),
+                            return null;
+                          },
+                          decoration: const InputDecoration(
+                            labelText: "Installment",
+                            filled: true,
+                            fillColor: Color.fromRGBO(234, 240, 247, 1),
+                            border: InputBorder.none,
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.transparent,
                               ),
                             ),
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return const SizedBox(
-                            height: 10,
-                          );
-                        },
-                      );
-                    } else if (state is ClassDivisionError) {
-                      return Center(
-                        child: Text(state.error),
+                          ),
+                        ),
                       );
                     }
-                    return const CircularProgressIndicator(
-                      color: Colors.blue,
-                    );
+                    return const SizedBox.shrink();
                   },
                 ),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-            ],
+                const SizedBox(
+                  height: 10,
+                ),
+                Form(
+                  key: formKey,
+                  child: BlocBuilder<SettingsClassDivisionBloc,
+                      ClassDivisionState>(
+                    bloc: settingsClassDivisionBloc,
+                    builder: (context, state) {
+                      if (state is ClassDivisionLoaded) {
+                        amountControllers.clear();
+                        for (int index = 0;
+                            index < state.classDivisionModel.classes!.length;
+                            index++) {
+                          // Create a new controller for each item
+                          amountControllers.add(TextEditingController());
+                        }
+                        return ListView.separated(
+                          itemCount: state.classDivisionModel.classes!.length,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: TextFormField(
+                                keyboardType: TextInputType.number,
+                                controller: amountControllers[index],
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Please enter amount";
+                                  }
+                                  try {
+                                    int.parse(value);
+                                  } catch (e) {
+                                    return "Please enter numbers only";
+                                  }
+
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                  labelText:
+                                      "${state.classDivisionModel.classes![index]}th Amount",
+                                  filled: true,
+                                  fillColor:
+                                      const Color.fromRGBO(234, 240, 247, 1),
+                                  border: InputBorder.none,
+                                  enabledBorder: const OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.transparent),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return const SizedBox(
+                              height: 10,
+                            );
+                          },
+                        );
+                      } else if (state is ClassDivisionError) {
+                        return Center(
+                          child: Text(state.error),
+                        );
+                      }
+                      return const CircularProgressIndicator(
+                        color: Colors.blue,
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      }),
       actions: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -195,6 +197,7 @@ void generateFee({
                                 context: context,
                               ),
                             );
+
                             Navigator.pop(context);
                           }
                         }

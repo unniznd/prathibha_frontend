@@ -43,7 +43,9 @@ class GenerateFeeBloc extends Bloc<GenerateFeeEvent, GenerateFeeState> {
           event.installment,
         );
         if (res) {
-          final scaffoldMessenger = ScaffoldMessenger.of(event.context);
+          await Future.delayed(const Duration(seconds: 2));
+          // ignore: use_build_context_synchronously
+
           scaffoldMessenger.showSnackBar(
             const SnackBar(
               behavior: SnackBarBehavior.floating,
@@ -71,7 +73,6 @@ class GenerateFeeBloc extends Bloc<GenerateFeeEvent, GenerateFeeState> {
           );
           emit(GenerateFeeSuccess());
         } else {
-          final scaffoldMessenger = ScaffoldMessenger.of(event.context);
           scaffoldMessenger.showSnackBar(
             const SnackBar(
               behavior: SnackBarBehavior.floating,

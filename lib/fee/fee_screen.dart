@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // ignore: depend_on_referenced_packages
-import 'package:intl/intl.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:prathibha_web/fee/bloc/class/class_bloc.dart';
 import 'package:prathibha_web/fee/bloc/class/class_event.dart';
