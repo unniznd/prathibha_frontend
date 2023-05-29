@@ -681,7 +681,7 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                   selectedIndex = 0;
                 }
                 return Container(
-                  height: 100,
+                  height: 70,
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(20),
@@ -714,27 +714,27 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                     items: const <BottomNavigationBarItem>[
                       BottomNavigationBarItem(
                         icon: HeroIcon(HeroIcons.squares2x2),
-                        label: 'Dashboard',
+                        label: '',
                       ),
                       BottomNavigationBarItem(
                         icon: HeroIcon(HeroIcons.userGroup),
-                        label: 'Students',
+                        label: '',
                       ),
                       BottomNavigationBarItem(
                         icon: HeroIcon(HeroIcons.userPlus),
-                        label: 'Attendance',
+                        label: '',
                       ),
                       BottomNavigationBarItem(
                         icon: HeroIcon(HeroIcons.currencyRupee),
-                        label: 'Fee',
+                        label: '',
                       ),
                       BottomNavigationBarItem(
                         icon: HeroIcon(HeroIcons.newspaper),
-                        label: 'Reports',
+                        label: '',
                       ),
                       BottomNavigationBarItem(
                         icon: HeroIcon(HeroIcons.cog6Tooth),
-                        label: 'Settings',
+                        label: '',
                       ),
                     ],
                   ),

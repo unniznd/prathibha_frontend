@@ -1,11 +1,11 @@
 {
-    "name": "prathibha_web",
-    "short_name": "prathibha_web",
+    "name": "Prathibha Web",
+    "short_name": "Prathibha Web",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Admin Panel for Prathibha",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
