@@ -405,13 +405,13 @@ class _StudentScreenState extends State<StudentScreen> {
                   const SizedBox(
                     height: 30,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 20,
-                      right: 20,
-                    ),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 20,
+                        right: 20,
+                      ),
                       child: SizedBox(
                         width: tableWidth,
                         child: Column(
@@ -459,30 +459,36 @@ class _StudentScreenState extends State<StudentScreen> {
                                       ],
                                     );
                                   }
-                                  return ListView.separated(
-                                    shrinkWrap: true,
-                                    itemCount:
-                                        state.studentModel.studentModel!.length,
-                                    separatorBuilder: (context, index) {
-                                      return const Divider();
-                                    },
-                                    itemBuilder: (context, index) {
-                                      return StudentTableRow(
-                                        rowData: [
-                                          state
-                                              .studentModel
-                                              .studentModel![index]
-                                              .admissionNumber
-                                              .toString(),
-                                          state.studentModel
-                                              .studentModel![index].name
-                                              .toString(),
-                                          "${state.studentModel.studentModel![index].standard.toString()} ${state.studentModel.studentModel![index].division.toString()}",
-                                          'View',
-                                        ],
-                                        onClickView: () {},
-                                      );
-                                    },
+                                  return SingleChildScrollView(
+                                    scrollDirection: Axis.vertical,
+                                    child: ListView.separated(
+                                      shrinkWrap: true,
+                                      itemCount: state
+                                          .studentModel.studentModel!.length,
+                                      separatorBuilder: (context, index) {
+                                        return const Divider();
+                                      },
+                                      scrollDirection: Axis.vertical,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemBuilder: (context, index) {
+                                        return StudentTableRow(
+                                          rowData: [
+                                            state
+                                                .studentModel
+                                                .studentModel![index]
+                                                .admissionNumber
+                                                .toString(),
+                                            state.studentModel
+                                                .studentModel![index].name
+                                                .toString(),
+                                            "${state.studentModel.studentModel![index].standard.toString()} ${state.studentModel.studentModel![index].division.toString()}",
+                                            'View',
+                                          ],
+                                          onClickView: () {},
+                                        );
+                                      },
+                                    ),
                                   );
                                 } else if (state is StudentError) {
                                   return Center(

@@ -140,54 +140,58 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               child: Text("No Data Found"),
                             );
                           }
-                          return ListView.separated(
-                            itemCount: state.attendanceOverview
-                                .attendanceOverviewList!.length,
-                            shrinkWrap: true,
-                            separatorBuilder: (context, index) {
-                              return const Divider();
-                            },
-                            itemBuilder: (context, index) {
-                              return DashboardTableRow(
-                                rowData: [
-                                  (index + 1).toString(),
-                                  state
-                                      .attendanceOverview
-                                      .attendanceOverviewList![index]
-                                      .standardDivision,
-                                  state
-                                      .attendanceOverview
-                                      .attendanceOverviewList![index]
-                                      .totalPresent
-                                      .toString(),
-                                  state
-                                      .attendanceOverview
-                                      .attendanceOverviewList![index]
-                                      .totalStudents
-                                      .toString(),
-                                  'View Absent',
-                                ],
-                                onAbsenteesView: () {
-                                  viewAbsenteesDialog(
-                                    context: context,
-                                    standard: state
+                          return SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: ListView.separated(
+                              itemCount: state.attendanceOverview
+                                  .attendanceOverviewList!.length,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              separatorBuilder: (context, index) {
+                                return const Divider();
+                              },
+                              itemBuilder: (context, index) {
+                                return DashboardTableRow(
+                                  rowData: [
+                                    (index + 1).toString(),
+                                    state
                                         .attendanceOverview
                                         .attendanceOverviewList![index]
-                                        .standardDivision
-                                        .split(" ")[0],
-                                    division: state
+                                        .standardDivision,
+                                    state
                                         .attendanceOverview
                                         .attendanceOverviewList![index]
-                                        .standardDivision
-                                        .split(" ")[1],
-                                    branchId: widget.branchId,
-                                    attendanceDetailedBloc:
-                                        attendanceDetailedBloc,
-                                  );
-                                },
-                                isShimmer: false,
-                              );
-                            },
+                                        .totalPresent
+                                        .toString(),
+                                    state
+                                        .attendanceOverview
+                                        .attendanceOverviewList![index]
+                                        .totalStudents
+                                        .toString(),
+                                    'View Absent',
+                                  ],
+                                  onAbsenteesView: () {
+                                    viewAbsenteesDialog(
+                                      context: context,
+                                      standard: state
+                                          .attendanceOverview
+                                          .attendanceOverviewList![index]
+                                          .standardDivision
+                                          .split(" ")[0],
+                                      division: state
+                                          .attendanceOverview
+                                          .attendanceOverviewList![index]
+                                          .standardDivision
+                                          .split(" ")[1],
+                                      branchId: widget.branchId,
+                                      attendanceDetailedBloc:
+                                          attendanceDetailedBloc,
+                                    );
+                                  },
+                                  isShimmer: false,
+                                );
+                              },
+                            ),
                           );
                         } else if (state is AttendanceOverviewError) {
                           return Center(

@@ -701,6 +701,8 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                       tabViewBloc.add(LeftTabViewSwitch(index));
                     },
                     selectedItemColor: Colors.blue,
+                    selectedIconTheme:
+                        const IconThemeData(size: 30, color: Colors.blue),
                     backgroundColor: Colors.white,
                     elevation: 0,
                     unselectedItemColor: Colors.black87,

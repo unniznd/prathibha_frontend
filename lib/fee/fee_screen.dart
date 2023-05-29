@@ -636,57 +636,62 @@ class _FeeScreenState extends State<FeeScreen> {
                                     ],
                                   );
                                 }
-                                return ListView.separated(
-                                  itemCount: state.feeModel.totalCount!,
-                                  shrinkWrap: true,
-                                  itemBuilder: (context, index) {
-                                    return FeeTableRow(
-                                      rowData: [
-                                        state.feeModel.feeList![index]
-                                            .admissionNumber,
-                                        state.feeModel.feeList![index]
-                                            .studentName,
-                                        "${state.feeModel.feeList![index].standard} ${state.feeModel.feeList![index].division}",
-                                        state.feeModel.feeList![index]
-                                            .amountLeft,
-                                        state.feeModel.feeList![index]
-                                            .totalAmount,
-                                        state
-                                            .feeModel.feeList![index].feeStatus,
-                                        state.feeModel.feeList![index]
-                                            .installment,
-                                        state.feeModel.feeList![index]
-                                                    .amountLeft !=
-                                                state.feeModel.feeList![index]
-                                                    .totalAmount
-                                            ? state.feeModel.feeList![index]
-                                                .feeDate
-                                            : "-----",
-                                      ],
-                                      amount: int.parse(state
-                                          .feeModel.feeList![index].amountLeft),
-                                      markAsPaid: () {
-                                        feeAmountDialog(
-                                          context: context,
-                                          feeBloc: feeBloc,
-                                          amountController: amountController,
-                                          feeAmount: state.feeModel
-                                              .feeList![index].amountLeft,
-                                          branchId: widget.branchId,
-                                          feeId: state
-                                              .feeModel.feeList![index].feeId,
-                                          index: index,
-                                          isPaidChecked: isPaidChecked,
-                                          isUnpaidChecked: isUnpaidChecked,
-                                        );
-                                      },
-                                      isMarkingFee: state.feeModel
-                                          .feeList![index].isMarkingFee,
-                                    );
-                                  },
-                                  separatorBuilder: (context, index) {
-                                    return const Divider();
-                                  },
+                                return SingleChildScrollView(
+                                  scrollDirection: Axis.vertical,
+                                  child: ListView.separated(
+                                    itemCount: state.feeModel.totalCount!,
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      return FeeTableRow(
+                                        rowData: [
+                                          state.feeModel.feeList![index]
+                                              .admissionNumber,
+                                          state.feeModel.feeList![index]
+                                              .studentName,
+                                          "${state.feeModel.feeList![index].standard} ${state.feeModel.feeList![index].division}",
+                                          state.feeModel.feeList![index]
+                                              .amountLeft,
+                                          state.feeModel.feeList![index]
+                                              .totalAmount,
+                                          state.feeModel.feeList![index]
+                                              .feeStatus,
+                                          state.feeModel.feeList![index]
+                                              .installment,
+                                          state.feeModel.feeList![index]
+                                                      .amountLeft !=
+                                                  state.feeModel.feeList![index]
+                                                      .totalAmount
+                                              ? state.feeModel.feeList![index]
+                                                  .feeDate
+                                              : "-----",
+                                        ],
+                                        amount: int.parse(state.feeModel
+                                            .feeList![index].amountLeft),
+                                        markAsPaid: () {
+                                          feeAmountDialog(
+                                            context: context,
+                                            feeBloc: feeBloc,
+                                            amountController: amountController,
+                                            feeAmount: state.feeModel
+                                                .feeList![index].amountLeft,
+                                            branchId: widget.branchId,
+                                            feeId: state
+                                                .feeModel.feeList![index].feeId,
+                                            index: index,
+                                            isPaidChecked: isPaidChecked,
+                                            isUnpaidChecked: isUnpaidChecked,
+                                          );
+                                        },
+                                        isMarkingFee: state.feeModel
+                                            .feeList![index].isMarkingFee,
+                                      );
+                                    },
+                                    separatorBuilder: (context, index) {
+                                      return const Divider();
+                                    },
+                                  ),
                                 );
                               } else if (state is FeeError) {
                                 return Center(

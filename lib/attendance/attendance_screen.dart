@@ -723,60 +723,65 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                                     ],
                                   );
                                 }
-                                return ListView.separated(
-                                  itemCount: state
-                                      .attendanceModel.studentModel!.length,
-                                  shrinkWrap: true,
-                                  itemBuilder: (context, index) {
-                                    return AttendanceTableRow(
-                                      rowData: [
-                                        state
+                                return SingleChildScrollView(
+                                  scrollDirection: Axis.vertical,
+                                  child: ListView.separated(
+                                    itemCount: state
+                                        .attendanceModel.studentModel!.length,
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      return AttendanceTableRow(
+                                        rowData: [
+                                          state
+                                              .attendanceModel
+                                              .studentModel![index]
+                                              .admissionNumber
+                                              .toString(),
+                                          state.attendanceModel
+                                              .studentModel![index].name,
+                                          "${state.attendanceModel.studentModel![index].standard} ${state.attendanceModel.studentModel![index].division}",
+                                          state.attendanceModel
+                                                  .studentModel![index].isAbsent
+                                              ? "Absent"
+                                              : "Present"
+                                        ],
+                                        isMarkingAttendace: state
                                             .attendanceModel
                                             .studentModel![index]
-                                            .admissionNumber
-                                            .toString(),
-                                        state.attendanceModel
-                                            .studentModel![index].name,
-                                        "${state.attendanceModel.studentModel![index].standard} ${state.attendanceModel.studentModel![index].division}",
-                                        state.attendanceModel
-                                                .studentModel![index].isAbsent
-                                            ? "Absent"
-                                            : "Present"
-                                      ],
-                                      isMarkingAttendace: state
-                                          .attendanceModel
-                                          .studentModel![index]
-                                          .isMarkingAttendace,
-                                      onMarkAbsent: () {
-                                        attendanceBloc.add(
-                                          MarkAbsentAttendance(
-                                            widget.branchId,
-                                            index,
-                                            pickedDate ??
-                                                DateFormat("yyyy-MM-dd")
-                                                    .format(DateTime.now()),
-                                            context,
-                                            isPresentChecked,
-                                          ),
-                                        );
-                                      },
-                                      onMarkPresent: () {
-                                        attendanceBloc.add(
-                                          MarkPresentAttendance(
+                                            .isMarkingAttendace,
+                                        onMarkAbsent: () {
+                                          attendanceBloc.add(
+                                            MarkAbsentAttendance(
                                               widget.branchId,
                                               index,
                                               pickedDate ??
                                                   DateFormat("yyyy-MM-dd")
                                                       .format(DateTime.now()),
                                               context,
-                                              isAbsentChecked),
-                                        );
-                                      },
-                                    );
-                                  },
-                                  separatorBuilder: (context, index) {
-                                    return const Divider();
-                                  },
+                                              isPresentChecked,
+                                            ),
+                                          );
+                                        },
+                                        onMarkPresent: () {
+                                          attendanceBloc.add(
+                                            MarkPresentAttendance(
+                                                widget.branchId,
+                                                index,
+                                                pickedDate ??
+                                                    DateFormat("yyyy-MM-dd")
+                                                        .format(DateTime.now()),
+                                                context,
+                                                isAbsentChecked),
+                                          );
+                                        },
+                                      );
+                                    },
+                                    separatorBuilder: (context, index) {
+                                      return const Divider();
+                                    },
+                                  ),
                                 );
                               } else if (state is AttendanceError) {
                                 return Center(
