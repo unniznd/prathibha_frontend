@@ -116,30 +116,36 @@ void viewAbsenteesDialog({
       actions: [
         Padding(
           padding: const EdgeInsets.only(bottom: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              SizedBox(
-                width: 150,
-                height: 50,
-                child: ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: const HeroIcon(HeroIcons.envelope),
-                  label: const Text("Send SMS"),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                SizedBox(
+                  width: 150,
+                  height: 30,
+                  child: ElevatedButton.icon(
+                    onPressed: () {},
+                    icon: const HeroIcon(HeroIcons.envelope),
+                    label: const Text("Send SMS"),
+                  ),
                 ),
-              ),
-              SizedBox(
-                width: 150,
-                height: 50,
-                child: ElevatedButton.icon(
-                  icon: const HeroIcon(HeroIcons.xMark),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  label: const Text("Close"),
+                const SizedBox(
+                  width: 10,
                 ),
-              ),
-            ],
+                SizedBox(
+                  width: 150,
+                  height: 30,
+                  child: ElevatedButton.icon(
+                    icon: const HeroIcon(HeroIcons.xMark),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    label: const Text("Close"),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ],

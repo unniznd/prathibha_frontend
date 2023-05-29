@@ -15,7 +15,7 @@ import 'package:prathibha_web/student/bloc/student/student_bloc.dart';
 import 'package:prathibha_web/student/bloc/student/student_event.dart';
 import 'package:prathibha_web/student/bloc/student/student_state.dart';
 import 'package:prathibha_web/student/widget/student_table_row.dart';
-import 'package:prathibha_web/student/widget/student_view.dart';
+import 'package:prathibha_web/student/widget/add_students.dart';
 import 'package:shimmer/shimmer.dart';
 
 class StudentScreen extends StatefulWidget {

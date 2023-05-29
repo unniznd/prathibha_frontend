@@ -272,43 +272,46 @@ void addStudentView(
         },
       ),
       actions: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            SizedBox(
-              width: 150,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    addStudentBloc.add(
-                      AddStudentEvent(
-                        branchId: branchId,
-                        admissionNumber: admissionNoController.text,
-                        name: nameController.text,
-                        standard: selectedClass!,
-                        division: selectedDivision!,
-                        phoneNumber: parentsPhoneNoController.text,
-                        context: context,
-                      ),
-                    );
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              SizedBox(
+                width: 150,
+                height: 30,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      addStudentBloc.add(
+                        AddStudentEvent(
+                          branchId: branchId,
+                          admissionNumber: admissionNoController.text,
+                          name: nameController.text,
+                          standard: selectedClass!,
+                          division: selectedDivision!,
+                          phoneNumber: parentsPhoneNoController.text,
+                          context: context,
+                        ),
+                      );
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: const Text("Save"),
+                ),
+              ),
+              SizedBox(
+                width: 150,
+                height: 30,
+                child: ElevatedButton(
+                  onPressed: () {
                     Navigator.pop(context);
-                  }
-                },
-                child: const Text("Save"),
+                  },
+                  child: const Text("Cancel"),
+                ),
               ),
-            ),
-            SizedBox(
-              width: 150,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text("Cancel"),
-              ),
-            ),
-          ],
+            ],
+          ),
         )
       ],
     ),
