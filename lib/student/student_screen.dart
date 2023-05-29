@@ -405,119 +405,115 @@ class _StudentScreenState extends State<StudentScreen> {
                   const SizedBox(
                     height: 30,
                   ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        left: 20,
-                        right: 20,
-                      ),
-                      child: SizedBox(
-                        width: tableWidth,
-                        child: Column(
-                          children: [
-                            StudentTableRow(
-                              rowData: const [
-                                'Admission No',
-                                'Student Name',
-                                'Class Division',
-                                'Actions',
-                              ],
-                              isHeader: true,
-                              onClickView: null,
-                            ),
-                            const Divider(),
-                            BlocBuilder<StudentBloc, StudentState>(
-                              bloc: studentBloc,
-                              builder: (context, state) {
-                                if (state is StudentLoaded) {
-                                  if (state
-                                      .studentModel.studentModel!.isEmpty) {
-                                    return const Column(
-                                      children: [
-                                        SizedBox(
-                                          height: 50,
-                                        ),
-                                        // no report to view
-                                        HeroIcon(
-                                          HeroIcons.userGroup,
-                                          size: 100,
-                                          color:
-                                              Color.fromRGBO(233, 233, 233, 1),
-                                        ),
-                                        Center(
-                                          child: Text(
-                                            " No Students Found",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color.fromRGBO(
-                                                  194, 194, 194, 1),
-                                            ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 20,
+                      right: 20,
+                    ),
+                    child: SizedBox(
+                      width: tableWidth,
+                      child: Column(
+                        // scrollDirection: Axis.horizontal,
+                        children: [
+                          StudentTableRow(
+                            rowData: const [
+                              'Admission No',
+                              'Student Name',
+                              'Class Division',
+                              'Actions',
+                            ],
+                            isHeader: true,
+                            onClickView: null,
+                          ),
+                          const Divider(),
+                          BlocBuilder<StudentBloc, StudentState>(
+                            bloc: studentBloc,
+                            builder: (context, state) {
+                              if (state is StudentLoaded) {
+                                if (state.studentModel.studentModel!.isEmpty) {
+                                  return const Column(
+                                    children: [
+                                      SizedBox(
+                                        height: 50,
+                                      ),
+                                      // no report to view
+                                      HeroIcon(
+                                        HeroIcons.userGroup,
+                                        size: 100,
+                                        color: Color.fromRGBO(233, 233, 233, 1),
+                                      ),
+                                      Center(
+                                        child: Text(
+                                          " No Students Found",
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color.fromRGBO(
+                                                194, 194, 194, 1),
                                           ),
                                         ),
-                                      ],
-                                    );
-                                  }
-                                  return SingleChildScrollView(
-                                    scrollDirection: Axis.vertical,
-                                    child: ListView.separated(
-                                      shrinkWrap: true,
-                                      itemCount: state
-                                          .studentModel.studentModel!.length,
-                                      separatorBuilder: (context, index) {
-                                        return const Divider();
-                                      },
-                                      scrollDirection: Axis.vertical,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemBuilder: (context, index) {
-                                        return StudentTableRow(
-                                          rowData: [
-                                            state
-                                                .studentModel
-                                                .studentModel![index]
-                                                .admissionNumber
-                                                .toString(),
-                                            state.studentModel
-                                                .studentModel![index].name
-                                                .toString(),
-                                            "${state.studentModel.studentModel![index].standard.toString()} ${state.studentModel.studentModel![index].division.toString()}",
-                                            'View',
-                                          ],
-                                          onClickView: () {},
-                                        );
-                                      },
-                                    ),
-                                  );
-                                } else if (state is StudentError) {
-                                  return Center(
-                                    child: Text(state.error),
+                                      ),
+                                    ],
                                   );
                                 }
-                                return ListView.separated(
-                                  shrinkWrap: true,
-                                  itemCount: 10,
-                                  separatorBuilder: (context, index) {
-                                    return const Divider();
-                                  },
-                                  itemBuilder: (context, index) {
-                                    return StudentTableRow(
-                                      rowData: const [
-                                        "1",
-                                        "2",
-                                        "3",
-                                        "4",
-                                      ],
-                                      isShimmer: true,
-                                      onClickView: null,
-                                    );
-                                  },
+                                return SingleChildScrollView(
+                                  scrollDirection: Axis.vertical,
+                                  child: ListView.separated(
+                                    shrinkWrap: true,
+                                    itemCount:
+                                        state.studentModel.studentModel!.length,
+                                    separatorBuilder: (context, index) {
+                                      return const Divider();
+                                    },
+                                    scrollDirection: Axis.vertical,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      return StudentTableRow(
+                                        rowData: [
+                                          state
+                                              .studentModel
+                                              .studentModel![index]
+                                              .admissionNumber
+                                              .toString(),
+                                          state.studentModel
+                                              .studentModel![index].name
+                                              .toString(),
+                                          "${state.studentModel.studentModel![index].standard.toString()} ${state.studentModel.studentModel![index].division.toString()}",
+                                          'View',
+                                        ],
+                                        onClickView: () {},
+                                      );
+                                    },
+                                  ),
                                 );
-                              },
-                            )
-                          ],
-                        ),
+                              } else if (state is StudentError) {
+                                return Center(
+                                  child: Text(state.error),
+                                );
+                              }
+                              return ListView.separated(
+                                shrinkWrap: true,
+                                itemCount: 10,
+                                separatorBuilder: (context, index) {
+                                  return const Divider();
+                                },
+                                itemBuilder: (context, index) {
+                                  return StudentTableRow(
+                                    rowData: const [
+                                      "1",
+                                      "2",
+                                      "3",
+                                      "4",
+                                    ],
+                                    isShimmer: true,
+                                    onClickView: null,
+                                  );
+                                },
+                              );
+                            },
+                          )
+                        ],
                       ),
                     ),
                   ),
