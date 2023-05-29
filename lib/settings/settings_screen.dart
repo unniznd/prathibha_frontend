@@ -36,22 +36,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ),
         const Divider(),
-        Row(
-          children: [
-            ElevatedButton(
-                onPressed: () {
-                  generateFee(
-                    context: context,
-                    branchId: widget.branchId,
-                  );
-                },
-                child: const Text("Generate Fee")),
-            const SizedBox(
-              width: 20,
-            ),
-            ElevatedButton(
-                onPressed: () {}, child: const Text("Send Fee Notification")),
-          ],
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    generateFee(
+                      context: context,
+                      branchId: widget.branchId,
+                    );
+                  },
+                  child: const Text("Generate Fee")),
+              const SizedBox(
+                width: 20,
+              ),
+              ElevatedButton(
+                  onPressed: () {}, child: const Text("Send Fee Notification")),
+            ],
+          ),
         ),
         const SizedBox(
           height: 20,
@@ -64,14 +67,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ),
         const Divider(),
-        Row(
-          children: [
-            ElevatedButton(onPressed: () {}, child: const Text("Add Class")),
-            const SizedBox(
-              width: 20,
-            ),
-            ElevatedButton(onPressed: () {}, child: const Text("Add Division")),
-          ],
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              ElevatedButton(onPressed: () {}, child: const Text("Add Class")),
+              const SizedBox(
+                width: 20,
+              ),
+              ElevatedButton(
+                  onPressed: () {}, child: const Text("Add Division")),
+            ],
+          ),
         ),
         const SizedBox(
           height: 20,

@@ -73,50 +73,53 @@ void feeAmountDialog({
                   height: 15,
                 ),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    SizedBox(
-                      width: 200,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          feeBloc.add(MarkAsPaidAndUnpaid(
-                            branchId: branchId,
-                            feeId: feeId,
-                            index: index,
-                            amountPaid: feeAmount,
-                            context: context,
-                            isPaidChecked: isPaidChecked,
-                            isUnpaidChecked: isUnpaidChecked,
-                          ));
-                          Navigator.pop(context);
-                        },
-                        child: const Text("Pay Full Amount"),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 200,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      SizedBox(
+                        width: 200,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: () {
                             feeBloc.add(MarkAsPaidAndUnpaid(
                               branchId: branchId,
                               feeId: feeId,
                               index: index,
-                              amountPaid: amountController.text,
+                              amountPaid: feeAmount,
                               context: context,
                               isPaidChecked: isPaidChecked,
                               isUnpaidChecked: isUnpaidChecked,
                             ));
                             Navigator.pop(context);
-                          }
-                        },
-                        child: const Text("Pay Entered Amount"),
+                          },
+                          child: const Text("Pay Full Amount"),
+                        ),
                       ),
-                    ),
-                  ],
+                      SizedBox(
+                        width: 200,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (formKey.currentState!.validate()) {
+                              feeBloc.add(MarkAsPaidAndUnpaid(
+                                branchId: branchId,
+                                feeId: feeId,
+                                index: index,
+                                amountPaid: amountController.text,
+                                context: context,
+                                isPaidChecked: isPaidChecked,
+                                isUnpaidChecked: isUnpaidChecked,
+                              ));
+                              Navigator.pop(context);
+                            }
+                          },
+                          child: const Text("Pay Entered Amount"),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

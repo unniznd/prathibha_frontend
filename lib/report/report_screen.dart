@@ -142,43 +142,46 @@ class _ReportScreenState extends State<ReportScreen> {
         const SizedBox(
           height: 20,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            SizedBox(
-              width: 150,
-              height: 50,
-              child: ElevatedButton.icon(
-                onPressed: () {},
-                icon: const HeroIcon(HeroIcons.eye),
-                label: const Text("View Data"),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SizedBox(
+                width: 150,
+                height: 50,
+                child: ElevatedButton.icon(
+                  onPressed: () {},
+                  icon: const HeroIcon(HeroIcons.eye),
+                  label: const Text("View Data"),
+                ),
               ),
-            ),
-            const SizedBox(
-              width: 20,
-            ),
-            SizedBox(
-              width: 200,
-              height: 50,
-              child: ElevatedButton.icon(
-                onPressed: () {},
-                icon: const HeroIcon(HeroIcons.documentText),
-                label: const Text("Generate CSV"),
+              const SizedBox(
+                width: 20,
               ),
-            ),
-            const SizedBox(
-              width: 20,
-            ),
-            SizedBox(
-              width: 170,
-              height: 50,
-              child: ElevatedButton.icon(
-                onPressed: () {},
-                icon: const HeroIcon(HeroIcons.document),
-                label: const Text("Generate PDF"),
+              SizedBox(
+                width: 200,
+                height: 50,
+                child: ElevatedButton.icon(
+                  onPressed: () {},
+                  icon: const HeroIcon(HeroIcons.documentText),
+                  label: const Text("Generate CSV"),
+                ),
               ),
-            ),
-          ],
+              const SizedBox(
+                width: 20,
+              ),
+              SizedBox(
+                width: 170,
+                height: 50,
+                child: ElevatedButton.icon(
+                  onPressed: () {},
+                  icon: const HeroIcon(HeroIcons.document),
+                  label: const Text("Generate PDF"),
+                ),
+              ),
+            ],
+          ),
         ),
         const SizedBox(
           height: 20,

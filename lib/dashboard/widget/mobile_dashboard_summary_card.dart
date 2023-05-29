@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 // ignore: must_be_immutable
-class DashboardSummaryCard extends StatelessWidget {
-  DashboardSummaryCard({
+class MobileDashboardSummaryCard extends StatelessWidget {
+  MobileDashboardSummaryCard({
     super.key,
     required this.totalStudents,
     required this.totalPaid,
@@ -17,11 +17,11 @@ class DashboardSummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Container(
-          // width: ratioWidth / 8,
+          width: double.maxFinite,
           decoration: BoxDecoration(
             border: Border.all(
               color: const Color.fromRGBO(234, 240, 247, 1),
@@ -75,8 +75,11 @@ class DashboardSummaryCard extends StatelessWidget {
             ],
           ),
         ),
+        const SizedBox(
+          height: 20,
+        ),
         Container(
-          // width: ratioWidth / 8,
+          width: double.maxFinite,
           decoration: BoxDecoration(
             border: Border.all(
               color: const Color.fromRGBO(234, 240, 247, 1),
@@ -130,8 +133,11 @@ class DashboardSummaryCard extends StatelessWidget {
             ],
           ),
         ),
+        const SizedBox(
+          height: 20,
+        ),
         Container(
-          // width: ratioWidth / 8,
+          width: double.maxFinite,
           decoration: BoxDecoration(
             border: Border.all(
               color: const Color.fromRGBO(234, 240, 247, 1),

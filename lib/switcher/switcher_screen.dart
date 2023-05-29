@@ -458,53 +458,20 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // ListTile(
-                    //   title: Text(
-                    //     greeting,
-                    //     style: const TextStyle(
-                    //       fontSize: 24,
-                    //       fontWeight: FontWeight.w500,
-                    //     ),
-                    //   ),
-                    //   trailing: Container(
-                    //     width: 200,
-                    //     height: 50,
-                    //     decoration: BoxDecoration(
-                    //       border: Border.all(
-                    //         color: const Color.fromRGBO(234, 236, 239, 1),
-                    //       ),
-                    //       borderRadius: BorderRadius.circular(10),
-                    //     ),
-                    //     child: Padding(
-                    //       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    //       child: DropdownButtonHideUnderline(
-                    //         child: DropdownButton<String>(
-                    //           value: selectedBranch,
-                    //           isExpanded: true,
-                    //           onChanged: (String? newValue) {
-                    //             setState(() {
-                    //               selectedBranch = newValue;
-                    //             });
-                    //           },
-                    //           items: widget.loginModel.branches
-                    //               ?.map<DropdownMenuItem<String>>(
-                    //                   (String value) {
-                    //             return DropdownMenuItem<String>(
-                    //               value: value,
-                    //               child: Text(value),
-                    //             );
-                    //           }).toList(),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 16),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Text(
+                            greeting,
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
                           Container(
                             width: double.infinity,
                             height: 50,
@@ -563,14 +530,6 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                                   );
                                 },
                               ),
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            greeting,
-                            style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ],
@@ -722,7 +681,7 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                   selectedIndex = 0;
                 }
                 return Container(
-                  height: 80,
+                  height: 100,
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(20),
