@@ -655,16 +655,22 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                       width: tableWidth,
                       child: Column(
                         children: [
-                          AttendanceTableRow(
-                            rowData: const [
-                              'Admission No',
-                              'Student Name',
-                              'Class Division',
-                              'Status',
-                            ],
-                            isHeader: true,
-                            onMarkAbsent: null,
-                            onMarkPresent: null,
+                          BlocBuilder<AttendanceDivisionBloc, DivisionState>(
+                            bloc: divisionBloc,
+                            builder: (context, state) {
+                              return AttendanceTableRow(
+                                rowData: [
+                                  'Admission No',
+                                  'Student Name',
+                                  'Class Division',
+                                  if (state.divisionName != null) 'Roll Number',
+                                  'Status',
+                                ],
+                                isHeader: true,
+                                onMarkAbsent: null,
+                                onMarkPresent: null,
+                              );
+                            },
                           ),
                           BlocBuilder<AttendanceBloc, AttendanceState>(
                             bloc: attendanceBloc,
@@ -742,6 +748,11 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                                           state.attendanceModel
                                               .studentModel![index].name,
                                           "${state.attendanceModel.studentModel![index].standard} ${state.attendanceModel.studentModel![index].division}",
+                                          if (selectedClass != null &&
+                                              selectedDivision != null)
+                                            state.attendanceModel
+                                                .studentModel![index].rollNumber
+                                                .toString(),
                                           state.attendanceModel
                                                   .studentModel![index].isAbsent
                                               ? "Absent"
@@ -793,7 +804,16 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) {
                                   return AttendanceTableRow(
-                                    rowData: const ["1", "2", "3", "4", "5"],
+                                    rowData: [
+                                      "1",
+                                      "2",
+                                      "3",
+                                      "4",
+                                      "5",
+                                      if (selectedClass != null &&
+                                          selectedDivision != null)
+                                        "6",
+                                    ],
                                     isShimmer: true,
                                     onMarkAbsent: null,
                                     onMarkPresent: null,

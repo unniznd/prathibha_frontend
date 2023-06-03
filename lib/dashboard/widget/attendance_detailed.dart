@@ -64,6 +64,14 @@ void viewAbsenteesDialog({
                             columns: const [
                               DataColumn(
                                 label: Text(
+                                  'Roll Number',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Text(
                                   'Student Name',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -81,6 +89,9 @@ void viewAbsenteesDialog({
                             ],
                             rows: students
                                 .map((e) => DataRow(cells: [
+                                      DataCell(
+                                        Text(e.rollNumber.toString()),
+                                      ),
                                       DataCell(
                                         Text(e.name.toString()),
                                       ),

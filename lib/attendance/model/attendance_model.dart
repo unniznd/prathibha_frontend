@@ -1,11 +1,12 @@
 class BaseAttendanceModel {
-  int admissionNumber;
+  int admissionNumber, rollNumber;
   String name, standard, division, reason;
   bool isAbsent;
   bool isMarkingAttendace = false;
 
   BaseAttendanceModel({
     required this.admissionNumber,
+    required this.rollNumber,
     required this.name,
     required this.standard,
     required this.division,
@@ -37,6 +38,7 @@ class AttendanceModel {
       for (var i in json["data"]) {
         studentModel!.add(
           BaseAttendanceModel(
+            rollNumber: i["roll_number"],
             admissionNumber: i["admission_number"],
             name: i["student_name"],
             standard: i["standard"],
