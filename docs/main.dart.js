@@ -91183,7 +91183,7 @@ s=p}while(true)switch(s){case 0:l=null
 p=4
 n=t.N
 s=7
-return A.V(A.wa(A.e0("http://api.prathibha.in/attendance/"+a+"/?standard="+b+"&division="+c+"&q="+d+"&attendance="+e+"&date="+f),A.at(["Authorization","Token "+A.h(A.hQ())],n,n)).fa(0,B.aX),$async$At)
+return A.V(A.wa(A.e0("https://api.prathibha.in/attendance/"+a+"/?standard="+b+"&division="+c+"&q="+d+"&attendance="+e+"&date="+f),A.at(["Authorization","Token "+A.h(A.hQ())],n,n)).fa(0,B.aX),$async$At)
 case 7:l=h
 p=2
 s=6
@@ -91212,7 +91212,7 @@ aqe(a,b,c){var s=0,r=A.T(t.y),q,p=2,o,n,m,l,k,j,i
 var $async$Bc=A.U(function(d,e){if(d===1){o=e
 s=p}while(true)switch(s){case 0:j=null
 p=4
-n=A.e0("http://api.prathibha.in/attendance/"+a+"/")
+n=A.e0("https://api.prathibha.in/attendance/"+a+"/")
 m=t.N
 l=A.at(["Authorization","Token "+A.h(A.hQ())],m,m)
 s=7
@@ -91243,7 +91243,7 @@ aqg(a,b,c){var s=0,r=A.T(t.y),q,p=2,o,n,m,l,k,j,i
 var $async$Bf=A.U(function(d,e){if(d===1){o=e
 s=p}while(true)switch(s){case 0:j=null
 p=4
-n=A.e0("http://api.prathibha.in/attendance/"+a+"/")
+n=A.e0("https://api.prathibha.in/attendance/"+a+"/")
 m=t.N
 l=A.at(["Authorization","Token "+A.h(A.hQ())],m,m)
 s=7
@@ -91274,7 +91274,7 @@ aqf(a,b){var s=0,r=A.T(t.y),q,p=2,o,n,m,l,k,j,i
 var $async$Be=A.U(function(c,d){if(c===1){o=d
 s=p}while(true)switch(s){case 0:j=null
 p=4
-n=A.e0("http://api.prathibha.in/holiday/")
+n=A.e0("https://api.prathibha.in/holiday/")
 m=t.N
 l=A.at(["Authorization","Token "+A.h(A.hQ())],m,m)
 s=7
@@ -91305,7 +91305,7 @@ at2(a,b){var s=0,r=A.T(t.y),q,p=2,o,n,m,l,k,j,i
 var $async$Ch=A.U(function(c,d){if(c===1){o=d
 s=p}while(true)switch(s){case 0:j=null
 p=4
-n=A.e0("http://api.prathibha.in/holiday/")
+n=A.e0("https://api.prathibha.in/holiday/")
 m=t.N
 l=A.at(["Authorization","Token "+A.h(A.hQ())],m,m)
 s=7
@@ -91934,7 +91934,7 @@ s=p}while(true)switch(s){case 0:j=null
 p=4
 n=t.N
 s=7
-return A.V(A.wa(A.e0("http://api.prathibha.in/dashboard-overview/"+a+"/"),A.at(["Authorization","Token "+A.h(A.hQ())],n,n)).fa(0,B.aX),$async$Ap)
+return A.V(A.wa(A.e0("https://api.prathibha.in/dashboard-overview/"+a+"/"),A.at(["Authorization","Token "+A.h(A.hQ())],n,n)).fa(0,B.aX),$async$Ap)
 case 7:j=c
 p=2
 s=6
@@ -91973,7 +91973,7 @@ s=p}while(true)switch(s){case 0:l=null
 p=4
 n=t.N
 s=7
-return A.V(A.wa(A.e0("http://api.prathibha.in/today-attendance-overview/"+a+"/"),A.at(["Authorization","Token "+A.h(A.hQ())],n,n)).fa(0,B.aX),$async$Ao)
+return A.V(A.wa(A.e0("https://api.prathibha.in/today-attendance-overview/"+a+"/"),A.at(["Authorization","Token "+A.h(A.hQ())],n,n)).fa(0,B.aX),$async$Ao)
 case 7:l=c
 p=2
 s=6
@@ -92008,7 +92008,7 @@ s=p}while(true)switch(s){case 0:k=null
 p=4
 n=t.N
 s=7
-return A.V(A.wa(A.e0("http://api.prathibha.in/attendance/"+a+"/detailed/?standard="+b+"&division="+c),A.at(["Authorization","Token "+A.h(A.hQ())],n,n)).fa(0,B.aX),$async$Aa)
+return A.V(A.wa(A.e0("https://api.prathibha.in/attendance/"+a+"/detailed/?standard="+b+"&division="+c),A.at(["Authorization","Token "+A.h(A.hQ())],n,n)).fa(0,B.aX),$async$Aa)
 case 7:k=e
 p=2
 s=6
@@ -92041,7 +92041,7 @@ s=p}while(true)switch(s){case 0:l=null
 p=4
 n=t.N
 s=7
-return A.V(A.BE(A.e0("http://api.prathibha.in/attendance/"+a+"/message/?standard="+b+"&division="+c),null,A.at(["Authorization","Token "+A.h(A.hQ())],n,n)),$async$Bn)
+return A.V(A.BE(A.e0("https://api.prathibha.in/attendance/"+a+"/message/?standard="+b+"&division="+c),null,A.at(["Authorization","Token "+A.h(A.hQ())],n,n)),$async$Bn)
 case 7:l=e
 p=2
 s=6
@@ -92353,7 +92353,7 @@ s=p}while(true)switch(s){case 0:l=null
 p=4
 n=t.N
 s=7
-return A.V(A.wa(A.e0("http://api.prathibha.in/fee/"+a+"/?standard="+b+"&division="+c+"&installment="+d+"&status="+e+"&q="+f),A.at(["Authorization","Token "+A.h(A.hQ())],n,n)).fa(0,B.aX),$async$Aq)
+return A.V(A.wa(A.e0("https://api.prathibha.in/fee/"+a+"/?standard="+b+"&division="+c+"&installment="+d+"&status="+e+"&q="+f),A.at(["Authorization","Token "+A.h(A.hQ())],n,n)).fa(0,B.aX),$async$Aq)
 case 7:l=h
 p=2
 s=6
@@ -92382,7 +92382,7 @@ aqi(a,b,c){var s=0,r=A.T(t.y),q,p=2,o,n,m,l,k,j,i
 var $async$Bi=A.U(function(d,e){if(d===1){o=e
 s=p}while(true)switch(s){case 0:j=null
 p=4
-n=A.e0("http://api.prathibha.in/fee/"+a+"/")
+n=A.e0("https://api.prathibha.in/fee/"+a+"/")
 m=t.N
 l=A.at(["Authorization","Token "+A.h(A.hQ())],m,m)
 s=7
@@ -92873,7 +92873,7 @@ s=p}while(true)switch(s){case 0:j=null
 p=4
 n=t.N
 s=7
-return A.V(A.BE(A.e0("http://api.prathibha.in/login/"),A.at(["username",a,"password",b],n,n),null).fa(0,B.aX),$async$zy)
+return A.V(A.BE(A.e0("https://api.prathibha.in/login/"),A.at(["username",a,"password",b],n,n),null).fa(0,B.aX),$async$zy)
 case 7:j=d
 p=2
 s=6
@@ -92908,7 +92908,7 @@ s=p}while(true)switch(s){case 0:l=null
 p=4
 n=t.N
 s=7
-return A.V(A.wa(A.e0("http://api.prathibha.in/dashboard/"),A.at(["Authorization","Token "+a],n,n)).fa(0,B.aX),$async$A5)
+return A.V(A.wa(A.e0("https://api.prathibha.in/dashboard/"),A.at(["Authorization","Token "+a],n,n)).fa(0,B.aX),$async$A5)
 case 7:l=c
 p=2
 s=6
@@ -93210,7 +93210,7 @@ var $async$wJ=A.U(function(d,e){if(d===1){o=e
 s=p}while(true)switch(s){case 0:h=null
 p=4
 m=n.alB(b)
-l=A.e0("http://api.prathibha.in/fee/"+a+"/generate/")
+l=A.e0("https://api.prathibha.in/fee/"+a+"/generate/")
 k=t.N
 j=A.at(["Authorization","Token "+A.h(A.hQ())],k,k)
 s=7
@@ -93400,7 +93400,7 @@ s=p}while(true)switch(s){case 0:l=null
 p=4
 n=t.N
 s=7
-return A.V(A.wa(A.e0("http://api.prathibha.in/branch/"+a+"/class/"),A.at(["Authorization","Token "+A.h(A.hQ())],n,n)).fa(0,B.aX),$async$o3)
+return A.V(A.wa(A.e0("https://api.prathibha.in/branch/"+a+"/class/"),A.at(["Authorization","Token "+A.h(A.hQ())],n,n)).fa(0,B.aX),$async$o3)
 case 7:l=c
 p=2
 s=6
@@ -93431,7 +93431,7 @@ s=p}while(true)switch(s){case 0:l=null
 p=4
 n=t.N
 s=7
-return A.V(A.wa(A.e0("http://api.prathibha.in/students/"+a+"/?standard="+b+"&division="+c+"&q="+d),A.at(["Authorization","Token "+A.h(A.hQ())],n,n)).fa(0,B.aX),$async$As)
+return A.V(A.wa(A.e0("https://api.prathibha.in/students/"+a+"/?standard="+b+"&division="+c+"&q="+d),A.at(["Authorization","Token "+A.h(A.hQ())],n,n)).fa(0,B.aX),$async$As)
 case 7:l=f
 p=2
 s=6
@@ -93462,7 +93462,7 @@ s=p}while(true)switch(s){case 0:l=null
 p=4
 n=t.N
 s=7
-return A.V(A.BE(A.e0("http://api.prathibha.in/students/"+a+"/"),A.at(["admission_number",b,"student_name",c,"standard",d,"division",e,"phone_number",f],n,n),A.at(["Authorization","Token "+A.h(A.hQ())],n,n)).fa(0,B.aX),$async$zp)
+return A.V(A.BE(A.e0("https://api.prathibha.in/students/"+a+"/"),A.at(["admission_number",b,"student_name",c,"standard",d,"division",e,"phone_number",f],n,n),A.at(["Authorization","Token "+A.h(A.hQ())],n,n)).fa(0,B.aX),$async$zp)
 case 7:l=h
 p=2
 s=6
