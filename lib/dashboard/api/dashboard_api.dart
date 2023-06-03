@@ -74,4 +74,26 @@ class DashboardApiProvider {
     }
     return AttendanceDetailedModel.withError("Error Occured");
   }
+
+  Future notifyAbsentees(
+    int branchId,
+    String standard,
+    String division,
+  ) async {
+    dynamic res;
+    try {
+      res = await http.post(
+          Uri.parse(
+            "$baseURL/attendance/$branchId/message/?standard=$standard&division=$division",
+          ),
+          headers: {'Authorization': 'Token ${getToken()}'});
+    } catch (e) {
+      return false;
+    }
+
+    if (res.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
 }

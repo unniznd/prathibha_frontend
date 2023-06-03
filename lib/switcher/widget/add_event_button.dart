@@ -49,7 +49,6 @@ class AddEventButton extends StatelessWidget {
                     const SnackBar(
                       behavior: SnackBarBehavior.floating,
                       backgroundColor: Colors.red,
-                      width: 700,
                       content: Row(
                         children: [
                           HeroIcon(

@@ -16,7 +16,6 @@ class AddStudentBloc extends Bloc<AddStudentEvent, AddStudentState> {
         const SnackBar(
           behavior: SnackBarBehavior.floating,
           backgroundColor: Colors.blue,
-          width: 700,
           content: Row(
             children: [
               HeroIcon(
@@ -48,12 +47,10 @@ class AddStudentBloc extends Bloc<AddStudentEvent, AddStudentState> {
         );
         if (res) {
           // ignore: use_build_context_synchronously
-          final scaffoldMessenger = ScaffoldMessenger.of(event.context);
           scaffoldMessenger.showSnackBar(
             const SnackBar(
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.green,
-              width: 700,
               content: Row(
                 children: [
                   HeroIcon(
@@ -82,7 +79,6 @@ class AddStudentBloc extends Bloc<AddStudentEvent, AddStudentState> {
             const SnackBar(
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.red,
-              width: 700,
               content: Row(
                 children: [
                   HeroIcon(

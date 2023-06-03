@@ -55,7 +55,6 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
             SnackBar(
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.red,
-              width: 700,
               content: Row(
                 children: [
                   const HeroIcon(
@@ -106,7 +105,6 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
             SnackBar(
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.red,
-              width: 700,
               content: Row(
                 children: [
                   const HeroIcon(
@@ -150,7 +148,6 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
             const SnackBar(
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.red,
-              width: 700,
               content: Row(
                 children: [
                   HeroIcon(
@@ -194,7 +191,6 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
             const SnackBar(
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.red,
-              width: 700,
               content: Row(
                 children: [
                   HeroIcon(

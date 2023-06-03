@@ -15,7 +15,6 @@ class GenerateFeeBloc extends Bloc<GenerateFeeEvent, GenerateFeeState> {
         const SnackBar(
           behavior: SnackBarBehavior.floating,
           backgroundColor: Colors.blue,
-          width: 700,
           content: Row(
             children: [
               HeroIcon(
@@ -50,7 +49,6 @@ class GenerateFeeBloc extends Bloc<GenerateFeeEvent, GenerateFeeState> {
             const SnackBar(
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.green,
-              width: 700,
               content: Row(
                 children: [
                   HeroIcon(
@@ -77,7 +75,6 @@ class GenerateFeeBloc extends Bloc<GenerateFeeEvent, GenerateFeeState> {
             const SnackBar(
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.red,
-              width: 700,
               content: Row(
                 children: [
                   HeroIcon(

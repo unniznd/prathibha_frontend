@@ -72,7 +72,6 @@ class FeeBloc extends Bloc<FeeEvent, FeeState> {
             SnackBar(
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.red,
-              width: 700,
               content: Row(
                 children: [
                   const HeroIcon(
