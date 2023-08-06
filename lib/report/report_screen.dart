@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:intl/intl.dart';
+import 'api/report_api.dart';
 
 class ReportScreen extends StatefulWidget {
-  const ReportScreen({super.key});
+  const ReportScreen({
+    super.key,
+    required this.branchId,
+  });
+
+  final int branchId;
 
   @override
   State<ReportScreen> createState() => _ReportScreenState();
@@ -10,6 +17,11 @@ class ReportScreen extends StatefulWidget {
 
 class _ReportScreenState extends State<ReportScreen> {
   String? selectedType;
+
+  TextEditingController fromDateController = TextEditingController();
+  TextEditingController toDateController = TextEditingController();
+
+  ReportApiProvider reportApiProvider = ReportApiProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +55,21 @@ class _ReportScreenState extends State<ReportScreen> {
         ClipRRect(
           borderRadius: BorderRadius.circular(15.0),
           child: GestureDetector(
-            onTap: () {},
+            onTap: () async {
+              DateTime? pickedDate = await showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime(2022),
+                lastDate: DateTime(2100),
+              );
+              if (pickedDate != null) {
+                fromDateController.text =
+                    DateFormat('MMMM d, y').format(pickedDate);
+              }
+            },
             child: TextFormField(
               enabled: false,
+              controller: fromDateController,
               decoration: const InputDecoration(
                 hintText: "From Date",
                 filled: true,
@@ -68,9 +92,21 @@ class _ReportScreenState extends State<ReportScreen> {
         ClipRRect(
           borderRadius: BorderRadius.circular(15.0),
           child: GestureDetector(
-            onTap: () {},
+            onTap: () async {
+              DateTime? pickedDate = await showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime(2022),
+                lastDate: DateTime(2100),
+              );
+              if (pickedDate != null) {
+                toDateController.text =
+                    DateFormat('MMMM d, y').format(pickedDate);
+              }
+            },
             child: TextFormField(
               enabled: false,
+              controller: toDateController,
               decoration: const InputDecoration(
                 hintText: "To Date",
                 filled: true,
@@ -147,39 +183,58 @@ class _ReportScreenState extends State<ReportScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              SizedBox(
-                width: 150,
-                height: 50,
-                child: ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: const HeroIcon(HeroIcons.eye),
-                  label: const Text("View Data"),
-                ),
-              ),
-              const SizedBox(
-                width: 20,
-              ),
+              // SizedBox(
+              //   width: 150,
+              //   height: 50,
+              //   child: ElevatedButton.icon(
+              //     onPressed: () {},
+              //     icon: const HeroIcon(HeroIcons.eye),
+              //     label: const Text("View Data"),
+              //   ),
+              // ),
+              // const SizedBox(
+              //   width: 20,
+              // ),
               SizedBox(
                 width: 200,
                 height: 50,
                 child: ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (fromDateController.text.isNotEmpty &&
+                        toDateController.text.isNotEmpty) {
+                      if (selectedType == "Attendance") {
+                        reportApiProvider.getAttendanceReport(
+                            widget.branchId,
+                            fromDateController.text,
+                            toDateController.text,
+                            "csv");
+                      }
+                      if (selectedType == "Fee") {
+                        reportApiProvider.getFeeReport(
+                          widget.branchId,
+                          fromDateController.text,
+                          toDateController.text,
+                          "csv",
+                        );
+                      }
+                    }
+                  },
                   icon: const HeroIcon(HeroIcons.documentText),
-                  label: const Text("Generate CSV"),
+                  label: const Text("Download CSV"),
                 ),
               ),
               const SizedBox(
                 width: 20,
               ),
-              SizedBox(
-                width: 170,
-                height: 50,
-                child: ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: const HeroIcon(HeroIcons.document),
-                  label: const Text("Generate PDF"),
-                ),
-              ),
+              // SizedBox(
+              //   width: 170,
+              //   height: 50,
+              //   child: ElevatedButton.icon(
+              //     onPressed: () {},
+              //     icon: const HeroIcon(HeroIcons.document),
+              //     label: const Text("Generate PDF"),
+              //   ),
+              // ),
             ],
           ),
         ),

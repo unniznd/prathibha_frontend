@@ -247,7 +247,24 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                                     },
                                   );
                                 } else if (state is ReportsState) {
-                                  return const ReportScreen();
+                                  return BlocBuilder<DropDownSwitchBloc,
+                                      DropDownSwitchState>(
+                                    bloc: dropDownSwitchBloc,
+                                    builder: (context, state) {
+                                      if (state is DropDownSwitchedState) {
+                                        selectedBranch = state.newBranch;
+
+                                        return ReportScreen(
+                                          branchId: widget.loginModel
+                                              .branchMap![selectedBranch]!,
+                                        );
+                                      }
+                                      return ReportScreen(
+                                        branchId: widget.loginModel
+                                            .branchMap![selectedBranch]!,
+                                      );
+                                    },
+                                  );
                                 } else if (state is SettingsState) {
                                   return BlocBuilder<DropDownSwitchBloc,
                                       DropDownSwitchState>(
@@ -616,7 +633,24 @@ class _SwitcherScreenState extends State<SwitcherScreen> {
                             },
                           );
                         } else if (state is ReportsState) {
-                          return const ReportScreen();
+                          return BlocBuilder<DropDownSwitchBloc,
+                              DropDownSwitchState>(
+                            bloc: dropDownSwitchBloc,
+                            builder: (context, state) {
+                              if (state is DropDownSwitchedState) {
+                                selectedBranch = state.newBranch;
+
+                                return ReportScreen(
+                                  branchId: widget
+                                      .loginModel.branchMap![selectedBranch]!,
+                                );
+                              }
+                              return ReportScreen(
+                                branchId: widget
+                                    .loginModel.branchMap![selectedBranch]!,
+                              );
+                            },
+                          );
                         } else if (state is SettingsState) {
                           return BlocBuilder<DropDownSwitchBloc,
                               DropDownSwitchState>(
